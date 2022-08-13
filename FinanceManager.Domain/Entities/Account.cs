@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceManager.Core.Entities
+namespace FinanceManager.Domain.Entities
 {
     public class Account
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceManager.Core.Entities
+namespace FinanceManager.Domain.Entities
 {
     public class Movement
     {
@@ -15,6 +15,6 @@ namespace FinanceManager.Core.Entities
         public double Amount { get; set; }
         public bool IsIncoming { get; set; }
         public DateTime Date { get; set; }
-        public IEnumerable<Property> properties { get; set; } = null!;
+        public IEnumerable<Property> Properties { get; set; } = null!;
     }
 }
