@@ -1,12 +1,15 @@
 ﻿using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using System.Linq;
 
 namespace FinanceManager.UI.Controllers
 {
     [ApiController]
     public class ApiControllerBase : ControllerBase
     {
-        protected IActionResult Problem(List<Error> errors)
+
+        protected ObjectResult Problem(List<Error> errors)
         {
             var firstError = errors[0];
 
@@ -16,9 +19,12 @@ namespace FinanceManager.UI.Controllers
                 _ => StatusCodes.Status500InternalServerError,
             };
 
-            return Problem(
-                statusCode: statusCode,
-                title: firstError.Description);
+            var problemDetails = (ProblemDetails?)Problem(statusCode: statusCode).Value;
+
+            var dictionaryErrors = errors.ToDictionary(error => error.Code, error => new List<string>() { error.Description });
+            problemDetails?.Extensions.Add("errors", dictionaryErrors);
+            
+            return new ObjectResult(problemDetails);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceManager.UI
@@ -8,6 +9,7 @@ namespace FinanceManager.UI
         public static IServiceCollection AddPresentation(this IServiceCollection services)
         {
             services.AddControllers();
+            services.AddFluentValidationAutoValidation();
             return services;
         }
     }

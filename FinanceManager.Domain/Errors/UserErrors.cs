@@ -10,7 +10,7 @@ namespace FinanceManager.Domain.Errors
     public static class UserErrors
     {
         public readonly static Error DuplicateEmail = Error.Conflict(
-            code: "UserErrors.DuplicateEmail",
+            code: "DuplicateEmail",
             description: "User email already exists");
     }
 }
