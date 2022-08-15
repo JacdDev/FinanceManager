@@ -9,11 +9,14 @@ namespace FinanceManager.UI.Controllers
     public class ApiControllerBase : ControllerBase
     {
 
-        protected ObjectResult Problem(List<Error> errors)
+        protected IActionResult Problem(List<Error> errors)
         {
-            var firstError = errors[0];
+            if(errors.Count is 0)
+            {
+                return Problem();
+            }
 
-            var statusCode = firstError.Type switch
+            var statusCode = errors[0].Type switch
             {
                 ErrorType.Conflict => StatusCodes.Status409Conflict,
                 _ => StatusCodes.Status500InternalServerError,
