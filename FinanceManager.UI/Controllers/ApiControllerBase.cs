@@ -1,9 +1,11 @@
 ﻿using ErrorOr;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceManager.UI.Controllers
 {
     [ApiController]
+    [Authorize]
     public class ApiControllerBase : ControllerBase
     {
 

@@ -2,12 +2,13 @@
 using FinanceManager.UI.Models;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceManager.UI.Controllers
 {
     [Route("auth")]
-    [ApiController]
+    [AllowAnonymous]
     public class AuthenticationController : ApiControllerBase
     {
         private readonly ISender _mediator;

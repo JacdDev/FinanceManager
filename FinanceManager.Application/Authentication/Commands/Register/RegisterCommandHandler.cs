@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using FinanceManager.Application.Authentication.Common;
+using FinanceManager.Application.Common.Interfaces;
 using FinanceManager.Application.Persistence;
 using FinanceManager.Domain.Entities;
 using FinanceManager.Domain.Errors;
@@ -10,10 +11,11 @@ namespace FinanceManager.Application.Authentication.Commands.Register
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
     {
         private readonly IUserRepository _userRepository;
-
-        public RegisterCommandHandler(IUserRepository userRepository)
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
+        public RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator)
         {
             _userRepository = userRepository;
+            _jwtTokenGenerator = jwtTokenGenerator;
         }
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
@@ -36,8 +38,7 @@ namespace FinanceManager.Application.Authentication.Commands.Register
             _userRepository.Add(user);
 
 
-            //TODO Create JWT token
-            var token = Guid.NewGuid().ToString();
+            var token = _jwtTokenGenerator.GenerateToken(user);
 
             return new AuthenticationResult(user, token);
         }
