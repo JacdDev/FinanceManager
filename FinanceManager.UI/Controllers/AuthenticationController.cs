@@ -1,6 +1,7 @@
 ﻿using FinanceManager.Application.Authentication.Commands.Register;
+using FinanceManager.UI.Models;
+using MapsterMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceManager.UI.Controllers
@@ -10,18 +11,22 @@ namespace FinanceManager.UI.Controllers
     public class AuthenticationController : ApiControllerBase
     {
         private readonly ISender _mediator;
-        public AuthenticationController(ISender mediator)
+        private readonly IMapper _mapper;
+        public AuthenticationController(ISender mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterCommand request)
+        public async Task<IActionResult> Register(RegisterRequest request)
         {
-            var registerResult = await _mediator.Send(request);
+            var command = _mapper.Map<RegisterCommand>(request);
 
-            return registerResult.Match(
-                authResult => Ok(authResult),
+            var commandResult = await _mediator.Send(command);
+
+            return commandResult.Match(
+                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
                 errors => Problem(errors)
             );
         }

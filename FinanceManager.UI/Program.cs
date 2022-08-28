@@ -11,6 +11,11 @@ builder.Services
 
 var app = builder.Build();
 
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/error");
+}
+
 app.MapControllers();
 
 app.Run();

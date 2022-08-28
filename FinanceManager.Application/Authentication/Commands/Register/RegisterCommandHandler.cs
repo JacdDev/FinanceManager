@@ -4,11 +4,6 @@ using FinanceManager.Application.Persistence;
 using FinanceManager.Domain.Entities;
 using FinanceManager.Domain.Errors;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.Application.Authentication.Commands.Register
 {
@@ -23,6 +18,7 @@ namespace FinanceManager.Application.Authentication.Commands.Register
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
         {
+            await Task.CompletedTask;
 
             // Validate the user does not exist
             if (_userRepository.GetUserByEmail(command.Email) is not null)
@@ -39,9 +35,11 @@ namespace FinanceManager.Application.Authentication.Commands.Register
 
             _userRepository.Add(user);
 
-            await Task.CompletedTask;
 
-            return new AuthenticationResult(user);
+            //TODO Create JWT token
+            var token = Guid.NewGuid().ToString();
+
+            return new AuthenticationResult(user, token);
         }
     }
 }

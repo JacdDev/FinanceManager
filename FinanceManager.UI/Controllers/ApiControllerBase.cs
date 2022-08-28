@@ -1,7 +1,5 @@
 ﻿using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using System.Linq;
 
 namespace FinanceManager.UI.Controllers
 {
@@ -11,7 +9,7 @@ namespace FinanceManager.UI.Controllers
 
         protected IActionResult Problem(List<Error> errors)
         {
-            if(errors.Count is 0)
+            if (errors.Count is 0)
             {
                 return Problem();
             }
@@ -34,7 +32,7 @@ namespace FinanceManager.UI.Controllers
             }
 
             problemDetails?.Extensions.Add("errors", dictionaryErrors);
-            
+
             return new ObjectResult(problemDetails);
         }
     }
