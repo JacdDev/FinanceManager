@@ -9,6 +9,8 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddPresentation();
 
+builder.Services.AddMvc();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

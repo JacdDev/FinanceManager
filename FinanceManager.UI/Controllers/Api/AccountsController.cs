@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FinanceManager.UI.Controllers
+namespace FinanceManager.UI.Controllers.Api
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AccountsController : ApiControllerBase
     {
         [HttpGet]

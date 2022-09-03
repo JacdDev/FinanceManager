@@ -5,9 +5,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FinanceManager.UI.Controllers
+namespace FinanceManager.UI.Controllers.Api
 {
-    [Route("auth")]
+    [Route("api/[controller]")]
     [AllowAnonymous]
     public class AuthenticationController : ApiControllerBase
     {

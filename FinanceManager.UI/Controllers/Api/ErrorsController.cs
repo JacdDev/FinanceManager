@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FinanceManager.Api.Controllers
+namespace FinanceManager.UI.Controllers.Api
 {
     public class ErrorsController : ControllerBase
     {
