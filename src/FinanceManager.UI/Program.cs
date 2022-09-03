@@ -9,7 +9,9 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddPresentation();
 
-builder.Services.AddMvc();
+builder.Services
+    .AddMvc()
+    .AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
@@ -18,6 +20,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/error");
 }
 
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
