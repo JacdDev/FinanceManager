@@ -60,7 +60,7 @@
                 valid = false;
             }
             else if(!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/.test(password.value))){
-                password.setCustomValidity("Invalid format");
+                password.setCustomValidity("Invalid format, must contains lowercase, uppercase, digit and special character");
                 valid = false;
             }
 
