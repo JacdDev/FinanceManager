@@ -7,11 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
-    .AddPresentation();
-
-builder.Services
-    .AddMvc()
-    .AddRazorRuntimeCompilation();
+    .AddPresentation(builder.Configuration);
 
 var app = builder.Build();
 

@@ -1,4 +1,6 @@
-﻿using Mapster;
+﻿using FinanceManager.UI.Common.Interfaces;
+using FinanceManager.UI.Common.Services;
+using Mapster;
 using MapsterMapper;
 using System.Reflection;
 
@@ -6,10 +8,14 @@ namespace FinanceManager.UI
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddPresentation(this IServiceCollection services)
+        public static IServiceCollection AddPresentation(this IServiceCollection services, ConfigurationManager configuration)
         {
             services.AddMapping();
-            services.AddControllers();
+            services.AddMvc().AddRazorRuntimeCompilation();
+            services.AddHttpClient<IResourcesService, ApiService>( c =>
+            {
+                c.BaseAddress = new Uri(configuration["ApiAddress"]);
+            });
 
             return services;
         }
