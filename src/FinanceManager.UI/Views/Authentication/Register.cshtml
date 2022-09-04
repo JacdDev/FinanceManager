@@ -4,21 +4,21 @@
 }
 
 
-<form>
+<form action="/authentication/register" method="post">
   <div class="form-group">
     <label for="email">Email</label>
-    <input type="email" class="form-control" id="email">
+    <input type="email" class="form-control" id="Email" name="Email">
   </div>
   <div class="form-group">
     <label for="Password">Password</label>
-    <input type="password" class="form-control" id="Password">
+    <input type="password" class="form-control" id="Password" name="Password">
   </div>
   <div class="form-group">
     <label for="ConfirmPassword">Confirm Password</label>
-    <input type="password" class="form-control" id="ConfirmPassword">
+    <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword">
   </div>
   <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="RememberMe">
+    <input type="checkbox" class="form-check-input" id="RememberMe" name="RememberMe" value="true">
     <label class="form-check-label" for="RememberMe">Remember me</label>
   </div>
   <button type="submit" class="btn btn-primary">Register</button>

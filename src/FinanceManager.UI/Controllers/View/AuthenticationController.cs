@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FinanceManager.UI.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceManager.UI.Controllers.View
 {
@@ -10,6 +11,11 @@ namespace FinanceManager.UI.Controllers.View
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Register(RegisterRequest RegisterRequest)
+        {
+            return View();
+        }
         public IActionResult Login()
         {
             return View();

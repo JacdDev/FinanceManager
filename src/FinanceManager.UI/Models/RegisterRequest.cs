@@ -3,5 +3,6 @@
     public record RegisterRequest(
     string Email,
     string Password,
-    string ConfirmPassword);
+    string ConfirmPassword,
+    bool RememberMe);
 }

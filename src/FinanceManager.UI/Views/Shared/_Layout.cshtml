@@ -8,28 +8,22 @@
     <title>@ViewBag.Title - Finance Manager</title>
 
     <link href="/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/layout.css" rel="stylesheet">
 </head>
-<body style="padding-top: 70px;">
-
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        @Html.ActionLink("Finance Manager", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-            </ul>
-        </div>
+<body>
+    <nav class="navbar bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img src="/images/logo.png" alt="" width="200">
+        </a>
+      </div>
     </nav>
 
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2022 - @DateTime.Now.Year</p>
+            <p>&copy; Since 2022</p>
         </footer>
     </div>
 
