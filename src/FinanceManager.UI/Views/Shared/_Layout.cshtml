@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -7,16 +11,27 @@
 
     <title>@ViewBag.Title - Finance Manager</title>
 
-    <link href="/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="/css/layout.css" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">
-          <img src="/images/logo.png" alt="" width="200">
-        </a>
-      </div>
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="/">
+                <img src="/images/logo.png" alt="" width="200">
+            </a>
+
+            <div class="dropdown">
+                <i class="bi-globe btn" data-bs-toggle="dropdown"></i>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="?culture=es">@Localizer["Spanish"]</a></li>
+                    <li><a class="dropdown-item" href="?culture=en">@Localizer["English"]</a></li>
+                </ul>
+            </div>
+
+        </div>
     </nav>
 
     <div class="container body-content">
@@ -27,7 +42,7 @@
         </footer>
     </div>
 
-    <script src="/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>

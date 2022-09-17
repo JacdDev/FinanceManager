@@ -2,6 +2,7 @@
 using FinanceManager.UI.Common.Services;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Mvc.Razor;
 using System.Reflection;
 
 namespace FinanceManager.UI
@@ -10,8 +11,9 @@ namespace FinanceManager.UI
     {
         public static IServiceCollection AddPresentation(this IServiceCollection services, ConfigurationManager configuration)
         {
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddMapping();
-            services.AddMvc().AddRazorRuntimeCompilation();
+            services.AddMvc().AddRazorRuntimeCompilation().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
             services.AddHttpClient<IResourcesService, ApiService>( c =>
             {
                 c.BaseAddress = new Uri(configuration["ApiAddress"]);

@@ -1,5 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Register";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@{
+    //ViewData["Title"] = "Register";
+    ViewData["Title"] = Localizer["Title"];
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 

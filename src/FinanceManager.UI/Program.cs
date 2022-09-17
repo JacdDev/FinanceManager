@@ -1,6 +1,8 @@
 using FinanceManager.Application;
 using FinanceManager.Infrastructure;
 using FinanceManager.UI;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,5 +22,26 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+//middleware to manage culture cookie
+app.Use(async (context, next) =>
+{
+    var cultureQuery = context.Request.Query["culture"];
+    if (!string.IsNullOrWhiteSpace(cultureQuery))
+    {
+        string cultureCookie = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureQuery));
+        context.Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, cultureCookie);
+    }
+
+    // Call the next delegate/middleware in the pipeline.
+    await next(context);
+});
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    SupportedCultures = new List<CultureInfo>() { CultureInfo.GetCultureInfo("en"), CultureInfo.GetCultureInfo("es") },
+    SupportedUICultures = new List<CultureInfo>() { CultureInfo.GetCultureInfo("en"), CultureInfo.GetCultureInfo("es") },
+    ApplyCurrentCultureToResponseHeaders = true
+});
 
 app.Run();
