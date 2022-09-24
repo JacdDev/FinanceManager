@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Views.Authentication.Register.es.resx">
+    <EmbeddedResource Update="Resources\Views\Authentication\Register.es.resx">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

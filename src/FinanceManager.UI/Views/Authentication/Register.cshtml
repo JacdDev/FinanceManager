@@ -11,25 +11,25 @@
 
 <form id="register-form" class="needs-validation" action="/authentication/register" method="post" novalidate>
     <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">@Localizer["EmailLabel"]</label>
         <input type="email" class="form-control" id="Email" name="Email">
         <div id="Email-invalid-feedback" class="invalid-feedback"></div>
     </div>
     <div class="form-group">
-        <label for="Password">Password</label>
+        <label for="Password">@Localizer["PasswordLabel"]</label>
         <input type="password" class="form-control" id="Password" name="Password">
         <div id="Password-invalid-feedback" class="invalid-feedback"></div>
     </div>
     <div class="form-group">
-        <label for="ConfirmPassword">Confirm Password</label>
+        <label for="ConfirmPassword">@Localizer["ConfirmPasswordLabel"]</label>
         <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword">
         <div id="ConfirmPassword-invalid-feedback" class="invalid-feedback"></div>
     </div>
     <div class="form-check">
         <input type="checkbox" class="form-check-input no-validate" id="RememberMe" name="RememberMe" value="true">
-        <label class="form-check-label no-validate" for="RememberMe">Remember me</label>
+        <label class="form-check-label no-validate" for="RememberMe">@Localizer["RememberMe"]</label>
     </div>
-    <button type="submit" class="btn btn-primary">Register</button>
+    <button type="submit" class="btn btn-primary">@Localizer["RegisterButton"]</button>
 </form>
 
 @section scripts{
@@ -51,31 +51,31 @@
             
             email.setCustomValidity("");
             if(email.value == ""){
-                email.setCustomValidity("Required field");
+                email.setCustomValidity(@Localizer["RequiredField"]);
                 valid = false;
             }
             else if(!(/^[a-z0-9!'#$%&*+\/=?^_`{|}~-]+(?:\.[a-z0-9!'#$%&*+\/=?^_`{|}~-]+)*@@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-zA-Z]{2,}$/.test(email.value))){
-                email.setCustomValidity("Invalid format");
+                email.setCustomValidity(@Localizer["InvalidFormat"]);
                 valid = false;
             }
 
             password.setCustomValidity("");
             if(password.value == ""){
-                password.setCustomValidity("Required field");
+                password.setCustomValidity(@Localizer["RequiredField"]);
                 valid = false;
             }
             else if(!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/.test(password.value))){
-                password.setCustomValidity("Invalid format, must contains lowercase, uppercase, digit and special character");
+                password.setCustomValidity(@Localizer["PasswordRestriction"]);
                 valid = false;
             }
 
             confirm_password.setCustomValidity("");
             if(confirm_password.value == ""){
-                confirm_password.setCustomValidity("Required field");
+                confirm_password.setCustomValidity(@Localizer["RequiredField"]);
                 valid = false;
             }
             else if(password.value != confirm_password.value){
-                confirm_password.setCustomValidity("Passwords Don't Match");
+                confirm_password.setCustomValidity(@Localizer["PasswordMustMatch"]);
                 valid = false;
             }
 
