@@ -132,7 +132,7 @@
   <data name="PasswordMustMatch" xml:space="preserve">
     <value>La contraseña debe coincidir</value>
   </data>
-  <data name="PasswordRetriction" xml:space="preserve">
+  <data name="PasswordRestriction" xml:space="preserve">
     <value>Debe contener al menos 8 carácteres incluendo 1 minúscula, 1 mayúscula, 1 dígito y 1 caractérer especial</value>
   </data>
   <data name="RegisterButton" xml:space="preserve">

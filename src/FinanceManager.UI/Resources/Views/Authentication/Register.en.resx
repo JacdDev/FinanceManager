@@ -132,7 +132,7 @@
   <data name="PasswordMustMatch" xml:space="preserve">
     <value>Password must match</value>
   </data>
-  <data name="PasswordRetriction" xml:space="preserve">
+  <data name="PasswordRestriction" xml:space="preserve">
     <value>Must contains at least 8 characters, including 1 uppercase, 1 lowercase, 1 digit and 1 special character</value>
   </data>
   <data name="RegisterButton" xml:space="preserve">

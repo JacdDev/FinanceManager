@@ -51,31 +51,31 @@
             
             email.setCustomValidity("");
             if(email.value == ""){
-                email.setCustomValidity(@Localizer["RequiredField"]);
+                email.setCustomValidity("@Localizer["RequiredField"]");
                 valid = false;
             }
             else if(!(/^[a-z0-9!'#$%&*+\/=?^_`{|}~-]+(?:\.[a-z0-9!'#$%&*+\/=?^_`{|}~-]+)*@@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-zA-Z]{2,}$/.test(email.value))){
-                email.setCustomValidity(@Localizer["InvalidFormat"]);
+                email.setCustomValidity("@Localizer["InvalidFormat"]");
                 valid = false;
             }
 
             password.setCustomValidity("");
             if(password.value == ""){
-                password.setCustomValidity(@Localizer["RequiredField"]);
+                password.setCustomValidity("@Localizer["RequiredField"]");
                 valid = false;
             }
             else if(!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/.test(password.value))){
-                password.setCustomValidity(@Localizer["PasswordRestriction"]);
+                password.setCustomValidity("@Localizer["PasswordRestriction"]");
                 valid = false;
             }
 
             confirm_password.setCustomValidity("");
             if(confirm_password.value == ""){
-                confirm_password.setCustomValidity(@Localizer["RequiredField"]);
+                confirm_password.setCustomValidity("@Localizer["RequiredField"]");
                 valid = false;
             }
             else if(password.value != confirm_password.value){
-                confirm_password.setCustomValidity(@Localizer["PasswordMustMatch"]);
+                confirm_password.setCustomValidity("@Localizer["PasswordMustMatch"]");
                 valid = false;
             }
 
