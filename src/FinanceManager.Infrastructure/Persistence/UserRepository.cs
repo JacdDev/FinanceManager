@@ -1,5 +1,5 @@
 ﻿using FinanceManager.Application.Persistence;
-using FinanceManager.Domain.Entities;
+using FinanceManager.Domain.User;
 
 namespace FinanceManager.Infrastructure.Persistence
 {

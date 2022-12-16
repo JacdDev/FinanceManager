@@ -10,7 +10,8 @@ namespace FinanceManager.Domain.Models
     {
         public TId Id { get; protected set; }
 
-        protected Entity(TId id)        {
+        protected Entity(TId id)
+        {
             Id = id;
         }
 

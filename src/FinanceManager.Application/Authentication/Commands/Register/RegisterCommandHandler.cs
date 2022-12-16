@@ -2,7 +2,7 @@
 using FinanceManager.Application.Authentication.Common;
 using FinanceManager.Application.Common.Interfaces;
 using FinanceManager.Application.Persistence;
-using FinanceManager.Domain.Entities;
+using FinanceManager.Domain.User;
 using FinanceManager.Domain.Errors;
 using MediatR;
 
@@ -29,11 +29,7 @@ namespace FinanceManager.Application.Authentication.Commands.Register
             }
 
             // Create user (generate unique ID) and persist to DB
-            var user = new User
-            {
-                Email = command.Email,
-                Password = command.Password
-            };
+            var user = User.Create(command.Email, command.Password);
 
             _userRepository.Add(user);
 

@@ -1,4 +1,4 @@
-﻿using FinanceManager.Domain.Entities;
+﻿using FinanceManager.Domain.User;
 
 namespace FinanceManager.Application.Authentication.Common
 {
