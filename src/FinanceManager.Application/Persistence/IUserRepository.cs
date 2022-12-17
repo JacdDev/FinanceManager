@@ -1,4 +1,4 @@
-﻿using FinanceManager.Domain.User;
+﻿using FinanceManager.Domain.UserAggregate;
 
 namespace FinanceManager.Application.Persistence
 {

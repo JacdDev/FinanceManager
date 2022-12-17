@@ -2,7 +2,7 @@
 using FinanceManager.Application.Authentication.Common;
 using FinanceManager.Application.Common.Interfaces;
 using FinanceManager.Application.Persistence;
-using FinanceManager.Domain.User;
+using FinanceManager.Domain.UserAggregate;
 using FinanceManager.Domain.Errors;
 using MediatR;
 

@@ -1,5 +1,5 @@
 ﻿using FinanceManager.Application.Common.Interfaces;
-using FinanceManager.Domain.User;
+using FinanceManager.Domain.UserAggregate;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;

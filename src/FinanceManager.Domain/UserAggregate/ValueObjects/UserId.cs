@@ -1,24 +1,25 @@
 ﻿using FinanceManager.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceManager.Domain.Account.ValueObjects
+namespace FinanceManager.Domain.UserAggregate.ValueObjects
 {
-    public sealed class AccountId : ValueObject
+    public sealed class UserId : ValueObject
     {
         public Guid Value { get; }
 
-        private AccountId(Guid value)
+        private UserId(Guid value)
         {
             Value = value;
         }
 
-        public static AccountId CreateUnique()
+        public static UserId CreateUnique()
         {
-            return new AccountId(Guid.NewGuid());
+            return new UserId(Guid.NewGuid());
         }
 
         public override IEnumerable<object> GetEquialityComponents()

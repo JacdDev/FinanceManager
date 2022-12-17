@@ -5,20 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceManager.Domain.Tag.ValueObjects
+namespace FinanceManager.Domain.MovementAggregate.ValueObjects
 {
-    public sealed class TagId : ValueObject
+    public sealed class MovementId : ValueObject
     {
         public Guid Value { get; }
 
-        private TagId(Guid value)
+        private MovementId(Guid value)
         {
             Value = value;
         }
 
-        public static TagId CreateUnique()
+        public static MovementId CreateUnique()
         {
-            return new TagId(Guid.NewGuid());
+            return new MovementId(Guid.NewGuid());
         }
 
         public override IEnumerable<object> GetEquialityComponents()

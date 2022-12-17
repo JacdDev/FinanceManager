@@ -1,8 +1,8 @@
 ﻿using FinanceManager.Domain.Models;
-using FinanceManager.Domain.Tag.ValueObjects;
-using FinanceManager.Domain.Account.ValueObjects;
+using FinanceManager.Domain.TagAggregate.ValueObjects;
+using FinanceManager.Domain.AccountAggregate.ValueObjects;
 
-namespace FinanceManager.Domain.Tag
+namespace FinanceManager.Domain.TagAggregate
 {
     public class Tag : AggregateRoot<TagId>
     {
