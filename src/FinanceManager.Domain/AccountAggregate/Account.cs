@@ -2,6 +2,8 @@
 using FinanceManager.Domain.AccountAggregate.ValueObjects;
 using FinanceManager.Domain.UserAggregate.ValueObjects;
 using FinanceManager.Domain.MovementAggregate.ValueObjects;
+using FinanceManager.Domain.UserAggregate;
+using FinanceManager.Domain.MovementAggregate;
 
 namespace FinanceManager.Domain.AccountAggregate
 {
@@ -36,6 +38,14 @@ namespace FinanceManager.Domain.AccountAggregate
                 name,
                 description,
                 amount);
+        }
+
+        public void addUser(UserId userId)
+        {
+            if (!_users.Contains(userId))
+            {
+                _users.Add(userId);
+            }
         }
     }
 }

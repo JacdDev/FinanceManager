@@ -20,7 +20,8 @@ namespace FinanceManager.Infrastructure
 
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddPersistence();
+
             return services;
         }
 
@@ -43,6 +44,14 @@ namespace FinanceManager.Infrastructure
                     Encoding.UTF8.GetBytes(jwtSettings.Secret)
                 )
             });
+
+            return services;
+        }
+
+        private static IServiceCollection AddPersistence(this IServiceCollection services)
+        {
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
 
             return services;
         }

@@ -2,6 +2,7 @@
 using FinanceManager.Domain.MovementAggregate.ValueObjects;
 using FinanceManager.Domain.AccountAggregate.ValueObjects;
 using FinanceManager.Domain.TagAggregate.ValueObjects;
+using FinanceManager.Domain.TagAggregate;
 
 namespace FinanceManager.Domain.MovementAggregate
 {
@@ -11,7 +12,7 @@ namespace FinanceManager.Domain.MovementAggregate
         public string Concept { get; }
         public double Amount { get; }
         public bool IsIncoming { get; }
-        public DateTime Date { get; }
+        public DateTime ExecutionDate { get; }
         private readonly List<TagId> _tags = new();
         public IReadOnlyList<TagId> Tags => _tags.AsReadOnly();
 
@@ -21,13 +22,13 @@ namespace FinanceManager.Domain.MovementAggregate
             string concept, 
             double amount, 
             bool isIncoming, 
-            DateTime date) : base(id)
+            DateTime executionDate) : base(id)
         {
             AccountId = accountId;
             Concept = concept;
             Amount = amount;
             IsIncoming = isIncoming;
-            Date = date;
+            ExecutionDate = executionDate;
         }
 
         public static Movement Create(
@@ -35,7 +36,7 @@ namespace FinanceManager.Domain.MovementAggregate
             string concept,
             double amount,
             bool isIncoming,
-            DateTime date)
+            DateTime executionDate)
         {
             return new Movement(
                 MovementId.CreateUnique(), 
@@ -43,7 +44,7 @@ namespace FinanceManager.Domain.MovementAggregate
                 concept,
                 amount,
                 isIncoming,
-                date);
+                executionDate);
         }
     }
 }

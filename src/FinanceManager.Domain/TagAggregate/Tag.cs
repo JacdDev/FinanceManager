@@ -8,16 +8,18 @@ namespace FinanceManager.Domain.TagAggregate
     {
         public AccountId AccountId { get;}
         public string Name { get; }
+        public string Color { get; }
 
-        private Tag(TagId id, string name, AccountId accountId) : base(id)
+        private Tag(TagId id, string name, string color, AccountId accountId) : base(id)
         {
             AccountId = accountId;
             Name = name;
+            Color = color;
         }
 
-        public static Tag Create(string name, AccountId accountId)
+        public static Tag Create(string name, string color, AccountId accountId)
         {
-            return new Tag(TagId.CreateUnique(), name, accountId);
+            return new Tag(TagId.CreateUnique(), name, color, accountId);
         }
     }
 }
