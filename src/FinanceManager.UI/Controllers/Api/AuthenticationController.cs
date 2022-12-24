@@ -1,4 +1,5 @@
 ﻿using FinanceManager.Application.Authentication.Commands.Register;
+using FinanceManager.Application.Authentication.Queries.Login;
 using FinanceManager.UI.Models;
 using MapsterMapper;
 using MediatR;
@@ -32,6 +33,17 @@ namespace FinanceManager.UI.Controllers.Api
             );
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
+            var command = _mapper.Map<LoginQuery>(request);
 
+            var commandResult = await _mediator.Send(command);
+
+            return commandResult.Match(
+                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
+                errors => Problem(errors)
+            );
+        }
     }
 }

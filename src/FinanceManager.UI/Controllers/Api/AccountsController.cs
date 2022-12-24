@@ -28,9 +28,7 @@ namespace FinanceManager.UI.Controllers.Api
         public async Task<IActionResult> CreateAccount(
             CreateAccountRequest request)
         {
-            //TODO take ownerId from bearer token
-            var ownerId = "00000000-0000-0000-0000-000000000000";
-            var command = _mapper.Map<CreateAccountCommand>((request, ownerId));
+            var command = _mapper.Map<CreateAccountCommand>(request);
 
             var createAccountResult = await _mediator.Send(command);
 
