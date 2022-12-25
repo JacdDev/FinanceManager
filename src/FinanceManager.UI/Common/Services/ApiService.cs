@@ -17,5 +17,10 @@ namespace FinanceManager.UI.Common.Services
         {
             return await _httpClient.PostAsJsonAsync<RegisterRequest>("api/authentication/register", request);
         }
+
+        public async Task<HttpResponseMessage> Login(LoginRequest request)
+        {
+            return await _httpClient.PostAsJsonAsync<LoginRequest>("api/authentication/login", request);
+        }
     }
 }

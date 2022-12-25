@@ -30,5 +30,14 @@ namespace FinanceManager.UI.Controllers.View
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
+            var response = await _resourcesService.Login(request);
+            if (response.IsSuccessStatusCode)
+                return Redirect("/");
+            return View();
+        }
     }
 }
