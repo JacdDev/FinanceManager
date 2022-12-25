@@ -120,6 +120,9 @@
   <data name="ConfirmPasswordLabel" xml:space="preserve">
     <value>Confirmar contraseña</value>
   </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>El correo electrónico ya existe</value>
+  </data>
   <data name="EmailLabel" xml:space="preserve">
     <value>Correo electrónico</value>
   </data>

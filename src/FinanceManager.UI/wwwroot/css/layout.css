@@ -5,3 +5,7 @@
 .dropdown-menu {
     min-width: fit-content;
 }
+
+.alert {
+    margin-top: 1em;
+}

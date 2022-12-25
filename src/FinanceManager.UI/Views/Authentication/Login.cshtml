@@ -11,7 +11,7 @@
 <form id="login-form" class="needs-validation" action="/authentication/login" method="post" novalidate>
     <div class="form-group">
         <label for="email">@Localizer["EmailLabel"]</label>
-        <input type="email" class="form-control" id="Email" name="Email">
+        <input type="email" class="form-control" id="Email" name="Email" value="@ViewData["Email"]">
         <div id="Email-invalid-feedback" class="invalid-feedback"></div>
     </div>
     <div class="form-group">
@@ -25,6 +25,13 @@
     </div>
     <button type="submit" class="btn btn-primary">@Localizer["LoginButton"]</button>
 </form>
+
+@if (ViewData.ContainsKey("Error"))
+{
+    <div class="alert alert-danger" role="alert">
+       @Localizer[ViewData["Error"]?.ToString()??""]
+    </div>
+}
 
 @section scripts{
     <script>
