@@ -1,7 +1,7 @@
 ﻿using FinanceManager.Application.Persistence;
 using FinanceManager.Domain.UserAggregate;
 
-namespace FinanceManager.Infrastructure.Persistence
+namespace FinanceManager.Infrastructure.Persistence.Repositories
 {
     public class UserRepository : IUserRepository
     {

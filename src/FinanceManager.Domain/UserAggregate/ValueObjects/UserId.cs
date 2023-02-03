@@ -1,4 +1,5 @@
 ﻿using FinanceManager.Domain.Models;
+using FinanceManager.Domain.TagAggregate.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,6 +21,11 @@ namespace FinanceManager.Domain.UserAggregate.ValueObjects
         public static UserId Create(string value)
         {
             return new UserId(Guid.Parse(value));
+        }
+
+        public static UserId Create(Guid value)
+        {
+            return new UserId(value);
         }
 
         public static UserId CreateUnique()

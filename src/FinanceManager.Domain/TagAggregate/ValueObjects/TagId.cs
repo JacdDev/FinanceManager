@@ -1,4 +1,5 @@
 ﻿using FinanceManager.Domain.Models;
+using FinanceManager.Domain.MovementAggregate.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace FinanceManager.Domain.TagAggregate.ValueObjects
             return new TagId(Guid.NewGuid());
         }
 
+        public static TagId Create(Guid value)
+        {
+            return new TagId(value);
+        }
         public override IEnumerable<object> GetEquialityComponents()
         {
             yield return Value;

@@ -7,14 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceManager.Infrastructure.Persistence
+namespace FinanceManager.Infrastructure.Persistence.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        private static readonly List<Account> _accounts = new();
+        private readonly FinanceManagerDbContext _dbContext;
+
+        public AccountRepository(FinanceManagerDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public void Add(Account account)
         {
-            _accounts.Add(account);
+            _dbContext.Add(account);
+            _dbContext.SaveChanges();
         }
     }
 }

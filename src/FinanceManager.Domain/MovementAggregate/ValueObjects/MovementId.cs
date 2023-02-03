@@ -1,4 +1,5 @@
-﻿using FinanceManager.Domain.Models;
+﻿using FinanceManager.Domain.AccountAggregate.ValueObjects;
+using FinanceManager.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,11 @@ namespace FinanceManager.Domain.MovementAggregate.ValueObjects
         public static MovementId CreateUnique()
         {
             return new MovementId(Guid.NewGuid());
+        }
+
+        public static MovementId Create(Guid value)
+        {
+            return new MovementId(value);
         }
 
         public override IEnumerable<object> GetEquialityComponents()

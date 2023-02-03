@@ -15,7 +15,7 @@ namespace FinanceManager.Domain.AccountAggregate
         private readonly List<UserId> _users = new();
         public IReadOnlyList<UserId> Users => _users.AsReadOnly();
         private readonly List<MovementId> _movements = new();
-        public IReadOnlyList<MovementId> Movement => _movements.AsReadOnly();
+        public IReadOnlyList<MovementId> Movements => _movements.AsReadOnly();
 
         private Account(
             AccountId id,

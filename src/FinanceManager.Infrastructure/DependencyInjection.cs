@@ -2,8 +2,10 @@
 using FinanceManager.Application.Persistence;
 using FinanceManager.Infrastructure.Authentication;
 using FinanceManager.Infrastructure.Persistence;
+using FinanceManager.Infrastructure.Persistence.Repositories;
 using FinanceManager.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -20,7 +22,7 @@ namespace FinanceManager.Infrastructure
 
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-            services.AddPersistence();
+            services.AddPersistence(configuration);
 
             return services;
         }
@@ -48,11 +50,15 @@ namespace FinanceManager.Infrastructure
             return services;
         }
 
-        private static IServiceCollection AddPersistence(this IServiceCollection services)
+        private static IServiceCollection AddPersistence(this IServiceCollection services, ConfigurationManager configuration)
         {
+            services.AddDbContext<FinanceManagerDbContext>(options =>
+            {
+                options.UseMySql(configuration["ConnectionStrings:Database"], ServerVersion.AutoDetect(configuration["ConnectionStrings:Database"]));
+            });
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
-
+            
             return services;
         }
     }

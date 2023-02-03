@@ -21,6 +21,11 @@ namespace FinanceManager.Domain.AccountAggregate.ValueObjects
             return new AccountId(Guid.NewGuid());
         }
 
+        public static AccountId Create(Guid value)
+        {
+            return new AccountId(value);
+        }
+
         public override IEnumerable<object> GetEquialityComponents()
         {
             yield return Value;
