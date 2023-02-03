@@ -18,12 +18,11 @@
 <body>
     <nav class="navbar bg-light">
         <div class="container-fluid">
-
             <a class="navbar-brand" href="/">
                 <img src="/images/logo.png" alt="" width="200">
             </a>
 
-            <div class="dropdown">
+            <div class="dropdown ms-auto">
                 <i class="bi-globe btn" data-bs-toggle="dropdown"></i>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="?culture=es">@Localizer["Spanish"]</a></li>
@@ -31,6 +30,15 @@
                 </ul>
             </div>
 
+            @if (ViewData.ContainsKey("authToken") && !string.IsNullOrEmpty(ViewData["authToken"]?.ToString()))
+            {
+                <div class="dropdown">
+                    <i class="bi-person btn" data-bs-toggle="dropdown"></i>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/authentication/logout">@Localizer["LogOut"]</a></li>
+                    </ul>
+                </div>
+            }
         </div>
     </nav>
 

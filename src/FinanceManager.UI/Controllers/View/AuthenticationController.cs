@@ -25,12 +25,27 @@ namespace FinanceManager.UI.Controllers.View
         public async Task<IActionResult> Register(RegisterRequest request)
         {
             var response = await _resourcesService.Register(request);
+            var jsonResponse = JsonNode.Parse(response.Content.ReadAsStream());
+
             if (response.IsSuccessStatusCode)
             {
+                HttpContext.Response.Cookies.Append("authToken",
+                    jsonResponse?["authToken"]?.ToString() ?? "",
+                    new CookieOptions()
+                    {
+                        Expires = request.RememberMe ? DateTimeOffset.MaxValue : null,
+                    });
+
+                HttpContext.Response.Cookies.Append("rememberMe",
+                    request.RememberMe?"1":"0",
+                    new CookieOptions()
+                    {
+                        Expires = request.RememberMe ? DateTimeOffset.MaxValue : null,
+                    });
+
                 return Redirect("/");
             }
 
-            var jsonResponse = JsonNode.Parse(response.Content.ReadAsStream());
             var errorType = jsonResponse?["errors"]?.AsObject().FirstOrDefault().Key;
             ViewData.Add("Error", errorType);
             ViewData.Add("Email", request.Email);
@@ -46,17 +61,39 @@ namespace FinanceManager.UI.Controllers.View
         public async Task<IActionResult> Login(LoginRequest request)
         {
             var response = await _resourcesService.Login(request);
+            var jsonResponse = JsonNode.Parse(response.Content.ReadAsStream());
+
             if (response.IsSuccessStatusCode)
             {
+                HttpContext.Response.Cookies.Append(
+                    "authToken", 
+                    jsonResponse?["authToken"]?.ToString() ?? "",
+                    new CookieOptions()
+                    {
+                        Expires = request.RememberMe ? DateTimeOffset.MaxValue : null,
+                    });
+
+                HttpContext.Response.Cookies.Append("rememberMe",
+                    request.RememberMe ? "1" : "0",
+                    new CookieOptions()
+                    {
+                        Expires = request.RememberMe ? DateTimeOffset.MaxValue : null,
+                    });
+
                 return Redirect("/");
             }
 
-            var jsonResponse = JsonNode.Parse(response.Content.ReadAsStream());
             var errorType = jsonResponse?["errors"]?.AsObject().FirstOrDefault().Key;
             ViewData.Add("Error", errorType);
             ViewData.Add("Email", request.Email);
 
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Response.Cookies.Delete("authToken");
+            return Redirect("/");
         }
     }
 }

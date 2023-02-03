@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FinanceManager.UI.Controllers.View
 {
@@ -8,7 +9,14 @@ namespace FinanceManager.UI.Controllers.View
     {
         public IActionResult Index()
         {
-            return View();
+            HttpContext.Request.Cookies.TryGetValue("authToken", out string? authToken);
+
+            if(authToken.IsNullOrEmpty())
+                return View();
+
+            ViewData["authToken"] = authToken;
+            return View("UserHome");
         }
+
     }
 }

@@ -2,6 +2,7 @@ using FinanceManager.Application;
 using FinanceManager.Infrastructure;
 using FinanceManager.UI;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,28 @@ app.Use(async (context, next) =>
     {
         string cultureCookie = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureQuery));
         context.Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, cultureCookie);
+    }
+
+    // Call the next delegate/middleware in the pipeline.
+    await next(context);
+});
+
+//middleware to refresh auth cookies with remember me functionality
+app.Use(async (context, next) =>
+{
+    //if rememberMe cookie is set to 1 and authToken cookie is set, refresh it
+    if (context.Request.Cookies.ContainsKey("rememberMe") && context.Request.Cookies["rememberMe"] == "1"
+        && context.Request.Cookies.ContainsKey("authToken") && !context.Request.Cookies["authToken"].IsNullOrEmpty())
+    {
+        context.Response.Cookies.Append("authToken", context.Request.Cookies?["authToken"]?.ToString() ?? "", new CookieOptions()
+        {
+            Expires = DateTimeOffset.MaxValue
+        });
+
+        context.Response.Cookies.Append("rememberMe", context.Request.Cookies?["rememberMe"]?.ToString() ?? "", new CookieOptions()
+        {
+            Expires = DateTimeOffset.MaxValue
+        });
     }
 
     // Call the next delegate/middleware in the pipeline.
