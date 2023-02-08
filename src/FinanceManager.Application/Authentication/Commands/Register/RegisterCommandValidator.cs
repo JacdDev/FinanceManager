@@ -15,9 +15,6 @@ namespace FinanceManager.Application.Authentication.Commands.Register
             RuleFor(v => v.Password).Matches("[a-z]").WithMessage("Password must contain an lowercase letter");
             RuleFor(v => v.Password).Matches("[0-9]").WithMessage("Password must contain a number");
             RuleFor(v => v.Password).Matches("[^a-zA-Z0-9]").WithMessage("Password must contain a special character");
-
-            RuleFor(v => v.ConfirmPassword).NotEmpty().WithMessage("Confirm password is required");
-            RuleFor(v => v.ConfirmPassword).Equal(v => v.Password).WithMessage("Passwords must match");
         }
     }
 }

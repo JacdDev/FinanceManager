@@ -1,5 +1,6 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject SignInManager<IdentityUser> SignInManager
 @inject IViewLocalizer Localizer
 
 <!DOCTYPE html>
@@ -30,7 +31,7 @@
                 </ul>
             </div>
 
-            @if (ViewData.ContainsKey("authToken") && !string.IsNullOrEmpty(ViewData["authToken"]?.ToString()))
+            @if (SignInManager.IsSignedIn(User))
             {
                 <div class="dropdown">
                     <i class="bi-person btn" data-bs-toggle="dropdown"></i>

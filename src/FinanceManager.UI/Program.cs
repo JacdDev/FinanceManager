@@ -38,28 +38,6 @@ app.Use(async (context, next) =>
     await next(context);
 });
 
-//middleware to refresh auth cookies with remember me functionality
-app.Use(async (context, next) =>
-{
-    //if rememberMe cookie is set to 1 and authToken cookie is set, refresh it
-    if (context.Request.Cookies.ContainsKey("rememberMe") && context.Request.Cookies["rememberMe"] == "1"
-        && context.Request.Cookies.ContainsKey("authToken") && !context.Request.Cookies["authToken"].IsNullOrEmpty())
-    {
-        context.Response.Cookies.Append("authToken", context.Request.Cookies?["authToken"]?.ToString() ?? "", new CookieOptions()
-        {
-            Expires = DateTimeOffset.MaxValue
-        });
-
-        context.Response.Cookies.Append("rememberMe", context.Request.Cookies?["rememberMe"]?.ToString() ?? "", new CookieOptions()
-        {
-            Expires = DateTimeOffset.MaxValue
-        });
-    }
-
-    // Call the next delegate/middleware in the pipeline.
-    await next(context);
-});
-
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
     SupportedCultures = new List<CultureInfo>() { CultureInfo.GetCultureInfo("en"), CultureInfo.GetCultureInfo("es") },

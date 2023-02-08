@@ -1,5 +1,8 @@
-﻿using FinanceManager.UI.Common.Interfaces;
+﻿using FinanceManager.Domain.UserAggregate;
+using FinanceManager.UI.Common.Interfaces;
 using FinanceManager.UI.Models;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -10,10 +13,10 @@ namespace FinanceManager.UI.Controllers.View
     [Route("[controller]/[action]")]
     public class AuthenticationController : Controller
     {
-        private readonly IResourcesService _resourcesService;
-        public AuthenticationController(IResourcesService resourcesService)
+        private readonly Api.AuthenticationController _authService;
+        public AuthenticationController(Api.AuthenticationController authService)
         {
-            _resourcesService = resourcesService;
+            _authService = authService;
         }
 
         public IActionResult Register()
@@ -24,29 +27,14 @@ namespace FinanceManager.UI.Controllers.View
         [HttpPost]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
-            var response = await _resourcesService.Register(request);
-            var jsonResponse = JsonNode.Parse(response.Content.ReadAsStream());
+            var response = await _authService.Register(request);
 
-            if (response.IsSuccessStatusCode)
+            if (response is OkObjectResult)
             {
-                HttpContext.Response.Cookies.Append("authToken",
-                    jsonResponse?["authToken"]?.ToString() ?? "",
-                    new CookieOptions()
-                    {
-                        Expires = request.RememberMe ? DateTimeOffset.MaxValue : null,
-                    });
-
-                HttpContext.Response.Cookies.Append("rememberMe",
-                    request.RememberMe?"1":"0",
-                    new CookieOptions()
-                    {
-                        Expires = request.RememberMe ? DateTimeOffset.MaxValue : null,
-                    });
-
                 return Redirect("/");
             }
 
-            var errorType = jsonResponse?["errors"]?.AsObject().FirstOrDefault().Key;
+            var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
             ViewData.Add("Error", errorType);
             ViewData.Add("Email", request.Email);
 
@@ -60,40 +48,35 @@ namespace FinanceManager.UI.Controllers.View
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            var response = await _resourcesService.Login(request);
-            var jsonResponse = JsonNode.Parse(response.Content.ReadAsStream());
+            var response = await _authService.Login(request);
 
-            if (response.IsSuccessStatusCode)
+            if (response is OkObjectResult)
             {
-                HttpContext.Response.Cookies.Append(
-                    "authToken", 
-                    jsonResponse?["authToken"]?.ToString() ?? "",
-                    new CookieOptions()
-                    {
-                        Expires = request.RememberMe ? DateTimeOffset.MaxValue : null,
-                    });
-
-                HttpContext.Response.Cookies.Append("rememberMe",
-                    request.RememberMe ? "1" : "0",
-                    new CookieOptions()
-                    {
-                        Expires = request.RememberMe ? DateTimeOffset.MaxValue : null,
-                    });
-
                 return Redirect("/");
             }
 
-            var errorType = jsonResponse?["errors"]?.AsObject().FirstOrDefault().Key;
+            var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
             ViewData.Add("Error", errorType);
             ViewData.Add("Email", request.Email);
 
             return View();
         }
 
-        public IActionResult Logout()
+        [HttpGet]
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.Response.Cookies.Delete("authToken");
-            return Redirect("/");
+            var response = await _authService.Logout();
+
+            if (response is OkResult)
+            {
+                return Redirect("/");
+            }
+
+            var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
+            ViewData.Add("Error", errorType);
+
+            return View();
+
         }
     }
 }

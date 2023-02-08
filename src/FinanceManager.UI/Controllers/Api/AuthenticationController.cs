@@ -1,9 +1,11 @@
 ﻿using FinanceManager.Application.Authentication.Commands.Register;
 using FinanceManager.Application.Authentication.Queries.Login;
+using FinanceManager.Application.Authentication.Queries.Logout;
 using FinanceManager.UI.Models;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceManager.UI.Controllers.Api
@@ -42,6 +44,17 @@ namespace FinanceManager.UI.Controllers.Api
 
             return commandResult.Match(
                 authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
+                errors => Problem(errors)
+            );
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var commandResult = await _mediator.Send(new LogoutQuery());
+
+            return commandResult.Match(
+                authResult => Ok(),
                 errors => Problem(errors)
             );
         }

@@ -1,4 +1,5 @@
 ﻿using FinanceManager.Domain.AccountAggregate;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FinanceManager.Infrastructure.Persistence
 {
-    public class FinanceManagerDbContext : DbContext 
+    public class FinanceManagerDbContext : IdentityDbContext
     {
         public FinanceManagerDbContext(DbContextOptions<FinanceManagerDbContext> options)
             : base(options)
@@ -19,12 +20,12 @@ namespace FinanceManager.Infrastructure.Persistence
 
         public DbSet<Account> Accounts { get; set; } = null!;
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder
+            builder
                 .ApplyConfigurationsFromAssembly(typeof(FinanceManagerDbContext).Assembly);
 
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
         }  
     }
 }

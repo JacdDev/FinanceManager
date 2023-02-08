@@ -14,8 +14,7 @@ namespace FinanceManager.UI.Common.Mapping
 
             config.NewConfig<LoginRequest, LoginQuery>();
 
-            config.NewConfig<AuthenticationResult, AuthenticationResponse>()
-                .Map(dest => dest.Email, src => src.User.Email);
+            config.NewConfig<AuthenticationResult, AuthenticationResponse>();
         }
     }
 }

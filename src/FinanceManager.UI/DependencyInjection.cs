@@ -13,11 +13,10 @@ namespace FinanceManager.UI
         {
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddMapping();
-            services.AddMvc().AddRazorRuntimeCompilation().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
-            services.AddHttpClient<IResourcesService, ApiService>( c =>
-            {
-                c.BaseAddress = new Uri(configuration["ApiAddress"]);
-            });
+            services.AddMvc()
+                .AddControllersAsServices()
+                .AddRazorRuntimeCompilation()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
 
             return services;
         }

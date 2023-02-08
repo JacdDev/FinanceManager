@@ -7,10 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceManager.Application.Authentication.Queries.Login
+namespace FinanceManager.Application.Authentication.Queries.Logout
 {
-    public record LoginQuery(
-    string Email,
-    string Password,
-    bool RememberMe) : IRequest<ErrorOr<AuthenticationResult>>;
+    public record LogoutQuery() : IRequest<ErrorOr<Unit>>;
 }

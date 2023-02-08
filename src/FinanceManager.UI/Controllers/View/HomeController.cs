@@ -1,21 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace FinanceManager.UI.Controllers.View
 {
+
     [Route("/")]
     [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
+        private readonly SignInManager<IdentityUser> _signInManager;
+        public HomeController(SignInManager<IdentityUser> signInManager)
+        {
+            _signInManager = signInManager;
+        }
+
         public IActionResult Index()
         {
-            HttpContext.Request.Cookies.TryGetValue("authToken", out string? authToken);
+            if (_signInManager.IsSignedIn(User))
+            {
+                return View("UserHome");
+            }
 
-            if(authToken.IsNullOrEmpty())
-                return View();
-
-            ViewData["authToken"] = authToken;
-            return View("UserHome");
+            return View();
         }
 
     }

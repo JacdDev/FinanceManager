@@ -13,21 +13,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceManager.Application.Authentication.Queries.Login
+namespace FinanceManager.Application.Authentication.Queries.Logout
 {
-    public class LoginQueryHandler
-        : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
+    public class LogoutQueryHandler
+        : IRequestHandler<LogoutQuery, ErrorOr<Unit>>
     {
         private readonly IAuth _auth;
 
-        public LoginQueryHandler(IAuth auth)
+        public LogoutQueryHandler(IAuth auth)
         {
             _auth = auth;
         }
 
-        public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Unit>> Handle(LogoutQuery request, CancellationToken cancellationToken)
         {
-            return await _auth.Login(request.Email, request.Password, request.RememberMe);
+            await _auth.Logout();
+
+            return new Unit();
         }
     }
 }
