@@ -1,12 +1,5 @@
-﻿using FinanceManager.Domain.UserAggregate;
-using FinanceManager.UI.Common.Interfaces;
-using FinanceManager.UI.Models;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
+﻿using FinanceManager.UI.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 
 namespace FinanceManager.UI.Controllers.View
 {

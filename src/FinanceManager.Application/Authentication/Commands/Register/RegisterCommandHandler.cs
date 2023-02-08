@@ -1,9 +1,6 @@
 ﻿using ErrorOr;
 using FinanceManager.Application.Authentication.Common;
 using FinanceManager.Application.Common.Interfaces;
-using FinanceManager.Application.Persistence;
-using FinanceManager.Domain.UserAggregate;
-using FinanceManager.Domain.Errors;
 using MediatR;
 
 namespace FinanceManager.Application.Authentication.Commands.Register

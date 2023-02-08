@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FinanceManager.Domain.Models
+﻿namespace FinanceManager.Domain.Models
 {
-    public abstract class Entity<TId> :IEquatable<Entity<TId>> where TId : notnull
+    public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : notnull
     {
         public TId Id { get; protected set; }
 

@@ -5,7 +5,6 @@ using FinanceManager.UI.Models;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceManager.UI.Controllers.Api

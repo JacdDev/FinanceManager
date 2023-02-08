@@ -1,7 +1,5 @@
 ﻿using FinanceManager.Application.Accounts.Commands.CreateAccount;
 using FinanceManager.Application.Accounts.Common;
-using FinanceManager.Application.Authentication.Commands.Register;
-using FinanceManager.Application.Authentication.Common;
 using FinanceManager.UI.Models;
 using Mapster;
 

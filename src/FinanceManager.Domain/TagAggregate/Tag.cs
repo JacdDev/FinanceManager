@@ -1,12 +1,12 @@
-﻿using FinanceManager.Domain.Models;
+﻿using FinanceManager.Domain.AccountAggregate.ValueObjects;
+using FinanceManager.Domain.Models;
 using FinanceManager.Domain.TagAggregate.ValueObjects;
-using FinanceManager.Domain.AccountAggregate.ValueObjects;
 
 namespace FinanceManager.Domain.TagAggregate
 {
     public class Tag : AggregateRoot<TagId>
     {
-        public AccountId AccountId { get;}
+        public AccountId AccountId { get; }
         public string Name { get; }
         public string Color { get; }
 

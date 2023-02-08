@@ -2,7 +2,6 @@ using FinanceManager.Application;
 using FinanceManager.Infrastructure;
 using FinanceManager.UI;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);

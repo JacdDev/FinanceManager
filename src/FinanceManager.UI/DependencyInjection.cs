@@ -1,6 +1,4 @@
-﻿using FinanceManager.UI.Common.Interfaces;
-using FinanceManager.UI.Common.Services;
-using Mapster;
+﻿using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc.Razor;
 using System.Reflection;

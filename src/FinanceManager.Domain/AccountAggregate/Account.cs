@@ -1,9 +1,7 @@
-﻿using FinanceManager.Domain.Models;
-using FinanceManager.Domain.AccountAggregate.ValueObjects;
-using FinanceManager.Domain.UserAggregate.ValueObjects;
+﻿using FinanceManager.Domain.AccountAggregate.ValueObjects;
+using FinanceManager.Domain.Models;
 using FinanceManager.Domain.MovementAggregate.ValueObjects;
-using FinanceManager.Domain.UserAggregate;
-using FinanceManager.Domain.MovementAggregate;
+using FinanceManager.Domain.UserAggregate.ValueObjects;
 
 namespace FinanceManager.Domain.AccountAggregate
 {

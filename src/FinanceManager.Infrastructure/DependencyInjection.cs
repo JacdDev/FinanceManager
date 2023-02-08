@@ -4,16 +4,10 @@ using FinanceManager.Infrastructure.Authentication;
 using FinanceManager.Infrastructure.Persistence;
 using FinanceManager.Infrastructure.Persistence.Repositories;
 using FinanceManager.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace FinanceManager.Infrastructure
 {
@@ -56,7 +50,7 @@ namespace FinanceManager.Infrastructure
                 options.UseMySql(configuration["ConnectionStrings:Database"], ServerVersion.AutoDetect(configuration["ConnectionStrings:Database"]));
             });
             services.AddScoped<IAccountRepository, AccountRepository>();
-            
+
             return services;
         }
     }

@@ -1,8 +1,7 @@
-﻿using FinanceManager.Domain.Models;
+﻿using FinanceManager.Domain.AccountAggregate.ValueObjects;
+using FinanceManager.Domain.Models;
 using FinanceManager.Domain.MovementAggregate.ValueObjects;
-using FinanceManager.Domain.AccountAggregate.ValueObjects;
 using FinanceManager.Domain.TagAggregate.ValueObjects;
-using FinanceManager.Domain.TagAggregate;
 
 namespace FinanceManager.Domain.MovementAggregate
 {
@@ -17,11 +16,11 @@ namespace FinanceManager.Domain.MovementAggregate
         public IReadOnlyList<TagId> Tags => _tags.AsReadOnly();
 
         private Movement(
-            MovementId id, 
-            AccountId accountId, 
-            string concept, 
-            double amount, 
-            bool isIncoming, 
+            MovementId id,
+            AccountId accountId,
+            string concept,
+            double amount,
+            bool isIncoming,
             DateTime executionDate) : base(id)
         {
             AccountId = accountId;
@@ -39,7 +38,7 @@ namespace FinanceManager.Domain.MovementAggregate
             DateTime executionDate)
         {
             return new Movement(
-                MovementId.CreateUnique(), 
+                MovementId.CreateUnique(),
                 accountId,
                 concept,
                 amount,

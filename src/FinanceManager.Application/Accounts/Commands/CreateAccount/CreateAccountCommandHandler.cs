@@ -4,11 +4,6 @@ using FinanceManager.Application.Persistence;
 using FinanceManager.Domain.AccountAggregate;
 using FinanceManager.Domain.UserAggregate.ValueObjects;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.Application.Accounts.Commands.CreateAccount
 {

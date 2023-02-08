@@ -2,13 +2,7 @@
 using FinanceManager.Application.Authentication.Common;
 using FinanceManager.Application.Common.Interfaces;
 using FinanceManager.Domain.Errors;
-using FinanceManager.Domain.UserAggregate;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.Infrastructure.Authentication
 {
@@ -44,7 +38,7 @@ namespace FinanceManager.Infrastructure.Authentication
 
         public async Task<ErrorOr<AuthenticationResult>> Register(string email, string password, bool persistent)
         {
-            if(await _signInManager.UserManager.FindByEmailAsync(email) != null)
+            if (await _signInManager.UserManager.FindByEmailAsync(email) != null)
             {
                 return UserErrors.DuplicateEmail;
             }

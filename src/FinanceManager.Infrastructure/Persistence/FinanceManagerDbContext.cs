@@ -1,12 +1,6 @@
 ﻿using FinanceManager.Domain.AccountAggregate;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.Infrastructure.Persistence
 {
@@ -26,6 +20,6 @@ namespace FinanceManager.Infrastructure.Persistence
                 .ApplyConfigurationsFromAssembly(typeof(FinanceManagerDbContext).Assembly);
 
             base.OnModelCreating(builder);
-        }  
+        }
     }
 }

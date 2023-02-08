@@ -1,11 +1,5 @@
 ﻿using FinanceManager.Application.Persistence;
 using FinanceManager.Domain.AccountAggregate;
-using FinanceManager.Domain.UserAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.Infrastructure.Persistence.Repositories
 {

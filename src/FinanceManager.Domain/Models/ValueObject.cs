@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FinanceManager.Domain.Models
+﻿namespace FinanceManager.Domain.Models
 {
     public abstract class ValueObject : IEquatable<ValueObject>
     {
@@ -18,7 +11,7 @@ namespace FinanceManager.Domain.Models
 
         public override bool Equals(object? obj)
         {
-            if(obj is null || obj.GetType() != GetType())
+            if (obj is null || obj.GetType() != GetType())
             {
                 return false;
             }
@@ -42,7 +35,7 @@ namespace FinanceManager.Domain.Models
         public override int GetHashCode()
         {
             return GetEquialityComponents()
-                .Select(x=>x?.GetHashCode() ?? 0)
+                .Select(x => x?.GetHashCode() ?? 0)
                 .Aggregate((x, y) => x ^ y);
         }
     }
