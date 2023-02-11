@@ -31,11 +31,9 @@ namespace FinanceManager.Infrastructure
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.Events.OnRedirectToLogin = context =>
-                {
-                    context.Response.StatusCode = 401;
-                    return Task.CompletedTask;
-                };
+                options.LoginPath = "/authentication/login";
+                options.LogoutPath = "/authentication/logout";
+                options.AccessDeniedPath = "/";
             });
 
             services.AddScoped<IAuth, IdentityAuth>();

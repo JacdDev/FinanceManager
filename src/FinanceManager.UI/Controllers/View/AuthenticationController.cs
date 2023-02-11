@@ -1,5 +1,6 @@
 ﻿using FinanceManager.UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FinanceManager.UI.Controllers.View
 {
@@ -35,6 +36,14 @@ namespace FinanceManager.UI.Controllers.View
         }
         public IActionResult Login()
         {
+            var returnUrl = HttpContext.Request.Query["ReturnUrl"].ToString();
+            if (returnUrl.IsNullOrEmpty())
+            {
+                returnUrl = "/";
+            }
+
+            ViewData.Add("ReturnUrl",returnUrl);
+
             return View();
         }
 
@@ -45,7 +54,7 @@ namespace FinanceManager.UI.Controllers.View
 
             if (response is OkObjectResult)
             {
-                return Redirect("/");
+                return Redirect(request.returnUrl);
             }
 
             var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;

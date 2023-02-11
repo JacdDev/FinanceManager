@@ -3,5 +3,6 @@
     public record LoginRequest(
     string Email,
     string Password,
-    bool RememberMe);
+    bool RememberMe,
+    string returnUrl);
 }

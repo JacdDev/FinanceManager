@@ -1,0 +1,164 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["Title"];
+    Layout = "_Layout";
+}
+
+<h1>@Localizer["Title"]</h1>
+
+<h2 class="mt-4">@Localizer["ChangeEmail"]</h2>
+<form id="changeemail-form" class="needs-validation" action="/settings/changeemail" method="post" novalidate>
+    <div class="form-group">
+        <label for="email">@Localizer["EmailLabel"]</label>
+        <input type="email" class="form-control" id="Email-changeemail" name="Email" value="@ViewData["Email"]">
+        <div id="Email-changeemail-invalid-feedback" class="invalid-feedback"></div>
+    </div>
+    <div class="form-group">
+        <label for="password">@Localizer["PasswordLabel"]</label>
+        <input type="password" class="form-control" id="Password-changeemail" name="Password">
+    </div>
+    <button type="submit" class="btn btn-primary mt-1">@Localizer["Apply"]</button>
+</form>
+
+@if (ViewData.ContainsKey("ErrorChangeEmail"))
+{
+    <div class="alert alert-danger" role="alert">
+        @Localizer[ViewData["ErrorChangeEmail"]?.ToString()??""]
+    </div>
+}
+
+<h2 class="mt-4">@Localizer["ChangePassword"]</h2>
+<form id="changepassword-form" class="needs-validation" action="/settings/changepassword" method="post" novalidate>
+    <div class="form-group">
+        <label for="Oldpassword">@Localizer["OldPasswordLabel"]</label>
+        <input type="password" class="form-control" id="Oldpassword-changepassword" name="Oldpassword">
+    </div>
+    <div class="form-group">
+        <label for="Password">@Localizer["NewPasswordLabel"]</label>
+        <input type="password" class="form-control" id="Password-changepassword" name="Password">
+        <div id="Password-changepassword-invalid-feedback" class="invalid-feedback"></div>
+    </div>
+    <div class="form-group">
+        <label for="ConfirmPassword">@Localizer["ConfirmPasswordLabel"]</label>
+        <input type="password" class="form-control" id="ConfirmPassword-changepassword" name="ConfirmPassword">
+        <div id="ConfirmPassword-changepassword-invalid-feedback" class="invalid-feedback"></div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-1">@Localizer["Apply"]</button>
+</form>
+
+@if (ViewData.ContainsKey("ErrorChangePassword"))
+{
+    <div class="alert alert-danger" role="alert">
+        @Localizer[ViewData["ErrorChangePassword"]?.ToString()??""]
+    </div>
+}
+
+<h2 class="mt-4">@Localizer["DeleteAccount"]</h2>
+<button class="btn btn-danger">@Localizer["DeleteAccount"]</button>
+
+@section scripts{
+    <script>
+
+        //form change email
+        var form_changeemail = document.getElementById("changeemail-form");
+        //form change password
+        var form_changepassword = document.getElementById("changepassword-form");
+
+        //inputs for change email
+        var email_changeemail = document.getElementById("Email-changeemail");
+        var password_changeemail = document.getElementById("Password-changeemail");
+        //inputs for change password
+        var oldpassword_changepassword = document.getElementById("Oldpassword-changepassword");
+        var password_changepassword = document.getElementById("Password-changepassword");
+        var confirm_password_changepassword = document.getElementById("ConfirmPassword-changepassword");
+
+        //messages for change email
+        var email_changeemail_invalid_feedback = document.getElementById("Email-changeemail-invalid-feedback");
+        //messages for change passwod
+        var email_invalid_feedback = document.getElementById("Email-invalid-feedback");
+        var password_changepassword_invalid_feedback = document.getElementById("Password-changepassword-invalid-feedback");
+        var confirmpassword_changepassword_invalid_feedback = document.getElementById("ConfirmPassword-changepassword-invalid-feedback");
+
+        //validation function for change email
+        function validateForm_changeemail() {
+            var valid = true;
+
+            email_changeemail.setCustomValidity("");
+            if (email_changeemail.value == "") {
+                email_changeemail.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+            else if (!(/^[a-z0-9!'#$%&*+\/=?^_`{|}~-]+(?:\.[a-z0-9!'#$%&*+\/=?^_`{|}~-]+)*@@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-zA-Z]{2,}$/.test(email_changeemail.value))) {
+                email_changeemail.setCustomValidity("@Localizer["InvalidFormat"]");
+                valid = false;
+            }
+
+            email_changeemail.parentNode.classList.add('was-validated');
+            email_changeemail_invalid_feedback.innerText = email_changeemail.validationMessage;
+
+            return valid;
+        }
+
+        //validation function for change password
+        function validateForm_changepassword() {
+            var valid = true;
+
+            password_changepassword.setCustomValidity("");
+            if (password_changepassword.value == "") {
+                password_changepassword.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+            else if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/.test(password_changepassword.value))) {
+                password_changepassword.setCustomValidity("@Localizer["PasswordRestriction"]");
+                valid = false;
+            }
+
+            confirm_password_changepassword.setCustomValidity("");
+            if (confirm_password_changepassword.value == "") {
+                confirm_password_changepassword.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+            else if (password_changepassword.value != confirm_password_changepassword.value) {
+                confirm_password_changepassword.setCustomValidity("@Localizer["PasswordMustMatch"]");
+                valid = false;
+            }
+
+            password_changepassword.parentNode.classList.add('was-validated');
+            confirm_password_changepassword.parentNode.classList.add('was-validated');
+            password_changepassword_invalid_feedback.innerText = password_changepassword.validationMessage;
+            confirmpassword_changepassword_invalid_feedback.innerText = confirm_password_changepassword.validationMessage;
+
+            return valid;
+        }
+
+        //eventos
+        form_changeemail.addEventListener('submit', event => {
+            if (!validateForm_changeemail()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+        }, false);
+        form_changepassword.addEventListener('submit', event => {
+            if (!validateForm_changepassword()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+        }, false);
+
+        email_changeemail.addEventListener('keyup', event => {
+            validateForm_changeemail();
+        }, false);
+
+        password_changepassword.addEventListener('keyup', event => {
+            validateForm_changepassword();
+        }, false);
+
+        confirm_password_changepassword.addEventListener('keyup', event => {
+            validateForm_changepassword();
+        }, false);
+
+    </script>
+}

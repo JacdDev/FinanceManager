@@ -23,6 +23,7 @@
         <input type="checkbox" class="form-check-input no-validate" id="RememberMe" name="RememberMe" value="true">
         <label class="form-check-label no-validate" for="RememberMe">@Localizer["RememberMe"]</label>
     </div>
+    <input type="hidden" id="ReturnUrl" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
     <button type="submit" class="btn btn-primary">@Localizer["LoginButton"]</button>
 </form>
 

@@ -52,7 +52,7 @@
         var password_invalid_feedback = document.getElementById("Password-invalid-feedback");
         var confirmpassword_invalid_feedback = document.getElementById("ConfirmPassword-invalid-feedback");
 
-        function validateForm(form){
+        function validateForm(){
             var valid = true;
             
             email.setCustomValidity("");
@@ -97,22 +97,22 @@
 
         
         form.addEventListener('submit', event => {
-            if (!validateForm(form)) {
+            if (!validateForm()) {
                 event.preventDefault()
                 event.stopPropagation()
             }
         }, false);
 
         email.addEventListener('keyup', event => {
-            validateForm(form);
+            validateForm();
         }, false);
 
         password.addEventListener('keyup', event => {
-            validateForm(form);
+            validateForm();
         }, false);
 
         confirm_password.addEventListener('keyup', event => {
-            validateForm(form);
+            validateForm();
         }, false);
 
     </script>
