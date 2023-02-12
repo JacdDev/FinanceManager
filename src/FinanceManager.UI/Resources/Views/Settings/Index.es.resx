@@ -126,6 +126,9 @@
   <data name="ChangePassword" xml:space="preserve">
     <value>Cambiar contraseña</value>
   </data>
+  <data name="ChangesApplied" xml:space="preserve">
+    <value>Cambios aplicados</value>
+  </data>
   <data name="ConfirmPasswordLabel" xml:space="preserve">
     <value>Confirmar contraseña</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="EmailLabel" xml:space="preserve">
     <value>Correo electrónico</value>
+  </data>
+  <data name="IncorrectPassword" xml:space="preserve">
+    <value>Contraseña incorrecta</value>
   </data>
   <data name="InvalidFormat" xml:space="preserve">
     <value>Formato no válido</value>

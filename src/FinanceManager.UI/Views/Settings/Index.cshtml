@@ -13,12 +13,13 @@
 <form id="changeemail-form" class="needs-validation" action="/settings/changeemail" method="post" novalidate>
     <div class="form-group">
         <label for="email">@Localizer["EmailLabel"]</label>
-        <input type="email" class="form-control" id="Email-changeemail" name="Email" value="@ViewData["Email"]">
+        <input type="email" class="form-control" id="Email-changeemail" name="NewEmail" value="@ViewData["Email"]">
         <div id="Email-changeemail-invalid-feedback" class="invalid-feedback"></div>
     </div>
     <div class="form-group">
         <label for="password">@Localizer["PasswordLabel"]</label>
         <input type="password" class="form-control" id="Password-changeemail" name="Password">
+        <div id="Password-changeemail-invalid-feedback" class="invalid-feedback"></div>
     </div>
     <button type="submit" class="btn btn-primary mt-1">@Localizer["Apply"]</button>
 </form>
@@ -29,17 +30,24 @@
         @Localizer[ViewData["ErrorChangeEmail"]?.ToString()??""]
     </div>
 }
+@if (ViewData.ContainsKey("SuccessChangeEmail"))
+{
+    <div class="alert alert-success" role="alert">
+        @Localizer[ViewData["SuccessChangeEmail"]?.ToString()??""]
+    </div>
+}
 
 <h2 class="mt-4">@Localizer["ChangePassword"]</h2>
 <form id="changepassword-form" class="needs-validation" action="/settings/changepassword" method="post" novalidate>
     <div class="form-group">
         <label for="Oldpassword">@Localizer["OldPasswordLabel"]</label>
         <input type="password" class="form-control" id="Oldpassword-changepassword" name="Oldpassword">
+        <div id="Oldpassword-changepassword-invalid-feedback" class="invalid-feedback"></div>
     </div>
     <div class="form-group">
         <label for="Password">@Localizer["NewPasswordLabel"]</label>
-        <input type="password" class="form-control" id="Password-changepassword" name="Password">
-        <div id="Password-changepassword-invalid-feedback" class="invalid-feedback"></div>
+        <input type="password" class="form-control" id="Newpassword-changepassword" name="NewPassword">
+        <div id="Newpassword-changepassword-invalid-feedback" class="invalid-feedback"></div>
     </div>
     <div class="form-group">
         <label for="ConfirmPassword">@Localizer["ConfirmPasswordLabel"]</label>
@@ -53,6 +61,12 @@
 {
     <div class="alert alert-danger" role="alert">
         @Localizer[ViewData["ErrorChangePassword"]?.ToString()??""]
+    </div>
+}
+@if (ViewData.ContainsKey("SuccessChangePassword"))
+{
+    <div class="alert alert-success" role="alert">
+        @Localizer[ViewData["SuccessChangePassword"]?.ToString()??""]
     </div>
 }
 
@@ -72,14 +86,15 @@
         var password_changeemail = document.getElementById("Password-changeemail");
         //inputs for change password
         var oldpassword_changepassword = document.getElementById("Oldpassword-changepassword");
-        var password_changepassword = document.getElementById("Password-changepassword");
+        var newpassword_changepassword = document.getElementById("Newpassword-changepassword");
         var confirm_password_changepassword = document.getElementById("ConfirmPassword-changepassword");
 
         //messages for change email
         var email_changeemail_invalid_feedback = document.getElementById("Email-changeemail-invalid-feedback");
+        var password_changeemail_invalid_feedback = document.getElementById("Password-changeemail-invalid-feedback");
         //messages for change passwod
-        var email_invalid_feedback = document.getElementById("Email-invalid-feedback");
-        var password_changepassword_invalid_feedback = document.getElementById("Password-changepassword-invalid-feedback");
+        var oldpassword_changepassword_invalid_feedback = document.getElementById("Oldpassword-changepassword-invalid-feedback");
+        var newpassword_changepassword_invalid_feedback = document.getElementById("Newpassword-changepassword-invalid-feedback");
         var confirmpassword_changepassword_invalid_feedback = document.getElementById("ConfirmPassword-changepassword-invalid-feedback");
 
         //validation function for change email
@@ -96,8 +111,16 @@
                 valid = false;
             }
 
+            password_changeemail.setCustomValidity("");
+            if (password_changeemail.value == "") {
+                password_changeemail.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
             email_changeemail.parentNode.classList.add('was-validated');
+            password_changeemail.parentNode.classList.add('was-validated');
             email_changeemail_invalid_feedback.innerText = email_changeemail.validationMessage;
+            password_changeemail_invalid_feedback.innerText = password_changeemail.validationMessage;
 
             return valid;
         }
@@ -106,13 +129,19 @@
         function validateForm_changepassword() {
             var valid = true;
 
-            password_changepassword.setCustomValidity("");
-            if (password_changepassword.value == "") {
-                password_changepassword.setCustomValidity("@Localizer["RequiredField"]");
+            oldpassword_changepassword.setCustomValidity("");
+            if (oldpassword_changepassword.value == "") {
+                oldpassword_changepassword.setCustomValidity("@Localizer["RequiredField"]");
                 valid = false;
             }
-            else if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/.test(password_changepassword.value))) {
-                password_changepassword.setCustomValidity("@Localizer["PasswordRestriction"]");
+
+            newpassword_changepassword.setCustomValidity("");
+            if (newpassword_changepassword.value == "") {
+                newpassword_changepassword.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+            else if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/.test(newpassword_changepassword.value))) {
+                newpassword_changepassword.setCustomValidity("@Localizer["PasswordRestriction"]");
                 valid = false;
             }
 
@@ -121,14 +150,16 @@
                 confirm_password_changepassword.setCustomValidity("@Localizer["RequiredField"]");
                 valid = false;
             }
-            else if (password_changepassword.value != confirm_password_changepassword.value) {
+            else if (newpassword_changepassword.value != confirm_password_changepassword.value) {
                 confirm_password_changepassword.setCustomValidity("@Localizer["PasswordMustMatch"]");
                 valid = false;
             }
 
-            password_changepassword.parentNode.classList.add('was-validated');
+            oldpassword_changepassword.parentNode.classList.add('was-validated');
+            newpassword_changepassword.parentNode.classList.add('was-validated');
             confirm_password_changepassword.parentNode.classList.add('was-validated');
-            password_changepassword_invalid_feedback.innerText = password_changepassword.validationMessage;
+            oldpassword_changepassword_invalid_feedback.innerText = oldpassword_changepassword.validationMessage;
+            newpassword_changepassword_invalid_feedback.innerText = newpassword_changepassword.validationMessage;
             confirmpassword_changepassword_invalid_feedback.innerText = confirm_password_changepassword.validationMessage;
 
             return valid;
@@ -152,7 +183,15 @@
             validateForm_changeemail();
         }, false);
 
-        password_changepassword.addEventListener('keyup', event => {
+        password_changeemail.addEventListener('keyup', event => {
+            validateForm_changeemail();
+        }, false);
+
+        oldpassword_changepassword.addEventListener('keyup', event => {
+            validateForm_changepassword();
+        }, false);
+
+        newpassword_changepassword.addEventListener('keyup', event => {
             validateForm_changepassword();
         }, false);
 

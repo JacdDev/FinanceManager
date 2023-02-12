@@ -42,7 +42,7 @@ namespace FinanceManager.UI.Controllers.View
                 returnUrl = "/";
             }
 
-            ViewData.Add("ReturnUrl",returnUrl);
+            ViewData.Add("ReturnUrl", returnUrl);
 
             return View();
         }
@@ -54,7 +54,7 @@ namespace FinanceManager.UI.Controllers.View
 
             if (response is OkObjectResult)
             {
-                return Redirect(request.returnUrl);
+                return Redirect("/");
             }
 
             var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;

@@ -15,11 +15,76 @@ namespace FinanceManager.Infrastructure.Authentication
             _signInManager = signInManager;
         }
 
-        public async Task<ErrorOr<AuthenticationResult>> Login(string email, string password, bool persistent)
+        public async Task<ErrorOr<AuthenticationResult>> ChangeEmail(string oldEmail, string newEmail, string password)
         {
-            if (await _signInManager.UserManager.FindByEmailAsync(email) == null)
+            var identityUser = await _signInManager.UserManager.FindByEmailAsync(oldEmail);
+            if (identityUser == null)
             {
                 return UserErrors.UserNotFound;
+            }
+
+            if (!await _signInManager.UserManager.CheckPasswordAsync(identityUser, password))
+            {
+                return UserErrors.IncorrectPassword;
+            }
+
+            if (await _signInManager.UserManager.FindByEmailAsync(newEmail) != null)
+            {
+                return UserErrors.DuplicateEmail;
+            }
+
+            var resultName = await _signInManager.UserManager.SetUserNameAsync(identityUser, newEmail);
+            if (resultName.Succeeded)
+            {
+                var resultEmail = await _signInManager.UserManager.SetEmailAsync(identityUser, newEmail);
+                if (resultEmail.Succeeded)
+                {
+                    await _signInManager.RefreshSignInAsync(identityUser);
+                    return new AuthenticationResult(newEmail);
+                }
+                else
+                {
+                    //rollback
+                    await _signInManager.UserManager.SetUserNameAsync(identityUser, oldEmail);
+                }
+            }
+
+            return Error.Failure();
+        }
+
+        public async Task<ErrorOr<AuthenticationResult>> ChangePassword(string email, string oldPassword, string newPassword)
+        {
+            var identityUser = await _signInManager.UserManager.FindByEmailAsync(email);
+            if (identityUser == null)
+            {
+                return UserErrors.UserNotFound;
+            }
+
+            if (!await _signInManager.UserManager.CheckPasswordAsync(identityUser, oldPassword))
+            {
+                return UserErrors.IncorrectPassword;
+            }
+
+            var result = await _signInManager.UserManager.ChangePasswordAsync(identityUser, oldPassword, newPassword);
+            if (result.Succeeded)
+            {
+                return new AuthenticationResult(email);
+            }
+
+            return Error.Failure();
+        }
+
+        public async Task<ErrorOr<AuthenticationResult>> Login(string email, string password, bool persistent)
+        {
+            var identityUser = await _signInManager.UserManager.FindByEmailAsync(email);
+            if (identityUser == null)
+            {
+                return UserErrors.UserNotFound;
+            }
+
+            if (!await _signInManager.UserManager.CheckPasswordAsync(identityUser, password))
+            {
+                return UserErrors.IncorrectPassword;
             }
 
             var result = await _signInManager.PasswordSignInAsync(email, password, persistent, false);
@@ -28,7 +93,7 @@ namespace FinanceManager.Infrastructure.Authentication
                 return new AuthenticationResult(email);
             }
 
-            return UserErrors.IncorrectPassword;
+            return Error.Failure();
         }
 
         public async Task Logout()
