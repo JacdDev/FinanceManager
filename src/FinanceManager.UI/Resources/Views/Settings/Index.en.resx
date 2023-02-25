@@ -135,6 +135,18 @@
   <data name="DeleteAccount" xml:space="preserve">
     <value>Delete account</value>
   </data>
+  <data name="DeleteAccountConfirmationAffirmative" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="DeleteAccountConfirmationMessage" xml:space="preserve">
+    <value>This action can't be undone and will delete your account permanently</value>
+  </data>
+  <data name="DeleteAccountConfirmationNegative" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="DeleteAccountConfirmationTitle" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
   <data name="DuplicateEmail" xml:space="preserve">
     <value>User email already exists</value>
   </data>

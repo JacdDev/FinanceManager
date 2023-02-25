@@ -1,11 +1,14 @@
 ﻿using FinanceManager.Application.Authentication.Commands.Register;
 using FinanceManager.Application.Authentication.Queries.Login;
 using FinanceManager.Application.Authentication.Queries.Logout;
+using FinanceManager.Application.Authentication.Commands.ChangeEmail;
+using FinanceManager.Application.Authentication.Commands.ChangePassword;
 using FinanceManager.UI.Models;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using FinanceManager.Application.Authentication.Commands.DeleteAccount;
 
 namespace FinanceManager.UI.Controllers.Api
 {
@@ -54,6 +57,45 @@ namespace FinanceManager.UI.Controllers.Api
 
             return commandResult.Match(
                 authResult => Ok(),
+                errors => Problem(errors)
+            );
+        }
+
+        [HttpPatch("changeemail")]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailRequest request)
+        {
+            var command = _mapper.Map<ChangeEmailCommand>(request);
+
+            var commandResult = await _mediator.Send(command);
+
+            return commandResult.Match(
+                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
+                errors => Problem(errors)
+            );
+        }
+
+        [HttpPatch("changepassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
+        {
+            var command = _mapper.Map<ChangePasswordCommand>(request);
+
+            var commandResult = await _mediator.Send(command);
+
+            return commandResult.Match(
+                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
+                errors => Problem(errors)
+            );
+        }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteAccount(DeleteAccountRequest request)
+        {
+            var command = _mapper.Map<DeleteAccountCommand>(request);
+
+            var commandResult = await _mediator.Send(command);
+
+            return commandResult.Match(
+                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
                 errors => Problem(errors)
             );
         }

@@ -8,10 +8,10 @@ namespace FinanceManager.UI.Controllers.View
     [Route("[controller]/[action]")]
     public class SettingsController : Controller
     {
-        private readonly Api.SettingsController _settingsService;
-        public SettingsController(Api.SettingsController settingsService)
+        private readonly Api.AuthenticationController _accountsService;
+        public SettingsController(Api.AuthenticationController accountsService)
         {
-            _settingsService = settingsService;
+            _accountsService = accountsService;
         }
 
         // GET: SettingsController
@@ -28,7 +28,7 @@ namespace FinanceManager.UI.Controllers.View
                 newEmail,
                 password);
 
-            var response = await _settingsService.ChangeEmail(request);
+            var response = await _accountsService.ChangeEmail(request);
 
             if (response is OkObjectResult)
             {
@@ -51,7 +51,7 @@ namespace FinanceManager.UI.Controllers.View
                 oldPassword,
                 newPassword);
 
-            var response = await _settingsService.ChangePassword(request);
+            var response = await _accountsService.ChangePassword(request);
 
             if (response is OkObjectResult)
             {
@@ -61,6 +61,22 @@ namespace FinanceManager.UI.Controllers.View
 
             var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
             ViewData.Add("ErrorChangePassword", errorType);
+
+            return View("index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            var request = new DeleteAccountRequest(
+                User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value ?? "");
+
+            var response = await _accountsService.DeleteAccount(request);
+
+            if (response is OkObjectResult)
+            {
+                return Redirect("/");
+            }
 
             return View("index");
         }

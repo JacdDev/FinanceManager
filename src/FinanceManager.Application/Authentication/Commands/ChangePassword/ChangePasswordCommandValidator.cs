@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace FinanceManager.Application.Settings.Commands.ChangePassword
+namespace FinanceManager.Application.Authentication.Commands.ChangePassword
 {
     public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommand>
     {

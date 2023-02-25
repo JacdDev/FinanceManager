@@ -118,5 +118,23 @@ namespace FinanceManager.Infrastructure.Authentication
 
             return Error.Failure();
         }
+
+        public async Task<ErrorOr<AuthenticationResult>> DeleteAccount(string email)
+        {
+            var identityUser = await _signInManager.UserManager.FindByEmailAsync(email);
+            if (identityUser == null)
+            {
+                return UserErrors.UserNotFound;
+            }
+
+            var result = await _signInManager.UserManager.DeleteAsync(identityUser);
+            if (result.Succeeded)
+            {
+                await _signInManager.SignOutAsync();
+                return new AuthenticationResult(email);
+            }
+
+            return Error.Failure();
+        }
     }
 }

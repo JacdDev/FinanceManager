@@ -135,6 +135,18 @@
   <data name="DeleteAccount" xml:space="preserve">
     <value>Eliminar cuenta</value>
   </data>
+  <data name="DeleteAccountConfirmationAffirmative" xml:space="preserve">
+    <value>Si</value>
+  </data>
+  <data name="DeleteAccountConfirmationMessage" xml:space="preserve">
+    <value>Esta acción no se puede deshacer y borrará tu cuenta permanentemente</value>
+  </data>
+  <data name="DeleteAccountConfirmationNegative" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="DeleteAccountConfirmationTitle" xml:space="preserve">
+    <value>¿Estás seguro?</value>
+  </data>
   <data name="DuplicateEmail" xml:space="preserve">
     <value>El correo electrónico ya existe</value>
   </data>

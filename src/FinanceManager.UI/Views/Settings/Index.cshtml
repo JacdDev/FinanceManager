@@ -71,7 +71,29 @@
 }
 
 <h2 class="mt-4">@Localizer["DeleteAccount"]</h2>
-<button class="btn btn-danger">@Localizer["DeleteAccount"]</button>
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+    @Localizer["DeleteAccount"]
+</button>
+
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteConfirmationModalLabel">@Localizer["DeleteAccountConfirmationTitle"]</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @Localizer["DeleteAccountConfirmationMessage"]
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["DeleteAccountConfirmationNegative"]</button>
+                    <a type="button" class="btn btn-danger" href="/settings/deleteaccount">
+                        @Localizer["DeleteAccountConfirmationAffirmative"]
+                    </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section scripts{
     <script>

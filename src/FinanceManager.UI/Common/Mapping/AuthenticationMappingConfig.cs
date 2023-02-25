@@ -1,4 +1,7 @@
-﻿using FinanceManager.Application.Authentication.Commands.Register;
+﻿using FinanceManager.Application.Authentication.Commands.ChangeEmail;
+using FinanceManager.Application.Authentication.Commands.ChangePassword;
+using FinanceManager.Application.Authentication.Commands.DeleteAccount;
+using FinanceManager.Application.Authentication.Commands.Register;
 using FinanceManager.Application.Authentication.Common;
 using FinanceManager.Application.Authentication.Queries.Login;
 using FinanceManager.UI.Models;
@@ -15,6 +18,12 @@ namespace FinanceManager.UI.Common.Mapping
             config.NewConfig<LoginRequest, LoginQuery>();
 
             config.NewConfig<AuthenticationResult, AuthenticationResponse>();
+
+            config.NewConfig<ChangeEmailRequest, ChangeEmailCommand>();
+
+            config.NewConfig<ChangePasswordRequest, ChangePasswordCommand>();
+
+            config.NewConfig<DeleteAccountRequest, DeleteAccountCommand>();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace FinanceManager.Application.Settings.Commands.ChangeEmail
+namespace FinanceManager.Application.Authentication.Commands.ChangeEmail
 {
     public class ChangeEmailCommandValidator : AbstractValidator<ChangeEmailCommand>
     {
