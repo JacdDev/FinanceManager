@@ -1,9 +1,23 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["Title"];
+    Layout = "_Layout";
 }
 
-<img src="~/images/logo.png" alt="Finance Manager" />
+<div>
+    <img src="~/images/logo.png" alt="Finance Manager" />
 
-<p>Hello from our View Template!</p>
-<a href="/authentication/login">Login</a>
-<a href="/authentication/register">Register</a>
+    <p>@Localizer["MainMessage"]</p>
+    <div>
+        <a type="button" class="btn btn-primary" href="/authentication/register">
+            @Localizer["Register"]
+        </a>
+        <a type="button" class="btn btn-primary" href="/authentication/login">
+            @Localizer["Login"]
+        </a>
+    
+    </div>
+</div>

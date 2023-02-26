@@ -129,6 +129,12 @@
   <data name="InvalidFormat" xml:space="preserve">
     <value>Invalid format</value>
   </data>
+  <data name="LoginButton" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="MessageSignIn" xml:space="preserve">
+    <value>Already have an account?</value>
+  </data>
   <data name="PasswordLabel" xml:space="preserve">
     <value>Password</value>
   </data>
@@ -139,7 +145,7 @@
     <value>Must contains at least 8 characters, including 1 uppercase, 1 lowercase, 1 digit and 1 special character</value>
   </data>
   <data name="RegisterButton" xml:space="preserve">
-    <value>Register</value>
+    <value>Sign up</value>
   </data>
   <data name="RememberMe" xml:space="preserve">
     <value>Remember Me</value>
@@ -148,6 +154,6 @@
     <value>Required Field</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Register</value>
+    <value>Sign up</value>
   </data>
 </root>

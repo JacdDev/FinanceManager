@@ -29,8 +29,10 @@ app.Use(async (context, next) =>
     var cultureQuery = context.Request.Query["culture"];
     if (!string.IsNullOrWhiteSpace(cultureQuery))
     {
-        string cultureCookie = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureQuery));
-        context.Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, cultureCookie);
+        context.Response.Cookies.Append(
+            CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureQuery)), 
+            new CookieOptions() { Expires = DateTimeOffset.UtcNow.AddYears(1) });
     }
 
     // Call the next delegate/middleware in the pipeline.

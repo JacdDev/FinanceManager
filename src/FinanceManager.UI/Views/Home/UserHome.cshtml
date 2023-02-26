@@ -3,10 +3,19 @@
 @inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = Localizer["Title"];
     Layout = "_Layout";
 }
 
-<img src="~/images/logo.png" alt="Finance Manager" />
+<h1>@Localizer["Welcome"]</h1>
 
-<p>Hello from your home</p>
+<div class="d-flex justify-content-between">
+    <p>@Localizer["MainMessage"]</p>
+    <button type="button" class="btn btn-primary">@Localizer["AddAccount"]</button>
+</div>
+
+<ul>
+    <li>Account 1</li>
+    <li>Account 2</li>
+    <li>Account 3</li>
+</ul>

@@ -129,6 +129,12 @@
   <data name="InvalidFormat" xml:space="preserve">
     <value>Formato no válido</value>
   </data>
+  <data name="LoginButton" xml:space="preserve">
+    <value>Iniciar sesión</value>
+  </data>
+  <data name="MessageSignIn" xml:space="preserve">
+    <value>¿Ya tienes una cuenta?</value>
+  </data>
   <data name="PasswordLabel" xml:space="preserve">
     <value>Contraseña</value>
   </data>
