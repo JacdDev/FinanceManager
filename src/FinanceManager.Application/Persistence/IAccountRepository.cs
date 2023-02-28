@@ -5,5 +5,6 @@ namespace FinanceManager.Application.Persistence
     public interface IAccountRepository
     {
         void Add(Account account);
+        void DeleteFromUser(string userId);
     }
 }

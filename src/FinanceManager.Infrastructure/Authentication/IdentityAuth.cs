@@ -40,7 +40,7 @@ namespace FinanceManager.Infrastructure.Authentication
                 if (resultEmail.Succeeded)
                 {
                     await _signInManager.RefreshSignInAsync(identityUser);
-                    return new AuthenticationResult(newEmail);
+                    return new AuthenticationResult();
                 }
                 else
                 {
@@ -68,7 +68,7 @@ namespace FinanceManager.Infrastructure.Authentication
             var result = await _signInManager.UserManager.ChangePasswordAsync(identityUser, oldPassword, newPassword);
             if (result.Succeeded)
             {
-                return new AuthenticationResult(email);
+                return new AuthenticationResult();
             }
 
             return Error.Failure();
@@ -90,7 +90,7 @@ namespace FinanceManager.Infrastructure.Authentication
             var result = await _signInManager.PasswordSignInAsync(email, password, persistent, false);
             if (result.Succeeded)
             {
-                return new AuthenticationResult(email);
+                return new AuthenticationResult();
             }
 
             return Error.Failure();
@@ -113,15 +113,15 @@ namespace FinanceManager.Infrastructure.Authentication
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(identityUser, persistent);
-                return new AuthenticationResult(email);
+                return new AuthenticationResult();
             }
 
             return Error.Failure();
         }
 
-        public async Task<ErrorOr<AuthenticationResult>> DeleteAccount(string email)
+        public async Task<ErrorOr<AuthenticationResult>> DeleteAccount(string userId)
         {
-            var identityUser = await _signInManager.UserManager.FindByEmailAsync(email);
+            var identityUser = await _signInManager.UserManager.FindByIdAsync(userId);
             if (identityUser == null)
             {
                 return UserErrors.UserNotFound;
@@ -131,7 +131,7 @@ namespace FinanceManager.Infrastructure.Authentication
             if (result.Succeeded)
             {
                 await _signInManager.SignOutAsync();
-                return new AuthenticationResult(email);
+                return new AuthenticationResult();
             }
 
             return Error.Failure();
@@ -146,7 +146,7 @@ namespace FinanceManager.Infrastructure.Authentication
                 return UserErrors.UserNotFound;
             }
 
-            return new AuthenticationResult(identityUser.Email);
+            return new AuthenticationResult();
         }
     }
 }

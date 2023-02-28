@@ -10,5 +10,5 @@ using System.Threading.Tasks;
 namespace FinanceManager.Application.Authentication.Commands.DeleteAccount
 {
     public record DeleteAccountCommand(
-        string Email) : IRequest<ErrorOr<AuthenticationResult>>;
+        string UserId) : IRequest<ErrorOr<AuthenticationResult>>;
 }

@@ -45,5 +45,13 @@ namespace FinanceManager.Domain.AccountAggregate
                 _users.Add(userId);
             }
         }
+
+        public void removeUser(UserId userId)
+        {
+            if (_users.Contains(userId))
+            {
+                _users.Remove(userId);
+            }
+        }
     }
 }

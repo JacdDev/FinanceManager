@@ -18,7 +18,7 @@ namespace FinanceManager.Application.Authentication.Commands.ChangePassword
             var result = await _auth.ChangePassword(command.Email, command.OldPassword, command.NewPassword);
 
             return result.Match<ErrorOr<AuthenticationResult>>(
-                authResult => new AuthenticationResult(command.Email),
+                authResult => new AuthenticationResult(),
                 errors => errors
             );
         }

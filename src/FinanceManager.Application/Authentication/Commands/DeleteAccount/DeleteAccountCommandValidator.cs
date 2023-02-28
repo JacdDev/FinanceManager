@@ -7,8 +7,7 @@ namespace FinanceManager.Application.Authentication.Commands.DeleteAccount
     {
         public DeleteAccountCommandValidator()
         {
-            RuleFor(v => v.Email).NotEmpty().WithMessage("Email is required");
-            RuleFor(v => v.Email).EmailAddress().WithMessage("Invalid email format");
+            RuleFor(v => v.UserId).NotEmpty().WithMessage("UserId is required");
         }
     }
 }
