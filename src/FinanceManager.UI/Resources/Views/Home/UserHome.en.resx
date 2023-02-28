@@ -120,11 +120,35 @@
   <data name="AddAccount" xml:space="preserve">
     <value>Add account</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ChangesApplied" xml:space="preserve">
+    <value>Changes applied</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="InitialAmount" xml:space="preserve">
+    <value>Initial amount</value>
+  </data>
   <data name="MainMessage" xml:space="preserve">
     <value>Choose an account to manage or add a new one</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="RequiredField" xml:space="preserve">
+    <value>This field is required</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>Ups! Something went wrong</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User not found</value>
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>

@@ -29,7 +29,7 @@ namespace FinanceManager.UI.Controllers.View
             }
 
             var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
-            ViewData.Add("Error", errorType);
+            ViewData.Add("Error", errorType ?? "UnknownError");
             ViewData.Add("Email", request.Email);
 
             return View();
@@ -58,7 +58,7 @@ namespace FinanceManager.UI.Controllers.View
             }
 
             var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
-            ViewData.Add("Error", errorType);
+            ViewData.Add("Error", errorType ?? "UnknownError");
             ViewData.Add("Email", request.Email);
 
             return View();
@@ -75,7 +75,7 @@ namespace FinanceManager.UI.Controllers.View
             }
 
             var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
-            ViewData.Add("Error", errorType);
+            ViewData.Add("Error", errorType ?? "UnknownError");
 
             return View();
 

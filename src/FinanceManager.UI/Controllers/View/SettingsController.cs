@@ -8,10 +8,10 @@ namespace FinanceManager.UI.Controllers.View
     [Route("[controller]/[action]")]
     public class SettingsController : Controller
     {
-        private readonly Api.AuthenticationController _accountsService;
-        public SettingsController(Api.AuthenticationController accountsService)
+        private readonly Api.AuthenticationController _authService;
+        public SettingsController(Api.AuthenticationController authService)
         {
-            _accountsService = accountsService;
+            _authService = authService;
         }
 
         // GET: SettingsController
@@ -28,7 +28,7 @@ namespace FinanceManager.UI.Controllers.View
                 newEmail,
                 password);
 
-            var response = await _accountsService.ChangeEmail(request);
+            var response = await _authService.ChangeEmail(request);
 
             if (response is OkObjectResult)
             {
@@ -37,7 +37,7 @@ namespace FinanceManager.UI.Controllers.View
             }
 
             var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
-            ViewData.Add("ErrorChangeEmail", errorType);
+            ViewData.Add("ErrorChangeEmail", errorType ?? "UnknownError");
             ViewData.Add("Email", request.NewEmail);
 
             return View("index");
@@ -51,7 +51,7 @@ namespace FinanceManager.UI.Controllers.View
                 oldPassword,
                 newPassword);
 
-            var response = await _accountsService.ChangePassword(request);
+            var response = await _authService.ChangePassword(request);
 
             if (response is OkObjectResult)
             {
@@ -60,7 +60,7 @@ namespace FinanceManager.UI.Controllers.View
             }
 
             var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
-            ViewData.Add("ErrorChangePassword", errorType);
+            ViewData.Add("ErrorChangePassword", errorType ?? "UnknownError");
 
             return View("index");
         }
@@ -71,7 +71,7 @@ namespace FinanceManager.UI.Controllers.View
             var request = new DeleteAccountRequest(
                 User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value ?? "");
 
-            var response = await _accountsService.DeleteAccount(request);
+            var response = await _authService.DeleteAccount(request);
 
             if (response is OkObjectResult)
             {

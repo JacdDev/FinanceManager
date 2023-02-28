@@ -9,9 +9,57 @@
 
 <h1>@Localizer["Welcome"]</h1>
 
+@if (ViewData.ContainsKey("ErrorAddAccount"))
+{
+    <div class="alert alert-danger" role="alert">
+        @Localizer[ViewData["ErrorAddAccount"]?.ToString()??""]
+    </div>
+}
+@if (ViewData.ContainsKey("SuccessAddAccount"))
+{
+    <div class="alert alert-success" role="alert">
+        @Localizer[ViewData["SuccessAddAccount"]?.ToString()??""]
+    </div>
+}
+
 <div class="d-flex justify-content-between">
     <p>@Localizer["MainMessage"]</p>
-    <button type="button" class="btn btn-primary">@Localizer["AddAccount"]</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAccountModal">@Localizer["AddAccount"]</button>
+</div>
+
+
+<div class="modal fade" id="addAccountModal" tabindex="-1" aria-labelledby="addAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addAccountModalLabel">@Localizer["AddAccount"]</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addaccount-form" class="needs-validation" action="/home/createaccount" method="post" novalidate>
+                    <div class="mb-3">
+                        <label for="account-name" class="col-form-label">@Localizer["Name"]</label>
+                        <input type="text" class="form-control" id="account-name" name="name">
+                        <div id="account-name-invalid-feedback" class="invalid-feedback"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="account-description" class="col-form-label">@Localizer["Description"]</label>
+                        <textarea class="form-control" id="account-description" name="description"></textarea>
+                        <div id="account-description-invalid-feedback" class="invalid-feedback"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="account-amount" class="col-form-label">@Localizer["InitialAmount"]</label>
+                        <input type="number" class="form-control" id="account-amount" name="amount" value="0.0" step="any">
+                        <div id="account-amount-invalid-feedback" class="invalid-feedback"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                <button id="submit-add-account-form" type="button" class="btn btn-primary">@Localizer["AddAccount"]</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <ul>
@@ -19,3 +67,71 @@
     <li>Account 2</li>
     <li>Account 3</li>
 </ul>
+
+@section scripts{
+    <script>
+        //form
+        var form = document.getElementById("addaccount-form");
+        var button = document.getElementById("submit-add-account-form");
+        //inputs
+        var account_name = document.getElementById("account-name");
+        var account_description = document.getElementById("account-description");
+        var account_amount = document.getElementById("account-amount");
+        //messages
+        var name_invalid_feedback = document.getElementById("account-name-invalid-feedback");
+        var description_invalid_feedback = document.getElementById("account-description-invalid-feedback");
+        var amount_invalid_feedback = document.getElementById("account-amount-invalid-feedback");
+
+        function validateForm() {
+            var valid = true;
+
+            account_name.setCustomValidity("");
+            if (account_name.value == "") {
+                account_name.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
+            account_description.setCustomValidity("");
+            if (account_description.value == "") {
+                account_description.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
+            account_amount.setCustomValidity("");
+            if (account_amount.value == "") {
+                account_amount.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
+            account_name.parentNode.classList.add('was-validated');
+            account_description.parentNode.classList.add('was-validated');
+            account_amount.parentNode.classList.add('was-validated');
+            name_invalid_feedback.innerText = account_name.validationMessage;
+            description_invalid_feedback.innerText = account_description.validationMessage;
+            amount_invalid_feedback.innerText = account_amount.validationMessage;
+
+            return valid;
+        }
+
+        button.addEventListener('click', event => {
+            if (!validateForm()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }else{
+                form.submit();
+            }
+        }, false);
+
+        account_name.addEventListener('keyup', event => {
+            validateForm();
+        }, false);
+
+        account_description.addEventListener('keyup', event => {
+            validateForm();
+        }, false);
+
+        account_amount.addEventListener('keyup', event => {
+            validateForm();
+        }, false);
+    </script>
+}

@@ -136,5 +136,17 @@ namespace FinanceManager.Infrastructure.Authentication
 
             return Error.Failure();
         }
+
+        public async Task<ErrorOr<AuthenticationResult>> FindUserById(string id)
+        {
+            var identityUser = await _signInManager.UserManager.FindByIdAsync(id);
+
+            if(identityUser == null)
+            {
+                return UserErrors.UserNotFound;
+            }
+
+            return new AuthenticationResult(identityUser.Email);
+        }
     }
 }
