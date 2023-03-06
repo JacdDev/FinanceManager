@@ -6,5 +6,6 @@ namespace FinanceManager.Application.Persistence
     {
         void Add(Account account);
         void DeleteFromUser(string userId);
+        IEnumerable<Account> Get(string userId);
     }
 }

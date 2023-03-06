@@ -36,5 +36,10 @@ namespace FinanceManager.Infrastructure.Persistence.Repositories
 
             _dbContext.SaveChanges();
         }
+
+        public IEnumerable<Account> Get(string userId)
+        {
+            return _dbContext.Accounts.Where(account => account.Users.Any(user => user.Value.ToString() == userId));
+        }
     }
 }

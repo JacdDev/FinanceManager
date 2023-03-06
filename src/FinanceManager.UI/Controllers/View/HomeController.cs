@@ -1,12 +1,14 @@
-﻿using FinanceManager.UI.Models;
+﻿using FinanceManager.Domain.AccountAggregate;
+using FinanceManager.UI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using System.Xml.Linq;
 
 namespace FinanceManager.UI.Controllers.View
 {
 
-    [Route("/")]
+    
     [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
@@ -18,14 +20,40 @@ namespace FinanceManager.UI.Controllers.View
             _accountsService = accountsService;
         }
 
+        [Route("/")]
         public IActionResult Index()
         {
             if (_signInManager.IsSignedIn(User))
             {
-                return View("UserHome");
+                return RedirectToAction("UserHome");
             }
 
             return View();
+        }
+
+        public async Task<IActionResult> UserHome()
+        {
+            foreach(var temp in TempData)
+            {
+                ViewData.Add(temp);
+            }
+
+            if (_signInManager.IsSignedIn(User))
+            {
+                var request = new GetAccountsRequest(
+                User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "");
+
+                var response = await _accountsService.GetAccounts(request);
+
+                if (response is OkObjectResult)
+                {
+                    ViewData.Add("Accounts", (response as OkObjectResult)?.Value);
+                }
+
+                return View();
+            }
+
+            return Unauthorized();
         }
 
         [HttpPost]
@@ -41,14 +69,14 @@ namespace FinanceManager.UI.Controllers.View
 
             if (response is OkObjectResult)
             {
-                ViewData.Add("SuccessAddAccount", "ChangesApplied");
-                return View("UserHome");
+                TempData.Add("SuccessAddAccount", "ChangesApplied");
+                return RedirectToAction("UserHome");
             }
 
             var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
-            ViewData.Add("ErrorAddAccount", errorType ?? "UnknownError");
+            TempData.Add("ErrorAddAccount", errorType ?? "UnknownError");
 
-            return View("UserHome");
+            return RedirectToAction("UserHome");
         }
     }
 }

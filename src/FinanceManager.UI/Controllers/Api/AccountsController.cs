@@ -1,4 +1,5 @@
 ﻿using FinanceManager.Application.Accounts.Commands.CreateAccount;
+using FinanceManager.Application.Accounts.Queries.GetAccounts;
 using FinanceManager.UI.Models;
 using MapsterMapper;
 using MediatR;
@@ -19,9 +20,17 @@ namespace FinanceManager.UI.Controllers.Api
         }
 
         [HttpGet]
-        public IActionResult ListAccounts()
+        public async Task<IActionResult> GetAccounts(
+            GetAccountsRequest request)
         {
-            return Ok(Array.Empty<string>());
+            var command = _mapper.Map<GetAccountsQuery>(request);
+
+            var getAccountsResult = await _mediator.Send(command);
+
+            return getAccountsResult.Match(
+                account => Ok(_mapper.Map<IEnumerable<AccountResponse>>(account)),
+                errors => Problem(errors)
+                );
         }
 
         [HttpPost]

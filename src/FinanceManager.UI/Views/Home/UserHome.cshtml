@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
+﻿@using FinanceManager.UI.Models
+@using Microsoft.AspNetCore.Mvc.Localization
 
 @inject IViewLocalizer Localizer
 
@@ -62,10 +63,27 @@
     </div>
 </div>
 
-<ul>
-    <li>Account 1</li>
-    <li>Account 2</li>
-    <li>Account 3</li>
+<ul class="list-group mt-4">
+    @foreach (var account in (ViewData["Accounts"] as IEnumerable<AccountResponse>) ?? new List<AccountResponse>())
+    {
+        <li class="list-group-item list-group-item-action">
+            <div class="d-flex justify-content-between">
+                <h3 class="mb-1">@account.Name</h3>
+                <div class="dropdown">
+                    <i class="bi-gear btn" data-bs-toggle="dropdown"></i>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Modify</a></li>
+                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row justify-content-between">
+                <p class="col-7 mb-1">@account.Description</p>
+                <p class="col-4 mb-1">@account.Amount</p>
+                <div class="col-1"  />
+            </div>
+        </li>
+    }
 </ul>
 
 @section scripts{
