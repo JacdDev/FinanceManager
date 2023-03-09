@@ -66,14 +66,15 @@
 <ul class="list-group mt-4">
     @foreach (var account in (ViewData["Accounts"] as IEnumerable<AccountResponse>) ?? new List<AccountResponse>())
     {
-        <li class="list-group-item list-group-item-action">
+        <li onClick="loadAccount('@account.Id')" class="list-group-item list-group-item-action">
             <div class="d-flex justify-content-between">
                 <h3 class="mb-1">@account.Name</h3>
                 <div class="dropdown">
                     <i class="bi-gear btn" data-bs-toggle="dropdown"></i>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Modify</a></li>
-                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                        <li><a class="dropdown-item" href="#">@Localizer["ModifyAccount"]</a></li>
+                        <li><a class="dropdown-item" href="#">@Localizer["DeleteAccount"]</a></li>
+                        <li><a class="dropdown-item" href="#">@Localizer["ShareAccount"]</a></li>
                     </ul>
                 </div>
             </div>
@@ -151,5 +152,9 @@
         account_amount.addEventListener('keyup', event => {
             validateForm();
         }, false);
+
+        function loadAccount(accountId){
+            window.location.href = "/account/index?accountId=" + accountId;
+        }
     </script>
 }

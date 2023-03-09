@@ -126,6 +126,9 @@
   <data name="ChangesApplied" xml:space="preserve">
     <value>Changes applied</value>
   </data>
+  <data name="DeleteAccount" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
@@ -135,11 +138,17 @@
   <data name="MainMessage" xml:space="preserve">
     <value>Choose an account to manage or add a new one</value>
   </data>
+  <data name="ModifyAccount" xml:space="preserve">
+    <value>Modify</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="RequiredField" xml:space="preserve">
     <value>This field is required</value>
+  </data>
+  <data name="ShareAccount" xml:space="preserve">
+    <value>Share</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Home</value>

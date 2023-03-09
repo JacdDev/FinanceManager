@@ -7,8 +7,6 @@ using System.Xml.Linq;
 
 namespace FinanceManager.UI.Controllers.View
 {
-
-    
     [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
