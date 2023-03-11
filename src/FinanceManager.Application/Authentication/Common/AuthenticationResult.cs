@@ -1,4 +1,8 @@
-﻿namespace FinanceManager.Application.Authentication.Common
+﻿using FinanceManager.Domain.UserAggregate.ValueObjects;
+
+namespace FinanceManager.Application.Authentication.Common
 {
-    public record AuthenticationResult();
+    public record AuthenticationResult(
+        string UserId,
+        string Email);
 }

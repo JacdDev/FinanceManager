@@ -144,6 +144,9 @@
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>User already has this account</value>
+  </data>
   <data name="InitialAmount" xml:space="preserve">
     <value>Initial amount</value>
   </data>

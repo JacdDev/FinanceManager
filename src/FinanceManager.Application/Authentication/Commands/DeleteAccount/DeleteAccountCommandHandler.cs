@@ -38,10 +38,7 @@ namespace FinanceManager.Application.Authentication.Commands.DeleteAccount
                 }
             }
 
-            return result.Match<ErrorOr<AuthenticationResult>>(
-                authResult => new AuthenticationResult(),
-                errors => errors
-            );
+            return result;
         }
     }
 }

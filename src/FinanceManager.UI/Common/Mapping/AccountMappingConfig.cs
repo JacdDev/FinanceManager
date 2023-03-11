@@ -1,4 +1,5 @@
 ﻿using FinanceManager.Application.Accounts.Commands.CreateAccount;
+using FinanceManager.Application.Accounts.Commands.ShareAccount;
 using FinanceManager.Application.Accounts.Commands.UpdateAccount;
 using FinanceManager.Application.Accounts.Common;
 using FinanceManager.Application.Accounts.Queries.GetAccounts;
@@ -16,6 +17,8 @@ namespace FinanceManager.UI.Common.Mapping
             config.NewConfig<GetAccountsRequest, GetAccountsQuery>();
 
             config.NewConfig<UpdateAccountRequest, UpdateAccountCommand>();
+
+            config.NewConfig<ShareAccountRequest, ShareAccountCommand>();
 
             config.NewConfig<AccountResult, AccountResponse>()
                 .Map(dest => dest.Id, src => src.Account.Id.Value)

@@ -2,6 +2,7 @@
 using FinanceManager.Application.Authentication.Common;
 using FinanceManager.Application.Common.Interfaces;
 using FinanceManager.Domain.Errors;
+using FinanceManager.Domain.UserAggregate.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 
 namespace FinanceManager.Infrastructure.Authentication
@@ -40,7 +41,7 @@ namespace FinanceManager.Infrastructure.Authentication
                 if (resultEmail.Succeeded)
                 {
                     await _signInManager.RefreshSignInAsync(identityUser);
-                    return new AuthenticationResult();
+                    return new AuthenticationResult(identityUser.Id, newEmail);
                 }
                 else
                 {
@@ -68,7 +69,7 @@ namespace FinanceManager.Infrastructure.Authentication
             var result = await _signInManager.UserManager.ChangePasswordAsync(identityUser, oldPassword, newPassword);
             if (result.Succeeded)
             {
-                return new AuthenticationResult();
+                return new AuthenticationResult(identityUser.Id, email);
             }
 
             return Error.Failure();
@@ -90,7 +91,7 @@ namespace FinanceManager.Infrastructure.Authentication
             var result = await _signInManager.PasswordSignInAsync(email, password, persistent, false);
             if (result.Succeeded)
             {
-                return new AuthenticationResult();
+                return new AuthenticationResult(identityUser.Id, email);
             }
 
             return Error.Failure();
@@ -113,7 +114,7 @@ namespace FinanceManager.Infrastructure.Authentication
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(identityUser, persistent);
-                return new AuthenticationResult();
+                return new AuthenticationResult(identityUser.Id, email);
             }
 
             return Error.Failure();
@@ -131,7 +132,7 @@ namespace FinanceManager.Infrastructure.Authentication
             if (result.Succeeded)
             {
                 await _signInManager.SignOutAsync();
-                return new AuthenticationResult();
+                return new AuthenticationResult(identityUser.Id, identityUser.Email);
             }
 
             return Error.Failure();
@@ -146,7 +147,19 @@ namespace FinanceManager.Infrastructure.Authentication
                 return UserErrors.UserNotFound;
             }
 
-            return new AuthenticationResult();
+            return new AuthenticationResult(identityUser.Id, identityUser.Email);
+        }
+
+        public async Task<ErrorOr<AuthenticationResult>> FindUserByEmail(string email)
+        {
+            var identityUser = await _signInManager.UserManager.FindByEmailAsync(email);
+
+            if (identityUser == null)
+            {
+                return UserErrors.UserNotFound;
+            }
+
+            return new AuthenticationResult(identityUser.Id, identityUser.Email);
         }
     }
 }

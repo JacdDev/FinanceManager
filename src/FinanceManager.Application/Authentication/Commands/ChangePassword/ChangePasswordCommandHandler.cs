@@ -15,12 +15,7 @@ namespace FinanceManager.Application.Authentication.Commands.ChangePassword
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(ChangePasswordCommand command, CancellationToken cancellationToken)
         {
-            var result = await _auth.ChangePassword(command.Email, command.OldPassword, command.NewPassword);
-
-            return result.Match<ErrorOr<AuthenticationResult>>(
-                authResult => new AuthenticationResult(),
-                errors => errors
-            );
+            return await _auth.ChangePassword(command.Email, command.OldPassword, command.NewPassword);
         }
     }
 }

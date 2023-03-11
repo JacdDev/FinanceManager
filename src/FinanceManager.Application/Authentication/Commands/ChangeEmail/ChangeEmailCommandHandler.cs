@@ -15,12 +15,7 @@ namespace FinanceManager.Application.Authentication.Commands.ChangeEmail
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(ChangeEmailCommand command, CancellationToken cancellationToken)
         {
-            var result = await _auth.ChangeEmail(command.OldEmail, command.NewEmail, command.Password);
-
-            return result.Match<ErrorOr<AuthenticationResult>>(
-                authResult => new AuthenticationResult(),
-                errors => errors
-            );
+            return await _auth.ChangeEmail(command.OldEmail, command.NewEmail, command.Password);
         }
     }
 }

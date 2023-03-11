@@ -7,7 +7,7 @@ namespace FinanceManager.Application.Authentication.Commands.DeleteAccount
     {
         public DeleteAccountCommandValidator()
         {
-            RuleFor(v => v.UserId).NotEmpty().WithMessage("UserId is required");
+            RuleFor(v => v.UserId).NotEmpty().WithMessage("User ID is required");
         }
     }
 }

@@ -11,6 +11,7 @@ namespace FinanceManager.Application.Common.Interfaces
         public Task<ErrorOr<AuthenticationResult>> ChangePassword(string email, string oldPassword, string newPassword);
         public Task<ErrorOr<AuthenticationResult>> DeleteAccount(string userId);
         public Task<ErrorOr<AuthenticationResult>> FindUserById(string id);
+        public Task<ErrorOr<AuthenticationResult>> FindUserByEmail(string email);
         public Task Logout();
     }
 }

@@ -12,7 +12,7 @@ namespace FinanceManager.Application.Accounts.Queries.GetAccounts
     {
         public GetAccountsQueryValidator()
         {
-            RuleFor(v => v.OwnerId).NotEmpty();
+            RuleFor(v => v.OwnerId).NotEmpty().WithMessage("Owner ID is required");
         }
     }
 }

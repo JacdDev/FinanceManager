@@ -6,9 +6,9 @@ namespace FinanceManager.Application.Accounts.Commands.CreateAccount
     {
         public CreateAccountCommandValidator()
         {
-            RuleFor(v => v.Name).NotEmpty();
-            RuleFor(v => v.OwnerId).NotEmpty();
-            RuleFor(v => v.Description).NotEmpty();
+            RuleFor(v => v.Name).NotEmpty().WithMessage("Name is required");
+            RuleFor(v => v.OwnerId).NotEmpty().WithMessage("Owner ID is required");
+            RuleFor(v => v.Description).NotEmpty().WithMessage("Description is required");
         }
     }
 }

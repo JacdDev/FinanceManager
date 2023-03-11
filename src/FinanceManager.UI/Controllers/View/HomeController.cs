@@ -99,5 +99,27 @@ namespace FinanceManager.UI.Controllers.View
 
             return RedirectToAction("UserHome");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ShareAccount(string id, string email)
+        {
+            var request = new ShareAccountRequest(
+                User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "",
+                id,
+                email);
+
+            var response = await _accountsService.ShareAccount(request);
+
+            if (response is OkObjectResult)
+            {
+                TempData.Add("SuccessAccountOperation", "ChangesApplied");
+                return RedirectToAction("UserHome");
+            }
+
+            var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
+            TempData.Add("ErrorAccountOperation", errorType ?? "UnknownError");
+
+            return RedirectToAction("UserHome");
+        }
     }
 }
