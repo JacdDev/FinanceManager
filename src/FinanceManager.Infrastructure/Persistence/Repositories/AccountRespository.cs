@@ -41,5 +41,11 @@ namespace FinanceManager.Infrastructure.Persistence.Repositories
         {
             return _dbContext.Accounts.Where(account => account.Users.Any(user => user.Value.ToString() == userId));
         }
+
+        public void Update(Account account)
+        {
+            _dbContext.Update(account);
+            _dbContext.SaveChanges();
+        }
     }
 }

@@ -67,12 +67,35 @@ namespace FinanceManager.UI.Controllers.View
 
             if (response is OkObjectResult)
             {
-                TempData.Add("SuccessAddAccount", "ChangesApplied");
+                TempData.Add("SuccessAccountOperation", "ChangesApplied");
                 return RedirectToAction("UserHome");
             }
 
             var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
-            TempData.Add("ErrorAddAccount", errorType ?? "UnknownError");
+            TempData.Add("ErrorAccountOperation", errorType ?? "UnknownError");
+
+            return RedirectToAction("UserHome");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAccount(string id, string name, string description)
+        {
+            var request = new UpdateAccountRequest(
+                User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "",
+                id,
+                name,
+                description);
+
+            var response = await _accountsService.UpdateAccount(request);
+
+            if (response is OkObjectResult)
+            {
+                TempData.Add("SuccessAccountOperation", "ChangesApplied");
+                return RedirectToAction("UserHome");
+            }
+
+            var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
+            TempData.Add("ErrorAccountOperation", errorType ?? "UnknownError");
 
             return RedirectToAction("UserHome");
         }

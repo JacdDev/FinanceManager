@@ -8,6 +8,7 @@ namespace FinanceManager.Application.Accounts.Commands.CreateAccount
         {
             RuleFor(v => v.Name).NotEmpty();
             RuleFor(v => v.OwnerId).NotEmpty();
+            RuleFor(v => v.Description).NotEmpty();
         }
     }
 }

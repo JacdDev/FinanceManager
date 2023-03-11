@@ -10,9 +10,9 @@ namespace FinanceManager.Domain.AccountAggregate
 {
     public class Account : AggregateRoot<AccountId>
     {
-        public string Name { get; }
-        public string Description { get; }
-        public double Amount { get; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public double Amount { get; private set; }
         private readonly List<UserId> _users = new();
         public IReadOnlyList<UserId> Users => _users.AsReadOnly();
         private readonly List<Movement> _movements = new();
@@ -56,6 +56,16 @@ namespace FinanceManager.Domain.AccountAggregate
             {
                 _users.Remove(userId);
             }
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = description;
         }
     }
 }

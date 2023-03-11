@@ -10,16 +10,16 @@
 
 <h1>@Localizer["Welcome"]</h1>
 
-@if (ViewData.ContainsKey("ErrorAddAccount"))
+@if (ViewData.ContainsKey("ErrorAccountOperation"))
 {
     <div class="alert alert-danger" role="alert">
-        @Localizer[ViewData["ErrorAddAccount"]?.ToString()??""]
+        @Localizer[ViewData["ErrorAccountOperation"]?.ToString()??""]
     </div>
 }
-@if (ViewData.ContainsKey("SuccessAddAccount"))
+@if (ViewData.ContainsKey("SuccessAccountOperation"))
 {
     <div class="alert alert-success" role="alert">
-        @Localizer[ViewData["SuccessAddAccount"]?.ToString()??""]
+        @Localizer[ViewData["SuccessAccountOperation"]?.ToString()??""]
     </div>
 }
 

@@ -1,4 +1,5 @@
 ﻿using FinanceManager.Domain.Models;
+using FinanceManager.Domain.UserAggregate.ValueObjects;
 
 namespace FinanceManager.Domain.AccountAggregate.ValueObjects
 {
@@ -14,6 +15,11 @@ namespace FinanceManager.Domain.AccountAggregate.ValueObjects
         public static AccountId CreateUnique()
         {
             return new AccountId(Guid.NewGuid());
+        }
+
+        public static AccountId Create(string value)
+        {
+            return new AccountId(Guid.Parse(value));
         }
 
         public static AccountId Create(Guid value)

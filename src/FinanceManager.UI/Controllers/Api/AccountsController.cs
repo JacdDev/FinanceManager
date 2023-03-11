@@ -1,4 +1,5 @@
 ﻿using FinanceManager.Application.Accounts.Commands.CreateAccount;
+using FinanceManager.Application.Accounts.Commands.UpdateAccount;
 using FinanceManager.Application.Accounts.Queries.GetAccounts;
 using FinanceManager.UI.Models;
 using MapsterMapper;
@@ -38,6 +39,20 @@ namespace FinanceManager.UI.Controllers.Api
             CreateAccountRequest request)
         {
             var command = _mapper.Map<CreateAccountCommand>(request);
+
+            var createAccountResult = await _mediator.Send(command);
+
+            return createAccountResult.Match(
+                account => Ok(_mapper.Map<AccountResponse>(account)),
+                errors => Problem(errors)
+                );
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAccount(
+            UpdateAccountRequest request)
+        {
+            var command = _mapper.Map<UpdateAccountCommand>(request);
 
             var createAccountResult = await _mediator.Send(command);
 
