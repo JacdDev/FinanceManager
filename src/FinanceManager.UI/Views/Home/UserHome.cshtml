@@ -63,29 +63,29 @@
     </div>
 </div>
 
-<ul class="list-group mt-4">
+<div class="list-group mt-4">
     @foreach (var account in (ViewData["Accounts"] as IEnumerable<AccountResponse>) ?? new List<AccountResponse>())
     {
-        <li onClick="loadAccount('@account.Id')" class="list-group-item list-group-item-action">
-            <div class="d-flex justify-content-between">
+        <a href="/account/index?accountId=@account.Id" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
                 <h3 class="mb-1">@account.Name</h3>
                 <div class="dropdown">
                     <i class="bi-gear btn" data-bs-toggle="dropdown"></i>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">@Localizer["ModifyAccount"]</a></li>
-                        <li><a class="dropdown-item" href="#">@Localizer["DeleteAccount"]</a></li>
-                        <li><a class="dropdown-item" href="#">@Localizer["ShareAccount"]</a></li>
+                        <li><span onclick="showModalModifyAccount('@account.Id')" class="dropdown-item">@Localizer["ModifyAccount"]</span></li>
+                        <li><span onclick="showModalDeleteAccount('@account.Id')" class="dropdown-item">@Localizer["DeleteAccount"]</span></li>
+                        <li><span onclick="showModalShareAccount('@account.Id')" class="dropdown-item">@Localizer["ShareAccount"]</span></li>
                     </ul>
                 </div>
             </div>
-            <div class="row justify-content-between">
+            <div class="row">
                 <p class="col-7 mb-1">@account.Description</p>
                 <p class="col-4 mb-1">@account.Amount</p>
-                <div class="col-1"  />
             </div>
-        </li>
+        </a>
+
     }
-</ul>
+</div>
 
 @section scripts{
     <script>
@@ -155,6 +155,21 @@
 
         function loadAccount(accountId){
             window.location.href = "/account/index?accountId=" + accountId;
+        }
+
+        function showModalModifyAccount(accountId){
+            alert('Modifing account '+accountId);
+            event.preventDefault();
+        }
+
+        function showModalDeleteAccount(accountId){
+            alert('Deleting account '+accountId);
+            event.preventDefault();
+        }
+
+        function showModalShareAccount(accountId) {
+            alert('Sharing account ' + accountId);
+            event.preventDefault();
         }
     </script>
 }

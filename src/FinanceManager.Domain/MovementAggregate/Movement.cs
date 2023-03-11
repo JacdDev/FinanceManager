@@ -1,29 +1,29 @@
-﻿using FinanceManager.Domain.AccountAggregate.ValueObjects;
+﻿using FinanceManager.Domain.AccountAggregate;
+using FinanceManager.Domain.AccountAggregate.ValueObjects;
 using FinanceManager.Domain.Models;
 using FinanceManager.Domain.MovementAggregate.ValueObjects;
+using FinanceManager.Domain.TagAggregate;
 using FinanceManager.Domain.TagAggregate.ValueObjects;
 
 namespace FinanceManager.Domain.MovementAggregate
 {
     public class Movement : AggregateRoot<MovementId>
     {
-        public AccountId AccountId { get; }
+        public Account? Account { get; private set; }
         public string Concept { get; }
         public double Amount { get; }
         public bool IsIncoming { get; }
         public DateTime ExecutionDate { get; }
-        private readonly List<TagId> _tags = new();
-        public IReadOnlyList<TagId> Tags => _tags.AsReadOnly();
+        private readonly List<Tag> _tags = new();
+        public IReadOnlyList<Tag> Tags => _tags.AsReadOnly();
 
         private Movement(
             MovementId id,
-            AccountId accountId,
             string concept,
             double amount,
             bool isIncoming,
             DateTime executionDate) : base(id)
         {
-            AccountId = accountId;
             Concept = concept;
             Amount = amount;
             IsIncoming = isIncoming;
@@ -31,7 +31,6 @@ namespace FinanceManager.Domain.MovementAggregate
         }
 
         public static Movement Create(
-            AccountId accountId,
             string concept,
             double amount,
             bool isIncoming,
@@ -39,7 +38,6 @@ namespace FinanceManager.Domain.MovementAggregate
         {
             return new Movement(
                 MovementId.CreateUnique(),
-                accountId,
                 concept,
                 amount,
                 isIncoming,

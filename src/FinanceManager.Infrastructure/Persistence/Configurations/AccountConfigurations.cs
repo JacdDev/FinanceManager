@@ -1,5 +1,9 @@
 ﻿using FinanceManager.Domain.AccountAggregate;
 using FinanceManager.Domain.AccountAggregate.ValueObjects;
+using FinanceManager.Domain.MovementAggregate;
+using FinanceManager.Domain.MovementAggregate.ValueObjects;
+using FinanceManager.Domain.TagAggregate;
+using FinanceManager.Domain.TagAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,41 +13,21 @@ namespace FinanceManager.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Account> builder)
         {
-            ConfgureAccountsTable(builder);
-            ConfgureAccountUserIdsTable(builder);
-            ConfgureAccountMovementIdsTable(builder);
+            ConfigureAccountsTable(builder);
+            ConfigureAccountUserIdsTable(builder);
         }
 
-        private void ConfgureAccountMovementIdsTable(EntityTypeBuilder<Account> builder)
+        private void ConfigureAccountUserIdsTable(EntityTypeBuilder<Account> builder)
         {
-            builder.OwnsMany(x => x.Movements, ui =>
+            builder.OwnsMany(x => x.Users, ub =>
             {
-                ui.ToTable("AccountMovementIds");
+                ub.ToTable("AccountUserIds");
 
-                ui.WithOwner().HasForeignKey("AccountId");
+                ub.WithOwner().HasForeignKey("AccountId");
 
-                ui.HasKey("Id");
+                ub.HasKey("Id");
 
-                ui.Property(x => x.Value)
-                    .HasColumnName("MovementId")
-                    .ValueGeneratedNever();
-            });
-
-            builder.Metadata.FindNavigation(nameof(Account.Movements))?
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
-        }
-
-        private void ConfgureAccountUserIdsTable(EntityTypeBuilder<Account> builder)
-        {
-            builder.OwnsMany(x => x.Users, ui =>
-            {
-                ui.ToTable("AccountUserIds");
-
-                ui.WithOwner().HasForeignKey("AccountId");
-
-                ui.HasKey("Id");
-
-                ui.Property(x => x.Value)
+                ub.Property(ui => ui.Value)
                     .HasColumnName("UserId")
                     .ValueGeneratedNever();
             });
@@ -52,7 +36,7 @@ namespace FinanceManager.Infrastructure.Persistence.Configurations
                 .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
 
-        private void ConfgureAccountsTable(EntityTypeBuilder<Account> builder)
+        private void ConfigureAccountsTable(EntityTypeBuilder<Account> builder)
         {
             builder.ToTable("Accounts");
 
@@ -71,6 +55,9 @@ namespace FinanceManager.Infrastructure.Persistence.Configurations
                 .HasMaxLength(250);
 
             builder.Property(x => x.Amount);
+
+            builder.HasMany(a => a.Movements);
+            builder.HasMany(a => a.Tags);
         }
     }
 }

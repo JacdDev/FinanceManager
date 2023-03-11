@@ -42,6 +42,60 @@ namespace FinanceManager.Infrastructure.Migrations
                     b.ToTable("Accounts", (string)null);
                 });
 
+            modelBuilder.Entity("FinanceManager.Domain.MovementAggregate.Movement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("double");
+
+                    b.Property<string>("Concept")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<DateTime>("ExecutionDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsIncoming")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Movements", (string)null);
+                });
+
+            modelBuilder.Entity("FinanceManager.Domain.TagAggregate.Tag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(7)
+                        .HasColumnType("varchar(7)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("varchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Tags", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -234,31 +288,23 @@ namespace FinanceManager.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("MovementTag", b =>
+                {
+                    b.Property<Guid>("MovementsId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("TagsId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("MovementsId", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("MovementTag");
+                });
+
             modelBuilder.Entity("FinanceManager.Domain.AccountAggregate.Account", b =>
                 {
-                    b.OwnsMany("FinanceManager.Domain.MovementAggregate.ValueObjects.MovementId", "Movements", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            b1.Property<Guid>("AccountId")
-                                .HasColumnType("char(36)");
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("char(36)")
-                                .HasColumnName("MovementId");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("AccountId");
-
-                            b1.ToTable("AccountMovementIds", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("AccountId");
-                        });
-
                     b.OwnsMany("FinanceManager.Domain.UserAggregate.ValueObjects.UserId", "Users", b1 =>
                         {
                             b1.Property<int>("Id")
@@ -282,9 +328,25 @@ namespace FinanceManager.Infrastructure.Migrations
                                 .HasForeignKey("AccountId");
                         });
 
-                    b.Navigation("Movements");
-
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("FinanceManager.Domain.MovementAggregate.Movement", b =>
+                {
+                    b.HasOne("FinanceManager.Domain.AccountAggregate.Account", "Account")
+                        .WithMany("Movements")
+                        .HasForeignKey("AccountId");
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("FinanceManager.Domain.TagAggregate.Tag", b =>
+                {
+                    b.HasOne("FinanceManager.Domain.AccountAggregate.Account", "Account")
+                        .WithMany("Tags")
+                        .HasForeignKey("AccountId");
+
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -336,6 +398,28 @@ namespace FinanceManager.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MovementTag", b =>
+                {
+                    b.HasOne("FinanceManager.Domain.MovementAggregate.Movement", null)
+                        .WithMany()
+                        .HasForeignKey("MovementsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FinanceManager.Domain.TagAggregate.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FinanceManager.Domain.AccountAggregate.Account", b =>
+                {
+                    b.Navigation("Movements");
+
+                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }
