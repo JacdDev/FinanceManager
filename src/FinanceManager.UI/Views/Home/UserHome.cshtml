@@ -37,21 +37,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="addaccount-form" class="needs-validation" action="/home/createaccount" method="post" novalidate>
+                <form id="add-account-form" class="needs-validation" action="/home/createaccount" method="post" novalidate>
                     <div class="mb-3">
-                        <label for="account-name" class="col-form-label">@Localizer["Name"]</label>
-                        <input type="text" class="form-control" id="account-name" name="name">
-                        <div id="account-name-invalid-feedback" class="invalid-feedback"></div>
+                        <label for="add-account-name" class="col-form-label">@Localizer["Name"]</label>
+                        <input type="text" class="form-control" id="add-account-name" name="name">
+                        <div id="add-account-name-invalid-feedback" class="invalid-feedback"></div>
                     </div>
                     <div class="mb-3">
                         <label for="account-description" class="col-form-label">@Localizer["Description"]</label>
-                        <textarea class="form-control" id="account-description" name="description"></textarea>
-                        <div id="account-description-invalid-feedback" class="invalid-feedback"></div>
+                        <textarea class="form-control" id="add-account-description" name="description"></textarea>
+                        <div id="add-account-description-invalid-feedback" class="invalid-feedback"></div>
                     </div>
                     <div class="mb-3">
                         <label for="account-amount" class="col-form-label">@Localizer["InitialAmount"]</label>
-                        <input type="number" class="form-control" id="account-amount" name="amount" value="0.0" step="any">
-                        <div id="account-amount-invalid-feedback" class="invalid-feedback"></div>
+                        <input type="number" class="form-control" id="add-account-amount" name="amount" value="0.0" step="any">
+                        <div id="add-account-amount-invalid-feedback" class="invalid-feedback"></div>
                     </div>
                 </form>
             </div>
@@ -72,7 +72,7 @@
                 <div class="dropdown">
                     <i class="bi-gear btn" data-bs-toggle="dropdown"></i>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><span onclick="showModalModifyAccount('@account.Id')" class="dropdown-item">@Localizer["ModifyAccount"]</span></li>
+                        <li><span onclick="showModalModifyAccount('@account.Id', '@account.Name', '@account.Description')" class="dropdown-item">@Localizer["ModifyAccount"]</span></li>
                         <li><span onclick="showModalDeleteAccount('@account.Id')" class="dropdown-item">@Localizer["DeleteAccount"]</span></li>
                         <li><span onclick="showModalShareAccount('@account.Id')" class="dropdown-item">@Localizer["ShareAccount"]</span></li>
                     </ul>
@@ -87,88 +87,258 @@
     }
 </div>
 
+<div class="modal fade" id="modifyAccountModal" tabindex="-1" aria-labelledby="modifyAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modifyAccountModalLabel">@Localizer["ModifyAccount"]</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="modify-account-form" class="needs-validation" action="/home/updateaccount" method="post" novalidate>
+                    <div class="mb-3">
+                        <label for="modify-account-name" class="col-form-label">@Localizer["Name"]</label>
+                        <input type="text" class="form-control" id="modify-account-name" name="name">
+                        <div id="modify-account-name-invalid-feedback" class="invalid-feedback"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modify-account-description" class="col-form-label">@Localizer["Description"]</label>
+                        <textarea class="form-control" id="modify-account-description" name="description"></textarea>
+                        <div id="modify-account-description-invalid-feedback" class="invalid-feedback"></div>
+                    </div>
+                    <input type="hidden" class="form-control" id="modify-account-id" name="id">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                <button id="submit-modify-account-form" type="button" class="btn btn-primary">@Localizer["ModifyAccount"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteAccountModalLabel">@Localizer["DeleteAccountConfirmationTitle"]</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @Localizer["DeleteAccountConfirmationMessage"]
+                <form id="delete-account-form" class="needs-validation" action="/home/deleteaccount" method="post" novalidate>
+                    <input type="hidden" class="form-control" id="delete-account-id" name="id">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["DeleteAccountConfirmationNegative"]</button>
+                <button id="submit-delete-account-form" type="button" class="btn btn-danger">@Localizer["DeleteAccountConfirmationAffirmative"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="shareAccountModal" tabindex="-1" aria-labelledby="shareAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="shareAccountModalLabel">@Localizer["ShareAccount"]</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @Localizer["ShareAccountMessage"]
+                <form id="share-account-form" class="needs-validation" action="/home/shareaccount" method="post" novalidate>
+                    <div class="mb-3">
+                        <label for="share-account-email" class="col-form-label">@Localizer["Email"]</label>
+                        <input type="text" class="form-control" id="share-account-email" name="email">
+                        <div id="share-account-email-invalid-feedback" class="invalid-feedback"></div>
+                    </div>
+                    <input type="hidden" class="form-control" id="share-account-id" name="id">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                <button id="submit-share-account-form" type="button" class="btn btn-primary">@Localizer["ShareAccount"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts{
     <script>
         //form
-        var form = document.getElementById("addaccount-form");
-        var button = document.getElementById("submit-add-account-form");
+        var add_account_form = document.getElementById("add-account-form");
+        var add_account_button = document.getElementById("submit-add-account-form");
+        var modify_account_form = document.getElementById("modify-account-form");
+        var modify_account_button = document.getElementById("submit-modify-account-form");
+        var delete_account_form = document.getElementById("delete-account-form");
+        var delete_account_button = document.getElementById("submit-delete-account-form");
+        var share_account_form = document.getElementById("share-account-form");
+        var share_account_button = document.getElementById("submit-share-account-form");
         //inputs
-        var account_name = document.getElementById("account-name");
-        var account_description = document.getElementById("account-description");
-        var account_amount = document.getElementById("account-amount");
+        var add_account_name = document.getElementById("add-account-name");
+        var add_account_description = document.getElementById("add-account-description");
+        var add_account_amount = document.getElementById("add-account-amount");
+        var modify_account_id = document.getElementById("modify-account-id");
+        var modify_account_name = document.getElementById("modify-account-name");
+        var modify_account_description = document.getElementById("modify-account-description");
+        var delete_account_id = document.getElementById("delete-account-id");
+        var share_account_email = document.getElementById("share-account-email");
+        var share_account_id = document.getElementById("share-account-id");
         //messages
-        var name_invalid_feedback = document.getElementById("account-name-invalid-feedback");
-        var description_invalid_feedback = document.getElementById("account-description-invalid-feedback");
-        var amount_invalid_feedback = document.getElementById("account-amount-invalid-feedback");
+        var add_name_invalid_feedback = document.getElementById("add-account-name-invalid-feedback");
+        var add_description_invalid_feedback = document.getElementById("add-account-description-invalid-feedback");
+        var add_amount_invalid_feedback = document.getElementById("add-account-amount-invalid-feedback");
+        var modify_name_invalid_feedback = document.getElementById("modify-account-name-invalid-feedback");
+        var modify_description_invalid_feedback = document.getElementById("modify-account-description-invalid-feedback");
+        var share_email_invalid_feedback = document.getElementById("share-account-email-invalid-feedback");
 
-        function validateForm() {
+        //form validation
+        function validateAddAccountForm() {
             var valid = true;
 
-            account_name.setCustomValidity("");
-            if (account_name.value == "") {
-                account_name.setCustomValidity("@Localizer["RequiredField"]");
+            add_account_name.setCustomValidity("");
+            if (add_account_name.value == "") {
+                add_account_name.setCustomValidity("@Localizer["RequiredField"]");
                 valid = false;
             }
 
-            account_description.setCustomValidity("");
-            if (account_description.value == "") {
-                account_description.setCustomValidity("@Localizer["RequiredField"]");
+            add_account_description.setCustomValidity("");
+            if (add_account_description.value == "") {
+                add_account_description.setCustomValidity("@Localizer["RequiredField"]");
                 valid = false;
             }
 
-            account_amount.setCustomValidity("");
-            if (account_amount.value == "") {
-                account_amount.setCustomValidity("@Localizer["RequiredField"]");
+            add_account_amount.setCustomValidity("");
+            if (add_account_amount.value == "") {
+                add_account_amount.setCustomValidity("@Localizer["RequiredField"]");
                 valid = false;
             }
 
-            account_name.parentNode.classList.add('was-validated');
-            account_description.parentNode.classList.add('was-validated');
-            account_amount.parentNode.classList.add('was-validated');
-            name_invalid_feedback.innerText = account_name.validationMessage;
-            description_invalid_feedback.innerText = account_description.validationMessage;
-            amount_invalid_feedback.innerText = account_amount.validationMessage;
+            add_account_name.parentNode.classList.add('was-validated');
+            add_account_description.parentNode.classList.add('was-validated');
+            add_account_amount.parentNode.classList.add('was-validated');
+            add_name_invalid_feedback.innerText = add_account_name.validationMessage;
+            add_description_invalid_feedback.innerText = add_account_description.validationMessage;
+            add_amount_invalid_feedback.innerText = add_account_amount.validationMessage;
 
             return valid;
         }
 
-        button.addEventListener('click', event => {
-            if (!validateForm()) {
-                event.preventDefault()
-                event.stopPropagation()
+        function validateModifyAccountForm() {
+            var valid = true;
+
+            modify_account_name.setCustomValidity("");
+            if (modify_account_name.value == "") {
+                modify_account_name.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
+            modify_account_description.setCustomValidity("");
+            if (modify_account_description.value == "") {
+                modify_account_description.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
+            modify_account_name.parentNode.classList.add('was-validated');
+            modify_account_description.parentNode.classList.add('was-validated');
+            modify_name_invalid_feedback.innerText = modify_account_name.validationMessage;
+            modify_description_invalid_feedback.innerText = modify_account_description.validationMessage;
+
+            return valid;
+        }
+
+        function validateShareAccountForm() {
+            var valid = true;
+
+            share_account_email.setCustomValidity("");
+            if (share_account_email.value == "") {
+                share_account_email.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            } else if (!(/^[a-z0-9!'#$%&*+\/=?^_`{|}~-]+(?:\.[a-z0-9!'#$%&*+\/=?^_`{|}~-]+)*@@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-zA-Z]{2,}$/.test(share_account_email.value))) {
+                share_account_email.setCustomValidity("@Localizer["InvalidFormat"]");
+                valid = false;
+            }
+
+            share_account_email.parentNode.classList.add('was-validated');
+            share_email_invalid_feedback.innerText = share_account_email.validationMessage;
+
+            return valid;
+        }
+
+        //event listeners
+        add_account_button.addEventListener('click', event => {
+            if (!validateAddAccountForm()) {
+                event.preventDefault();
+                event.stopPropagation();
             }else{
-                form.submit();
+                add_account_form.submit();
             }
         }, false);
 
-        account_name.addEventListener('keyup', event => {
-            validateForm();
+        add_account_name.addEventListener('keyup', event => {
+            validateAddAccountForm();
         }, false);
 
-        account_description.addEventListener('keyup', event => {
-            validateForm();
+        add_account_description.addEventListener('keyup', event => {
+            validateAddAccountForm();
         }, false);
 
-        account_amount.addEventListener('keyup', event => {
-            validateForm();
+        add_account_amount.addEventListener('keyup', event => {
+            validateAddAccountForm();
         }, false);
 
-        function loadAccount(accountId){
-            window.location.href = "/account/index?accountId=" + accountId;
-        }
+        modify_account_button.addEventListener('click', event => {
+            if (!validateModifyAccountForm()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }else{
+                modify_account_form.submit();
+            }
+        }, false);
 
-        function showModalModifyAccount(accountId){
-            alert('Modifing account '+accountId);
+        modify_account_name.addEventListener('keyup', event => {
+            validateModifyAccountForm();
+        }, false);
+
+        modify_account_description.addEventListener('keyup', event => {
+            validateModifyAccountForm();
+        }, false);
+
+        delete_account_button.addEventListener('click', event => {
+            delete_account_form.submit();
+        }, false);
+
+        share_account_button.addEventListener('click', event => {
+            if (!validateShareAccountForm()) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                share_account_form.submit();
+            }
+        }, false);
+
+        share_account_email.addEventListener('keyup', event => {
+            validateShareAccountForm();
+        }, false);
+
+        function showModalModifyAccount(accountId, accountName, accountDescription){
+            modify_account_id.value = accountId;
+            modify_account_name.value = accountName;
+            modify_account_description.value = accountDescription;
+            $('#modifyAccountModal').modal('show');
             event.preventDefault();
         }
 
         function showModalDeleteAccount(accountId){
-            alert('Deleting account '+accountId);
+            delete_account_id.value = accountId;
+            $('#deleteAccountModal').modal('show');
             event.preventDefault();
         }
 
         function showModalShareAccount(accountId) {
-            alert('Sharing account ' + accountId);
+            share_account_id.value = accountId;
+            $('#shareAccountModal').modal('show');
             event.preventDefault();
         }
     </script>

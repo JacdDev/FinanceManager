@@ -127,7 +127,19 @@
     <value>Changes applied</value>
   </data>
   <data name="DeleteAccount" xml:space="preserve">
-    <value>Delete</value>
+    <value>Delete account</value>
+  </data>
+  <data name="DeleteAccountConfirmationAffirmative" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="DeleteAccountConfirmationMessage" xml:space="preserve">
+    <value>This action can't be undone and will delete your account permanently, if the account is shared, other users will still be able to access it.</value>
+  </data>
+  <data name="DeleteAccountConfirmationNegative" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="DeleteAccountConfirmationTitle" xml:space="preserve">
+    <value>Are you sure?</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
@@ -135,11 +147,14 @@
   <data name="InitialAmount" xml:space="preserve">
     <value>Initial amount</value>
   </data>
+  <data name="InvalidFormat" xml:space="preserve">
+    <value>Invalid format</value>
+  </data>
   <data name="MainMessage" xml:space="preserve">
     <value>Choose an account to manage or add a new one</value>
   </data>
   <data name="ModifyAccount" xml:space="preserve">
-    <value>Modify</value>
+    <value>Modify account</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
@@ -148,7 +163,10 @@
     <value>This field is required</value>
   </data>
   <data name="ShareAccount" xml:space="preserve">
-    <value>Share</value>
+    <value>Share account</value>
+  </data>
+  <data name="ShareAccountMessage" xml:space="preserve">
+    <value>Write an user's email to share the account with them. This will grant complete access to the user to mange this account movements.</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Home</value>

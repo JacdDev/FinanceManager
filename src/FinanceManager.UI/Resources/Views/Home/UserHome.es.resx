@@ -127,7 +127,19 @@
     <value>Cambios aplicados</value>
   </data>
   <data name="DeleteAccount" xml:space="preserve">
-    <value>Eliminar</value>
+    <value>Eliminar cuenta</value>
+  </data>
+  <data name="DeleteAccountConfirmationAffirmative" xml:space="preserve">
+    <value>Si</value>
+  </data>
+  <data name="DeleteAccountConfirmationMessage" xml:space="preserve">
+    <value>Esta acción no se puede deshacer y borrará tu cuenta permanentemente, si la cuenta es compartida, otros usuarios podrán seguir teniendo acceso a ella.</value>
+  </data>
+  <data name="DeleteAccountConfirmationNegative" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="DeleteAccountConfirmationTitle" xml:space="preserve">
+    <value>¿Estás seguro?</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Descripción</value>
@@ -135,11 +147,14 @@
   <data name="InitialAmount" xml:space="preserve">
     <value>Cantidad inicial</value>
   </data>
+  <data name="InvalidFormat" xml:space="preserve">
+    <value>Formato no válido</value>
+  </data>
   <data name="MainMessage" xml:space="preserve">
     <value>Elige una cuenta que administrar o añade una nueva</value>
   </data>
   <data name="ModifyAccount" xml:space="preserve">
-    <value>Modificar</value>
+    <value>Modificar cuenta</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nombre</value>
@@ -148,7 +163,10 @@
     <value>Este campo es obligatorio</value>
   </data>
   <data name="ShareAccount" xml:space="preserve">
-    <value>Compartir</value>
+    <value>Compartir cuenta</value>
+  </data>
+  <data name="ShareAccountMessage" xml:space="preserve">
+    <value>Escriba el correo electrónico de un usuario para compartir la cuenta con él. Esto otorgará acceso completo al usuario para administrar los movimientos de esta cuenta.</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Home</value>
