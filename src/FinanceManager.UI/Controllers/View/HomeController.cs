@@ -1,9 +1,7 @@
-﻿using FinanceManager.Domain.AccountAggregate;
-using FinanceManager.UI.Models;
+﻿using FinanceManager.UI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
-using System.Xml.Linq;
 
 namespace FinanceManager.UI.Controllers.View
 {
@@ -31,7 +29,7 @@ namespace FinanceManager.UI.Controllers.View
 
         public async Task<IActionResult> UserHome()
         {
-            foreach(var temp in TempData)
+            foreach (var temp in TempData)
             {
                 ViewData.Add(temp);
             }
@@ -59,8 +57,8 @@ namespace FinanceManager.UI.Controllers.View
         {
             var request = new CreateAccountRequest(
                 User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "",
-                name, 
-                description, 
+                name,
+                description,
                 Convert.ToDouble(amount.Replace(",", "."), CultureInfo.InvariantCulture));
 
             var response = await _accountsService.CreateAccount(request);
@@ -109,6 +107,27 @@ namespace FinanceManager.UI.Controllers.View
                 email);
 
             var response = await _accountsService.ShareAccount(request);
+
+            if (response is OkObjectResult)
+            {
+                TempData.Add("SuccessAccountOperation", "ChangesApplied");
+                return RedirectToAction("UserHome");
+            }
+
+            var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
+            TempData.Add("ErrorAccountOperation", errorType ?? "UnknownError");
+
+            return RedirectToAction("UserHome");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAccount(string id)
+        {
+            var request = new DeleteAccountRequest(
+                User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "",
+                id);
+
+            var response = await _accountsService.DeleteAccount(request);
 
             if (response is OkObjectResult)
             {

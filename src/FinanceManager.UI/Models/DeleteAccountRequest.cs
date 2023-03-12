@@ -1,5 +1,6 @@
 ﻿namespace FinanceManager.UI.Models
 {
     public record DeleteAccountRequest(
-        string UserId);
+        string UserId,
+        string AccountId);
 }

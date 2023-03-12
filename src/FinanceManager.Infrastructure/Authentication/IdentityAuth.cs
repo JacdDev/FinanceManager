@@ -2,7 +2,6 @@
 using FinanceManager.Application.Authentication.Common;
 using FinanceManager.Application.Common.Interfaces;
 using FinanceManager.Domain.Errors;
-using FinanceManager.Domain.UserAggregate.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 
 namespace FinanceManager.Infrastructure.Authentication
@@ -142,7 +141,7 @@ namespace FinanceManager.Infrastructure.Authentication
         {
             var identityUser = await _signInManager.UserManager.FindByIdAsync(id);
 
-            if(identityUser == null)
+            if (identityUser == null)
             {
                 return UserErrors.UserNotFound;
             }

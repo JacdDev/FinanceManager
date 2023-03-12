@@ -1,15 +1,8 @@
 ﻿using ErrorOr;
-using FinanceManager.Application.Authentication.Commands.ChangeEmail;
 using FinanceManager.Application.Authentication.Common;
 using FinanceManager.Application.Common.Interfaces;
 using FinanceManager.Application.Persistence;
-using FinanceManager.Domain.Errors;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
 
 namespace FinanceManager.Application.Authentication.Commands.DeleteAccount

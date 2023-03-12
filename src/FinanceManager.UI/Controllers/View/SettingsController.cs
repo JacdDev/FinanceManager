@@ -68,7 +68,7 @@ namespace FinanceManager.UI.Controllers.View
         [HttpGet]
         public async Task<IActionResult> DeleteAccount()
         {
-            var request = new DeleteAccountRequest(
+            var request = new DeleteUserRequest(
                 User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "");
 
             var response = await _authService.DeleteAccount(request);

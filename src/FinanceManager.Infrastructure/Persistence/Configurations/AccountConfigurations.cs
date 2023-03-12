@@ -1,9 +1,5 @@
 ﻿using FinanceManager.Domain.AccountAggregate;
 using FinanceManager.Domain.AccountAggregate.ValueObjects;
-using FinanceManager.Domain.MovementAggregate;
-using FinanceManager.Domain.MovementAggregate.ValueObjects;
-using FinanceManager.Domain.TagAggregate;
-using FinanceManager.Domain.TagAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

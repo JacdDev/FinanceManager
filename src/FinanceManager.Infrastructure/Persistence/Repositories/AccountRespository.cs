@@ -22,14 +22,15 @@ namespace FinanceManager.Infrastructure.Persistence.Repositories
         public void DeleteFromUser(string userId)
         {
             var userIdObject = UserId.Create(userId);
-            var accounts = _dbContext.Accounts.Where(account => account.Users.Any(user=>user.Value == userIdObject.Value));
+            var accounts = _dbContext.Accounts.Where(account => account.Users.Any(user => user.Value == userIdObject.Value));
             foreach (var account in accounts)
             {
-                if(account.Users.Count == 1)
+                if (account.Users.Count == 1)
                 {
                     _dbContext.Remove(account);
                 }
-                else{
+                else
+                {
                     account.removeUser(userIdObject);
                 }
             }

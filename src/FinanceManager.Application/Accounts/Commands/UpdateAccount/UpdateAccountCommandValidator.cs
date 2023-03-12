@@ -1,10 +1,4 @@
-﻿using FinanceManager.Application.Accounts.Commands.CreateAccount;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
 namespace FinanceManager.Application.Accounts.Commands.UpdateAccount
 {

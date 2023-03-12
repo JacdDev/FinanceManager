@@ -31,7 +31,7 @@ app.Use(async (context, next) =>
     {
         context.Response.Cookies.Append(
             CookieRequestCultureProvider.DefaultCookieName,
-            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureQuery)), 
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureQuery)),
             new CookieOptions() { Expires = DateTimeOffset.UtcNow.AddYears(1) });
     }
 

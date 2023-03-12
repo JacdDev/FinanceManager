@@ -1,15 +1,7 @@
-﻿using FinanceManager.Domain.AccountAggregate;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FinanceManager.Domain.MovementAggregate;
+﻿using FinanceManager.Domain.MovementAggregate;
 using FinanceManager.Domain.MovementAggregate.ValueObjects;
-using FinanceManager.Domain.TagAggregate;
-using FinanceManager.Domain.AccountAggregate.ValueObjects;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FinanceManager.Infrastructure.Persistence.Configurations
 {
@@ -43,6 +35,6 @@ namespace FinanceManager.Infrastructure.Persistence.Configurations
             builder.HasOne(m => m.Account);
             builder.HasMany(m => m.Tags);
         }
-        
+
     }
 }

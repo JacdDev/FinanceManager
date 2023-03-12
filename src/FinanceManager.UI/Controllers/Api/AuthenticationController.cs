@@ -1,14 +1,14 @@
-﻿using FinanceManager.Application.Authentication.Commands.Register;
+﻿using FinanceManager.Application.Authentication.Commands.ChangeEmail;
+using FinanceManager.Application.Authentication.Commands.ChangePassword;
+using FinanceManager.Application.Authentication.Commands.DeleteAccount;
+using FinanceManager.Application.Authentication.Commands.Register;
 using FinanceManager.Application.Authentication.Queries.Login;
 using FinanceManager.Application.Authentication.Queries.Logout;
-using FinanceManager.Application.Authentication.Commands.ChangeEmail;
-using FinanceManager.Application.Authentication.Commands.ChangePassword;
 using FinanceManager.UI.Models;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FinanceManager.Application.Authentication.Commands.DeleteAccount;
 
 namespace FinanceManager.UI.Controllers.Api
 {
@@ -88,7 +88,7 @@ namespace FinanceManager.UI.Controllers.Api
         }
 
         [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteAccount(DeleteAccountRequest request)
+        public async Task<IActionResult> DeleteAccount(DeleteUserRequest request)
         {
             var command = _mapper.Map<DeleteAccountCommand>(request);
 

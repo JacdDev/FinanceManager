@@ -1,4 +1,5 @@
 ﻿using FinanceManager.Application.Accounts.Commands.CreateAccount;
+using FinanceManager.Application.Accounts.Commands.DeleteAccount;
 using FinanceManager.Application.Accounts.Commands.ShareAccount;
 using FinanceManager.Application.Accounts.Commands.UpdateAccount;
 using FinanceManager.Application.Accounts.Queries.GetAccounts;
@@ -68,6 +69,20 @@ namespace FinanceManager.UI.Controllers.Api
             ShareAccountRequest request)
         {
             var command = _mapper.Map<ShareAccountCommand>(request);
+
+            var createAccountResult = await _mediator.Send(command);
+
+            return createAccountResult.Match(
+                account => Ok(_mapper.Map<AccountResponse>(account)),
+                errors => Problem(errors)
+                );
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAccount(
+            DeleteAccountRequest request)
+        {
+            var command = _mapper.Map<DeleteAccountCommand>(request);
 
             var createAccountResult = await _mediator.Send(command);
 

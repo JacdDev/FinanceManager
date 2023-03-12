@@ -1,5 +1,4 @@
 ﻿using FinanceManager.Domain.Models;
-using FinanceManager.Domain.UserAggregate.ValueObjects;
 
 namespace FinanceManager.Domain.AccountAggregate.ValueObjects
 {

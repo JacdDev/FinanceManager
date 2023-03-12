@@ -23,7 +23,7 @@ namespace FinanceManager.UI.Common.Mapping
 
             config.NewConfig<ChangePasswordRequest, ChangePasswordCommand>();
 
-            config.NewConfig<DeleteAccountRequest, DeleteAccountCommand>();
+            config.NewConfig<DeleteUserRequest, DeleteAccountCommand>();
         }
     }
 }

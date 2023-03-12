@@ -1,5 +1,4 @@
 ﻿using ErrorOr;
-using FinanceManager.Application.Accounts.Commands.UpdateAccount;
 using FinanceManager.Application.Accounts.Common;
 using FinanceManager.Application.Common.Interfaces;
 using FinanceManager.Application.Persistence;
@@ -7,12 +6,6 @@ using FinanceManager.Domain.AccountAggregate.ValueObjects;
 using FinanceManager.Domain.Errors;
 using FinanceManager.Domain.UserAggregate.ValueObjects;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.Application.Accounts.Commands.ShareAccount
 {

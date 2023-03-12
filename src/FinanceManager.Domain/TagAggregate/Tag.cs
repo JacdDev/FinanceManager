@@ -1,8 +1,6 @@
 ﻿using FinanceManager.Domain.AccountAggregate;
-using FinanceManager.Domain.AccountAggregate.ValueObjects;
 using FinanceManager.Domain.Models;
 using FinanceManager.Domain.MovementAggregate;
-using FinanceManager.Domain.MovementAggregate.ValueObjects;
 using FinanceManager.Domain.TagAggregate.ValueObjects;
 
 namespace FinanceManager.Domain.TagAggregate
