@@ -126,8 +126,14 @@
   <data name="ChangesApplied" xml:space="preserve">
     <value>Changes applied</value>
   </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
   <data name="Movements" xml:space="preserve">
     <value>Movements</value>
+  </data>
+  <data name="RequiredField" xml:space="preserve">
+    <value>Required field</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>

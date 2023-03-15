@@ -12,15 +12,15 @@
 
 <ul class="nav nav-tabs" id="accountTab" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="movements-tab" data-bs-toggle="tab" data-bs-target="#movements-tab-pane" type="button" role="tab" aria-controls="movements-tab-pane" aria-selected="true">@Localizer["Movements"]</button>
+        <button class="nav-link @(ViewData["tab"] as string == "movement" ? "active" :"")" id="movements-tab" data-bs-toggle="tab" data-bs-target="#movements-tab-pane" type="button" role="tab" aria-controls="movements-tab-pane" aria-selected="true">@Localizer["Movements"]</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="tags-tab" data-bs-toggle="tab" data-bs-target="#tags-tab-pane" type="button" role="tab" aria-controls="tags-tab-pane" aria-selected="false">@Localizer["Tags"]</button>
+        <button class="nav-link @(ViewData["tab"] as string == "tag" ? "active" :"")" id="tags-tab" data-bs-toggle="tab" data-bs-target="#tags-tab-pane" type="button" role="tab" aria-controls="tags-tab-pane" aria-selected="false">@Localizer["Tags"]</button>
     </li>
 </ul>
 
 <div class="tab-content" id="accountTabContent">
-    <div class="tab-pane fade show active" id="movements-tab-pane" role="tabpanel" aria-labelledby="movements-tab" tabindex="0">
+    <div class="tab-pane fade @(ViewData["tab"] as string == "movement" ? "show active" :"")" id="movements-tab-pane" role="tabpanel" aria-labelledby="movements-tab" tabindex="0">
 
         @if (ViewData.ContainsKey("ErrorMovementOperation"))
         {
@@ -42,11 +42,55 @@
 
     </div>
 
-    <div class="tab-pane fade" id="tags-tab-pane" role="tabpanel" aria-labelledby="tags-tab" tabindex="0">
-        <div class="d-flex justify-content-between mt-3">
+    <div class="tab-pane fade @(ViewData["tab"] as string == "tag" ? "show active" :"")" id="tags-tab-pane" role="tabpanel" aria-labelledby="tags-tab" tabindex="0">
 
+        @if (ViewData.ContainsKey("ErrorTagOperation"))
+        {
+            <div class="alert alert-danger" role="alert">
+                @Localizer[ViewData["ErrorTagOperation"]?.ToString()??""]
+            </div>
+        }
+        @if (ViewData.ContainsKey("SuccessTagOperation"))
+        {
+            <div class="alert alert-success" role="alert">
+                @Localizer[ViewData["SuccessTagOperation"]?.ToString()??""]
+            </div>
+        }
+
+        <div class="d-flex justify-content-end mt-3">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTagModal">@Localizer["AddTag"]</button>
         
+            <div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="addTagModalLabel">@Localizer["AddTag"]</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="add-tag-form" class="needs-validation" action="/account/createtag" method="post" novalidate>
+                                <div class="mb-3">
+                                    <label for="add-tag-name" class="col-form-label">@Localizer["Name"]</label>
+                                    <input type="text" class="form-control" id="add-tag-name" name="name">
+                                    <div id="add-tag-name-invalid-feedback" class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add-tag-color" class="col-form-label">@Localizer["Color"]</label>
+                                    <input type="color" class="form-control" id="add-tag-color" name="color">
+                                    <div id="add-tag-color-invalid-feedback" class="invalid-feedback"></div>
+                                </div>
+                                <input type="hidden" class="form-control" id="add-tag-account-id" name="id" value=@((ViewData["AccountInfo"] as AccountResponse)?.Id)>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                            <button id="submit-add-tag-form" type="button" class="btn btn-primary">@Localizer["AddTag"]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between mt-3">
             <span class="badge text-bg-primary">Primary</span>
             <span class="badge text-bg-secondary">Secondary</span>
             <span class="badge text-bg-success">Success</span>
@@ -59,3 +103,61 @@
     </div>
 
 </div>
+
+@section scripts{
+    <script>
+        //form
+        var add_tag_form = document.getElementById("add-tag-form");
+        var add_tag_button = document.getElementById("submit-add-tag-form");
+        //inputs
+        var add_tag_name = document.getElementById("add-tag-name");
+        var add_tag_color = document.getElementById("add-tag-color");
+        var add_tag_account_id = document.getElementById("add-tag-account-id");
+        //messages
+        var add_tag_name_invalid_feedback = document.getElementById("add-tag-name-invalid-feedback");
+        var add_tag_color_invalid_feedback = document.getElementById("add-tag-color-invalid-feedback");
+
+        //form validation
+        function validateAddTagForm() {
+            var valid = true;
+
+            add_tag_name.setCustomValidity("");
+            if (add_tag_name.value == "") {
+                add_tag_name.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
+            add_tag_color.setCustomValidity("");
+            if (add_tag_color.value == "") {
+                add_tag_color.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
+            add_tag_name.parentNode.classList.add('was-validated');
+            add_tag_color.parentNode.classList.add('was-validated');
+            add_tag_name_invalid_feedback.innerText = add_tag_name.validationMessage;
+            add_tag_color_invalid_feedback.innerText = add_tag_color.validationMessage;
+
+            return valid;
+        }
+
+        //event listeners
+        add_tag_button.addEventListener('click', event => {
+            if (!validateAddTagForm()) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                add_tag_form.submit();
+            }
+        }, false);
+
+        add_tag_name.addEventListener('keyup', event => {
+            validateAddTagForm();
+        }, false);
+
+        add_tag_color.addEventListener('keyup', event => {
+            validateAddTagForm();
+        }, false);
+
+    </script>
+}

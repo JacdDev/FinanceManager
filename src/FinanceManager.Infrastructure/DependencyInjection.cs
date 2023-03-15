@@ -48,6 +48,7 @@ namespace FinanceManager.Infrastructure
                 options.UseMySql(configuration["ConnectionStrings:Database"], ServerVersion.AutoDetect(configuration["ConnectionStrings:Database"]));
             });
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
 
             return services;
         }

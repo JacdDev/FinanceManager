@@ -1,7 +1,7 @@
 ﻿namespace FinanceManager.UI.Models
 {
-    public record TagResponse(
-        string Id,
+    public record CreateTagRequest(
+        string OwnerId,
         string Name,
         string Color,
         string AccountId);

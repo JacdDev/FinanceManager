@@ -23,5 +23,10 @@ namespace FinanceManager.Domain.TagAggregate
         {
             return new Tag(TagId.CreateUnique(), name, color);
         }
+
+        public void SetAccount(Account account)
+        {
+            Account = account;
+        }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace FinanceManager.UI.Models
+﻿namespace FinanceManager.Application.Tags.Common
 {
-    public record TagResponse(
+    public record TagResult(
         string Id,
         string Name,
         string Color,
