@@ -1,7 +1,10 @@
 ﻿using ErrorOr;
 using FinanceManager.Application.Accounts.Common;
 using FinanceManager.Application.Common.Interfaces;
+using FinanceManager.Application.Movements.Common;
 using FinanceManager.Application.Persistence;
+using FinanceManager.Application.Tags.Common;
+using FinanceManager.Domain.AccountAggregate;
 using MediatR;
 
 namespace FinanceManager.Application.Accounts.Queries.GetAccounts
@@ -25,7 +28,20 @@ namespace FinanceManager.Application.Accounts.Queries.GetAccounts
                 return user.Errors;
             }
 
-            return _accountRepository.Get(request.OwnerId).Select(account => new AccountResult(account)).ToList();
+            return _accountRepository.Get(request.OwnerId).Select(account => new AccountResult(
+                account.Id.Value.ToString(),
+                account.Name,
+                account.Description,
+                account.Amount,
+                account.Users.Select(user => user.Value.ToString()),
+                account.Movements.Select(movement => new MovementResult()),
+                account.Tags.Select(tag => new TagResult(
+                    tag.Id.Value.ToString(),
+                    tag.Name,
+                    tag.Color,
+                    tag.Account?.Id.Value.ToString() ?? "")
+                )
+            )).ToList();
         }
     }
 }

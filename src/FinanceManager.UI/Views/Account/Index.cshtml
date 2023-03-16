@@ -57,7 +57,8 @@
             </div>
         }
 
-        <div class="d-flex justify-content-end mt-3">
+        <div class="d-flex justify-content-between mt-3">
+            <p>@Localizer["MainTagMessage"]</p>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTagModal">@Localizer["AddTag"]</button>
         
             <div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalLabel" aria-hidden="true">
@@ -90,15 +91,10 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-between mt-3">
-            <span class="badge text-bg-primary">Primary</span>
-            <span class="badge text-bg-secondary">Secondary</span>
-            <span class="badge text-bg-success">Success</span>
-            <span class="badge text-bg-danger">Danger</span>
-            <span class="badge text-bg-warning">Warning</span>
-            <span class="badge text-bg-info">Info</span>
-            <span class="badge text-bg-light">Light</span>
-            <span class="badge text-bg-dark">Dark</span>
+        <div class="d-flex justify-content-evenly mt-3">
+            @foreach (var tag in (ViewData["AccountInfo"] as AccountResponse)?.Tags ?? new List<TagResponse>()){
+                <span class="badge" style="background:@tag.Color">@tag.Name</span>
+            }
         </div>
     </div>
 

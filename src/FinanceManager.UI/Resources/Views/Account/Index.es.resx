@@ -129,6 +129,9 @@
   <data name="Color" xml:space="preserve">
     <value>Color</value>
   </data>
+  <data name="MainTagMessage" xml:space="preserve">
+    <value>Selecciona una etiqueta para editarla o añade una nueva</value>
+  </data>
   <data name="Movements" xml:space="preserve">
     <value>Movimientos</value>
   </data>

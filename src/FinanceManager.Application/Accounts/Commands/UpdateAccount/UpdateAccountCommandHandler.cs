@@ -1,7 +1,9 @@
 ﻿using ErrorOr;
 using FinanceManager.Application.Accounts.Common;
 using FinanceManager.Application.Common.Interfaces;
+using FinanceManager.Application.Movements.Common;
 using FinanceManager.Application.Persistence;
+using FinanceManager.Application.Tags.Common;
 using FinanceManager.Domain.AccountAggregate.ValueObjects;
 using FinanceManager.Domain.Errors;
 using MediatR;
@@ -40,7 +42,20 @@ namespace FinanceManager.Application.Accounts.Commands.UpdateAccount
 
             _accountRepository.Update(account);
 
-            return new AccountResult(account);
+            return new AccountResult(
+                account.Id.Value.ToString(),
+                account.Name,
+                account.Description,
+                account.Amount,
+                account.Users.Select(user => user.Value.ToString()),
+                account.Movements.Select(movement => new MovementResult()),
+                account.Tags.Select(tag => new TagResult(
+                    tag.Id.Value.ToString(),
+                    tag.Name,
+                    tag.Color,
+                    tag.Account?.Id.Value.ToString() ?? "")
+                )
+            );
         }
     }
 }

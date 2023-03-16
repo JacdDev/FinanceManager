@@ -4,5 +4,6 @@
         string Id,
         string Name,
         string Description,
-        double Amount);
+        double Amount,
+        ICollection<TagResponse> Tags);
 }

@@ -23,9 +23,7 @@ namespace FinanceManager.UI.Common.Mapping
 
             config.NewConfig<DeleteAccountRequest, DeleteAccountCommand>();
 
-            config.NewConfig<AccountResult, AccountResponse>()
-                .Map(dest => dest.Id, src => src.Account.Id.Value)
-                .Map(dest => dest, src => src.Account);
+            config.NewConfig<AccountResult, AccountResponse>();
 
         }
     }

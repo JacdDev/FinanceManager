@@ -1,6 +1,7 @@
 ﻿using FinanceManager.Application.Persistence;
 using FinanceManager.Domain.AccountAggregate;
 using FinanceManager.Domain.UserAggregate.ValueObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceManager.Infrastructure.Persistence.Repositories
 {
@@ -40,7 +41,7 @@ namespace FinanceManager.Infrastructure.Persistence.Repositories
 
         public IEnumerable<Account> Get(string userId)
         {
-            return _dbContext.Accounts.Where(account => account.Users.Any(user => user.Value.ToString() == userId));
+            return _dbContext.Accounts.Include("Tags").Where(account => account.Users.Any(user => user.Value.ToString() == userId));
         }
 
         public void Update(Account account)

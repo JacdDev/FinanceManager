@@ -42,7 +42,7 @@ namespace FinanceManager.Application.Tags.Commands.CreateTag
 
             _tagRepository.Add(tag);
 
-            return new TagResult(tag.Id?.ToString() ?? "", tag.Name, tag.Color, tag.Account?.Id.ToString() ?? "");
+            return new TagResult(tag.Id?.Value.ToString() ?? "", tag.Name, tag.Color, tag.Account?.Id.Value.ToString() ?? "");
         }
     }
 }
