@@ -87,7 +87,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
-                            <button id="submit-add-movement-form" type="button" class="btn btn-primary">@Localizer["AddTag"]</button>
+                            <button id="submit-add-movement-form" type="button" class="btn btn-primary">@Localizer["AddMovement"]</button>
                         </div>
                     </div>
                 </div>
@@ -262,10 +262,6 @@
                 add_movement_amount.setCustomValidity("@Localizer["MustBePositive"]");
                 valid = false;
             }
-            //} else if (!(/^\d+(([\.,]\d+)?)$/.test(add_movement_amount.value))) {
-            //    add_movement_amount.setCustomValidity("@Localizer["InvalidFormat"]");
-            //    valid = false;
-            //}
 
             add_movement_concept.setCustomValidity("");
             if (add_movement_concept.value == "") {

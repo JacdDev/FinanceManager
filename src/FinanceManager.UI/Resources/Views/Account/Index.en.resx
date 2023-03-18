@@ -123,11 +123,20 @@
   <data name="AddTag" xml:space="preserve">
     <value>Add tag</value>
   </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
   <data name="ChangesApplied" xml:space="preserve">
     <value>Changes applied</value>
   </data>
   <data name="Color" xml:space="preserve">
     <value>Color</value>
+  </data>
+  <data name="Concept" xml:space="preserve">
+    <value>Concept</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
   </data>
   <data name="DeleteTag" xml:space="preserve">
     <value>Delete</value>
@@ -144,6 +153,12 @@
   <data name="DeleteTagConfirmationTitle" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
+  <data name="Incoming" xml:space="preserve">
+    <value>Incoming</value>
+  </data>
+  <data name="IsIncoming" xml:space="preserve">
+    <value>Incoming / Outcoming</value>
+  </data>
   <data name="MainTagMessage" xml:space="preserve">
     <value>Select a tag to edit it or add a new one</value>
   </data>
@@ -153,8 +168,14 @@
   <data name="Movements" xml:space="preserve">
     <value>Movements</value>
   </data>
+  <data name="MustBePositive" xml:space="preserve">
+    <value>Must be positive</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="Outcoming" xml:space="preserve">
+    <value>Outcoming</value>
   </data>
   <data name="RequiredField" xml:space="preserve">
     <value>Required field</value>
