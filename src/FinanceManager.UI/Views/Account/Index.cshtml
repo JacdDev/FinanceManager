@@ -91,10 +91,73 @@
                 </div>
             </div>
         </div>
+
         <div class="d-flex justify-content-evenly mt-3">
             @foreach (var tag in (ViewData["AccountInfo"] as AccountResponse)?.Tags ?? new List<TagResponse>()){
-                <span class="badge" style="background:@tag.Color">@tag.Name</span>
+                <div class="dropdown">
+                    @*<span class="badge" style="background:@tag.Color">@tag.Name</span>*@
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background:@tag.Color">
+                        @tag.Name
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><span onclick="showModalModifyTag('@tag.Id', '@tag.Name', '@tag.Color')" class="dropdown-item">@Localizer["ModifyTag"]</span></li>
+                        <li><span onclick="showModalDeleteTag('@tag.Id')" class="dropdown-item">@Localizer["DeleteTag"]</span></li>
+                    </ul>
+                </div>
             }
+        </div>
+
+        <div class="modal fade" id="modifyTagModal" tabindex="-1" aria-labelledby="modifyTagModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modifyTagModalLabel">@Localizer["ModifyTag"]</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="modify-tag-form" class="needs-validation" action="/account/updatetag" method="post" novalidate>
+                            <div class="mb-3">
+                                <label for="modify-tag-name" class="col-form-label">@Localizer["Name"]</label>
+                                <input type="text" class="form-control" id="modify-tag-name" name="name">
+                                <div id="modify-tag-name-invalid-feedback" class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="modify-tag-color" class="col-form-label">@Localizer["Color"]</label>
+                                <input type="color" class="form-control" id="modify-tag-color" name="color">
+                                <div id="modify-tag-color-invalid-feedback" class="invalid-feedback"></div>
+                            </div>
+                            <input type="hidden" class="form-control" id="modify-tag-id" name="tagId">
+                            <input type="hidden" class="form-control" id="modify-tag-account-id" name="accountId" value=@((ViewData["AccountInfo"] as AccountResponse)?.Id)>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                        <button id="submit-modify-tag-form" type="button" class="btn btn-primary">@Localizer["ModifyTag"]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteTagModal" tabindex="-1" aria-labelledby="deleteTagModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteTagModalLabel">@Localizer["DeleteTagConfirmationTitle"]</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @Localizer["DeleteTagConfirmationMessage"]
+                        <form id="delete-tag-form" class="needs-validation" action="/account/deletetag" method="post" novalidate>
+                            <input type="hidden" class="form-control" id="delete-tag-id" name="tagId">
+                            <input type="hidden" class="form-control" id="delete-tag-account-id" name="accountId" value=@((ViewData["AccountInfo"] as AccountResponse)?.Id)>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["DeleteTagConfirmationNegative"]</button>
+                        <button id="submit-delete-tag-form" type="button" class="btn btn-danger">@Localizer["DeleteTagConfirmationAffirmative"]</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -105,13 +168,23 @@
         //form
         var add_tag_form = document.getElementById("add-tag-form");
         var add_tag_button = document.getElementById("submit-add-tag-form");
+        var modify_tag_form = document.getElementById("modify-tag-form");
+        var modify_tag_button = document.getElementById("submit-modify-tag-form");
+        var delete_tag_form = document.getElementById("delete-tag-form");
+        var delete_tag_button = document.getElementById("submit-delete-tag-form");
         //inputs
         var add_tag_name = document.getElementById("add-tag-name");
         var add_tag_color = document.getElementById("add-tag-color");
         var add_tag_account_id = document.getElementById("add-tag-account-id");
+        var modify_tag_id = document.getElementById("modify-tag-id");
+        var modify_tag_name = document.getElementById("modify-tag-name");
+        var modify_tag_color = document.getElementById("modify-tag-color");
+        var delete_tag_id = document.getElementById("delete-tag-id");
         //messages
         var add_tag_name_invalid_feedback = document.getElementById("add-tag-name-invalid-feedback");
         var add_tag_color_invalid_feedback = document.getElementById("add-tag-color-invalid-feedback");
+        var modify_tag_name_invalid_feedback = document.getElementById("modify-tag-name-invalid-feedback");
+        var modify_tag_color_invalid_feedback = document.getElementById("modify-tag-color-invalid-feedback");
 
         //form validation
         function validateAddTagForm() {
@@ -137,6 +210,29 @@
             return valid;
         }
 
+        function validateModifyTagForm() {
+            var valid = true;
+
+            modify_tag_name.setCustomValidity("");
+            if (modify_tag_name.value == "") {
+                modify_tag_name.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
+            modify_tag_color.setCustomValidity("");
+            if (modify_tag_color.value == "") {
+                modify_tag_color.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
+            modify_tag_name.parentNode.classList.add('was-validated');
+            modify_tag_color.parentNode.classList.add('was-validated');
+            modify_tag_name_invalid_feedback.innerText = modify_tag_name.validationMessage;
+            modify_tag_color_invalid_feedback.innerText = modify_tag_color.validationMessage;
+
+            return valid;
+        }
+
         //event listeners
         add_tag_button.addEventListener('click', event => {
             if (!validateAddTagForm()) {
@@ -155,5 +251,39 @@
             validateAddTagForm();
         }, false);
 
+        modify_tag_button.addEventListener('click', event => {
+            if (!validateModifyTagForm()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }else{
+                modify_tag_form.submit();
+            }
+        }, false);
+
+        modify_tag_name.addEventListener('keyup', event => {
+            validateModifyTagForm();
+        }, false);
+
+        modify_tag_color.addEventListener('keyup', event => {
+            validateModifyTagForm();
+        }, false);
+
+        delete_tag_button.addEventListener('click', event => {
+            delete_tag_form.submit();
+        }, false);
+
+        function showModalModifyTag(tagId, tagName, tagColor) {
+            modify_tag_id.value = tagId;
+            modify_tag_name.value = tagName;
+            modify_tag_color.value = tagColor;
+            $('#modifyTagModal').modal('show');
+            event.preventDefault();
+        }
+
+        function showModalDeleteTag(tagId) {
+            delete_tag_id.value = tagId;
+            $('#deleteTagModal').modal('show');
+            event.preventDefault();
+        }
     </script>
 }

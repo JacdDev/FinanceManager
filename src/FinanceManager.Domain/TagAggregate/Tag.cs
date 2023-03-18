@@ -8,8 +8,8 @@ namespace FinanceManager.Domain.TagAggregate
     public class Tag : AggregateRoot<TagId>
     {
         public Account? Account { get; private set; }
-        public string Name { get; }
-        public string Color { get; }
+        public string Name { get; private set; }
+        public string Color { get; private set; }
         private readonly List<Movement> _movements = new();
         public IReadOnlyList<Movement> Movements => _movements.AsReadOnly();
 
@@ -27,6 +27,16 @@ namespace FinanceManager.Domain.TagAggregate
         public void SetAccount(Account account)
         {
             Account = account;
+        }
+
+        public void SetColor(string color)
+        {
+            Color = color;
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
         }
     }
 }

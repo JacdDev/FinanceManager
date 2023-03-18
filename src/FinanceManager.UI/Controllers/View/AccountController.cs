@@ -72,5 +72,49 @@ namespace FinanceManager.UI.Controllers.View
 
             return RedirectToAction("Index", new { accountId = id, tab = "tag" });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateTag(string tagId, string name, string color, string accountId)
+        {
+            var request = new UpdateTagRequest(
+                User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "",
+                tagId,
+                name,
+                color);
+
+            var response = await _tagsService.UpdateTag(request);
+
+            if (response is OkObjectResult)
+            {
+                TempData.Add("SuccessTagOperation", "ChangesApplied");
+                return RedirectToAction("Index", new { accountId = accountId, tab = "tag" });
+            }
+
+            var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
+            TempData.Add("ErrorTagOperation", errorType ?? "UnknownError");
+
+            return RedirectToAction("Index", new { accountId = accountId, tab = "tag" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteTag(string tagId, string accountId)
+        {
+            var request = new DeleteTagRequest(
+                User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "",
+                tagId);
+
+            var response = await _tagsService.DeleteTag(request);
+
+            if (response is OkObjectResult)
+            {
+                TempData.Add("SuccessTagOperation", "ChangesApplied");
+                return RedirectToAction("Index", new { accountId = accountId, tab = "tag" });
+            }
+
+            var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
+            TempData.Add("ErrorTagOperation", errorType ?? "UnknownError");
+
+            return RedirectToAction("Index", new { accountId = accountId, tab = "tag" });
+        }
     }
 }

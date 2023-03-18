@@ -1,4 +1,5 @@
-﻿using FinanceManager.Domain.Models;
+﻿using FinanceManager.Domain.AccountAggregate.ValueObjects;
+using FinanceManager.Domain.Models;
 
 namespace FinanceManager.Domain.TagAggregate.ValueObjects
 {
@@ -14,6 +15,11 @@ namespace FinanceManager.Domain.TagAggregate.ValueObjects
         public static TagId CreateUnique()
         {
             return new TagId(Guid.NewGuid());
+        }
+
+        public static TagId Create(string value)
+        {
+            return new TagId(Guid.Parse(value));
         }
 
         public static TagId Create(Guid value)

@@ -129,11 +129,32 @@
   <data name="Color" xml:space="preserve">
     <value>Color</value>
   </data>
+  <data name="DeleteTag" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="DeleteTagConfirmationAffirmative" xml:space="preserve">
+    <value>Si</value>
+  </data>
+  <data name="DeleteTagConfirmationMessage" xml:space="preserve">
+    <value>Esta acción no se puede deshacer y borrará la etiqueta permanentemente, la etiqueta se eliminará de los movimientos que la contengan.</value>
+  </data>
+  <data name="DeleteTagConfirmationNegative" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="DeleteTagConfirmationTitle" xml:space="preserve">
+    <value>¿Estás seguro?</value>
+  </data>
   <data name="MainTagMessage" xml:space="preserve">
     <value>Selecciona una etiqueta para editarla o añade una nueva</value>
   </data>
+  <data name="ModifyTag" xml:space="preserve">
+    <value>Modificar</value>
+  </data>
   <data name="Movements" xml:space="preserve">
     <value>Movimientos</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nombre</value>
   </data>
   <data name="RequiredField" xml:space="preserve">
     <value>Campo requerido</value>
