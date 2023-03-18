@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="add-movement-concept" class="col-form-label">@Localizer["Concept"]</label>
-                                    <textarea class="form-control" id="add-movement-concept" name="concept"></textarea>
+                                    <input type="text" class="form-control" id="add-movement-concept" name="concept">
                                     <div id="add-movement-concept-invalid-feedback" class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
@@ -351,16 +351,28 @@
             }
         }, false);
 
-        add_movement_amount.addEventListener('keyup', event => {
-            validateAddMovementForm();
+        add_movement_amount.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateAddMovementForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
         }, false);
 
-        add_movement_concept.addEventListener('keyup', event => {
-            validateAddMovementForm();
+        add_movement_concept.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateAddMovementForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
         }, false);
 
-        add_movement_date.addEventListener('keyup', event => {
-            validateAddMovementForm();
+        add_movement_date.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateAddMovementForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
         }, false);
 
         add_movement_date.addEventListener('change', event => {
@@ -376,12 +388,12 @@
             }
         }, false);
 
-        add_tag_name.addEventListener('keyup', event => {
-            validateAddTagForm();
-        }, false);
-
-        add_tag_color.addEventListener('keyup', event => {
-            validateAddTagForm();
+        add_tag_name.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateAddTagForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
         }, false);
 
         add_tag_color.addEventListener('change', event => {
@@ -397,12 +409,12 @@
             }
         }, false);
 
-        modify_tag_name.addEventListener('keyup', event => {
-            validateModifyTagForm();
-        }, false);
-
-        modify_tag_color.addEventListener('keyup', event => {
-            validateModifyTagForm();
+        modify_tag_name.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateModifyTagForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
         }, false);
 
         modify_tag_color.addEventListener('change', event => {

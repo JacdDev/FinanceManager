@@ -1,5 +1,6 @@
 ﻿@using FinanceManager.UI.Models
 @using Microsoft.AspNetCore.Mvc.Localization
+@using System.Web
 
 @inject IViewLocalizer Localizer
 
@@ -45,7 +46,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="account-description" class="col-form-label">@Localizer["Description"]</label>
-                        <textarea class="form-control" id="add-account-description" name="description"></textarea>
+                        <input type="text" class="form-control" id="add-account-description" name="description">
                         <div id="add-account-description-invalid-feedback" class="invalid-feedback"></div>
                     </div>
                     <div class="mb-3">
@@ -66,7 +67,7 @@
 <div class="list-group mt-4">
     @foreach (var account in (ViewData["Accounts"] as IEnumerable<AccountResponse>) ?? new List<AccountResponse>())
     {
-        <a href="/account/index?accountId=@account.Id" class="list-group-item list-group-item-action">
+        <a href="/account/index?accountId=@account.Id" class="list-group-item list-group-item-action TEST">
             <div class="d-flex w-100 justify-content-between">
                 <h3 class="mb-1">@account.Name</h3>
                 <div class="dropdown">
@@ -103,7 +104,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="modify-account-description" class="col-form-label">@Localizer["Description"]</label>
-                        <textarea class="form-control" id="modify-account-description" name="description"></textarea>
+                        <input typw="text" class="form-control" id="modify-account-description" name="description">
                         <div id="modify-account-description-invalid-feedback" class="invalid-feedback"></div>
                     </div>
                     <input type="hidden" class="form-control" id="modify-account-id" name="id">
@@ -267,42 +268,63 @@
         }
 
         //event listeners
+
         add_account_button.addEventListener('click', event => {
             if (!validateAddAccountForm()) {
                 event.preventDefault();
                 event.stopPropagation();
-            }else{
+            } else {
                 add_account_form.submit();
             }
         }, false);
 
-        add_account_name.addEventListener('keyup', event => {
-            validateAddAccountForm();
+        add_account_name.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateAddAccountForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
         }, false);
 
-        add_account_description.addEventListener('keyup', event => {
-            validateAddAccountForm();
+        add_account_description.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateAddAccountForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
         }, false);
 
-        add_account_amount.addEventListener('keyup', event => {
-            validateAddAccountForm();
+        add_account_amount.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateAddAccountForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
         }, false);
 
         modify_account_button.addEventListener('click', event => {
             if (!validateModifyAccountForm()) {
                 event.preventDefault();
                 event.stopPropagation();
-            }else{
+            } else {
                 modify_account_form.submit();
             }
         }, false);
 
-        modify_account_name.addEventListener('keyup', event => {
-            validateModifyAccountForm();
+        modify_account_name.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateModifyAccountForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
         }, false);
 
-        modify_account_description.addEventListener('keyup', event => {
-            validateModifyAccountForm();
+        modify_account_description.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateModifyAccountForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
         }, false);
 
         delete_account_button.addEventListener('click', event => {
@@ -318,11 +340,15 @@
             }
         }, false);
 
-        share_account_email.addEventListener('keyup', event => {
-            validateShareAccountForm();
+        share_account_email.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateShareAccountForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
         }, false);
 
-        function showModalModifyAccount(accountId, accountName, accountDescription){
+        function showModalModifyAccount(accountId, accountName, accountDescription) {
             modify_account_id.value = accountId;
             modify_account_name.value = accountName;
             modify_account_description.value = accountDescription;
@@ -330,7 +356,7 @@
             event.preventDefault();
         }
 
-        function showModalDeleteAccount(accountId){
+        function showModalDeleteAccount(accountId) {
             delete_account_id.value = accountId;
             $('#deleteAccountModal').modal('show');
             event.preventDefault();

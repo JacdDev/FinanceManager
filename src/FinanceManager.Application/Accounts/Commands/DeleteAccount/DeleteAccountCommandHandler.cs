@@ -37,7 +37,7 @@ namespace FinanceManager.Application.Accounts.Commands.DeleteAccount
                 return AccountErrors.PermisionDenied;
             }
 
-            _accountRepository.DeleteFromUser(request.UserId);
+            _accountRepository.Delete(account);
 
             return new AccountResult(
                 account.Id.Value.ToString(),

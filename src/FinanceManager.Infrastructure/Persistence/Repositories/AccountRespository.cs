@@ -20,6 +20,12 @@ namespace FinanceManager.Infrastructure.Persistence.Repositories
             _dbContext.SaveChanges();
         }
 
+        public void Delete(Account account)
+        {
+            _dbContext.Remove(account);
+            _dbContext.SaveChanges();
+        }
+
         public void DeleteFromUser(string userId)
         {
             var userIdObject = UserId.Create(userId);
