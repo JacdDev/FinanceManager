@@ -51,6 +51,29 @@ namespace FinanceManager.UI.Controllers.View
         }
 
         [HttpPost]
+        public async Task<IActionResult> CreateMovement(string amount, string concept, DateTime date, bool isIncoming, string tags, string id)
+        {
+            //var request = new CreateTagRequest(
+            //    User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "",
+            //    name,
+            //    color,
+            //    id);
+
+            //var response = await _tagsService.CreateTag(request);
+
+            //if (response is OkObjectResult)
+            //{
+            //    TempData.Add("SuccessTagOperation", "ChangesApplied");
+            //    return RedirectToAction("Index", new { accountId = id, tab = "movement" });
+            //}
+
+            //var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
+            //TempData.Add("ErrorTagOperation", errorType ?? "UnknownError");
+
+            return RedirectToAction("Index", new { accountId = id, tab = "movement" });
+        }
+
+        [HttpPost]
         public async Task<IActionResult> CreateTag(string name, string color, string id)
         {
             var request = new CreateTagRequest(
