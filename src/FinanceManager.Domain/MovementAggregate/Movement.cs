@@ -2,6 +2,7 @@
 using FinanceManager.Domain.Models;
 using FinanceManager.Domain.MovementAggregate.ValueObjects;
 using FinanceManager.Domain.TagAggregate;
+using System.Xml.Linq;
 
 namespace FinanceManager.Domain.MovementAggregate
 {
@@ -40,6 +41,16 @@ namespace FinanceManager.Domain.MovementAggregate
                 amount,
                 isIncoming,
                 executionDate);
+        }
+
+        public void SetAccount(Account account)
+        {
+            Account = account;
+        }
+
+        public void AddTag(Tag tag)
+        {
+            _tags.Add(tag);
         }
     }
 }

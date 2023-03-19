@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Movements\Commands\" />
     <Folder Include="Movements\Queries\" />
     <Folder Include="Tags\Queries\" />
   </ItemGroup>

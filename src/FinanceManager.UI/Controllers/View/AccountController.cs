@@ -1,6 +1,7 @@
 ﻿using FinanceManager.UI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace FinanceManager.UI.Controllers.View
 {
@@ -9,10 +10,12 @@ namespace FinanceManager.UI.Controllers.View
     public class AccountController : Controller
     {
         private readonly Api.AccountsController _accountsService;
+        private readonly Api.MovementsController _movementsService;
         private readonly Api.TagsController _tagsService;
-        public AccountController(Api.AccountsController accountsService, Api.TagsController tagsService)
+        public AccountController(Api.AccountsController accountsService, Api.MovementsController movementsService, Api.TagsController tagsService)
         {
             _accountsService = accountsService;
+            _movementsService = movementsService;
             _tagsService = tagsService;
         }
 
@@ -51,24 +54,27 @@ namespace FinanceManager.UI.Controllers.View
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMovement(string amount, string concept, DateTime date, bool isIncoming, string tags, string id)
+        public async Task<IActionResult> CreateMovement(string amount, string concept, DateTime date, bool isIncoming, string? tags, string id)
         {
-            //var request = new CreateTagRequest(
-            //    User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "",
-            //    name,
-            //    color,
-            //    id);
+            var request = new CreateMovementRequest(
+                User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "",
+                Convert.ToDouble(amount.Replace(",", "."), CultureInfo.InvariantCulture),
+                concept,
+                isIncoming,
+                date,
+                tags?.Split(',') ?? new string[0],
+                id);
 
-            //var response = await _tagsService.CreateTag(request);
+            var response = await _movementsService.CreateMovement(request);
 
-            //if (response is OkObjectResult)
-            //{
-            //    TempData.Add("SuccessTagOperation", "ChangesApplied");
-            //    return RedirectToAction("Index", new { accountId = id, tab = "movement" });
-            //}
+            if (response is OkObjectResult)
+            {
+                TempData.Add("SuccessMovementOperation", "ChangesApplied");
+                return RedirectToAction("Index", new { accountId = id, tab = "movement" });
+            }
 
-            //var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
-            //TempData.Add("ErrorTagOperation", errorType ?? "UnknownError");
+            var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
+            TempData.Add("ErrorMovementOperation", errorType ?? "UnknownError");
 
             return RedirectToAction("Index", new { accountId = id, tab = "movement" });
         }
