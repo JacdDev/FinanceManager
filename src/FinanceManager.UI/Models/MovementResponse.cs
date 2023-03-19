@@ -6,5 +6,6 @@
         double Amount,
         bool IsIncoming,
         DateTime ExecutionDate,
-        List<TagResponse> tags);
+        ICollection<TagResponse> Tags,
+        string AccountId);
 }

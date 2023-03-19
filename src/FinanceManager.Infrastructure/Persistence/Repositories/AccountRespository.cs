@@ -45,9 +45,9 @@ namespace FinanceManager.Infrastructure.Persistence.Repositories
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Account> Get(string userId)
+        public IEnumerable<Account> GetFromUser(string userId)
         {
-            return _dbContext.Accounts.Include("Tags").Where(account => account.Users.Any(user => user.Value.ToString() == userId));
+            return _dbContext.Accounts.Include("Movements.Tags").Include("Tags").Where(account => account.Users.Any(user => user.Value.ToString() == userId));
         }
 
         public void Update(Account account)

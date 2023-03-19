@@ -5,8 +5,10 @@ using FinanceManager.Application.Movements.Common;
 using FinanceManager.Application.Persistence;
 using FinanceManager.Application.Tags.Common;
 using FinanceManager.Domain.AccountAggregate;
+using FinanceManager.Domain.TagAggregate;
 using FinanceManager.Domain.UserAggregate.ValueObjects;
 using MediatR;
+using System.Linq;
 
 namespace FinanceManager.Application.Accounts.Commands.CreateAccount
 {
@@ -40,7 +42,18 @@ namespace FinanceManager.Application.Accounts.Commands.CreateAccount
                 account.Description, 
                 account.Amount, 
                 account.Users.Select(user=>user.Value.ToString()), 
-                account.Movements.Select(movement=>new MovementResult()),
+                account.Movements.Select(movement=>new MovementResult(
+                    movement.Id.Value.ToString(),
+                    movement.Concept,
+                    movement.Amount,
+                    movement.IsIncoming,
+                    movement.ExecutionDate,
+                    movement.Tags.Select(tag => new TagResult(
+                        tag.Id.Value.ToString(),
+                        tag.Name,
+                        tag.Color,
+                        tag.Account?.Id.Value.ToString() ?? "")),
+                    movement.Account?.Id.Value.ToString() ?? "")),
                 account.Tags.Select(tag=>new TagResult(
                     tag.Id.Value.ToString(), 
                     tag.Name, 

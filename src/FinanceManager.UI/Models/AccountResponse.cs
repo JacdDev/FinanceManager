@@ -5,5 +5,6 @@
         string Name,
         string Description,
         double Amount,
-        ICollection<TagResponse> Tags);
+        ICollection<TagResponse> Tags,
+        ICollection<MovementResponse> Movements);
 }

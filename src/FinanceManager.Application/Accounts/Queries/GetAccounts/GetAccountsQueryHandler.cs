@@ -28,13 +28,24 @@ namespace FinanceManager.Application.Accounts.Queries.GetAccounts
                 return user.Errors;
             }
 
-            return _accountRepository.Get(request.OwnerId).Select(account => new AccountResult(
+            return _accountRepository.GetFromUser(request.OwnerId).Select(account => new AccountResult(
                 account.Id.Value.ToString(),
                 account.Name,
                 account.Description,
                 account.Amount,
                 account.Users.Select(user => user.Value.ToString()),
-                account.Movements.Select(movement => new MovementResult()),
+                account.Movements.Select(movement => new MovementResult(
+                    movement.Id.Value.ToString(),
+                    movement.Concept,
+                    movement.Amount,
+                    movement.IsIncoming,
+                    movement.ExecutionDate,
+                    movement.Tags.Select(tag => new TagResult(
+                        tag.Id.Value.ToString(),
+                        tag.Name,
+                        tag.Color,
+                        tag.Account?.Id.Value.ToString() ?? "")),
+                    movement.Account?.Id.Value.ToString() ?? "")),
                 account.Tags.Select(tag => new TagResult(
                     tag.Id.Value.ToString(),
                     tag.Name,

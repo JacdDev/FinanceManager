@@ -67,7 +67,7 @@
 <div class="list-group mt-4">
     @foreach (var account in (ViewData["Accounts"] as IEnumerable<AccountResponse>) ?? new List<AccountResponse>())
     {
-        <a href="/account/index?accountId=@account.Id" class="list-group-item list-group-item-action TEST">
+        <a href="/account/index?accountId=@account.Id" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
                 <h3 class="mb-1">@account.Name</h3>
                 <div class="dropdown">

@@ -38,64 +38,89 @@
         <div class="d-flex justify-content-between mt-3">
             <p>@((ViewData["AccountInfo"] as AccountResponse)?.Description)</p>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMovementModal">@Localizer["AddMovement"]</button>
+        </div>
 
-            <div class="modal fade" id="addMovementModal" tabindex="-1" aria-labelledby="addMovementModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="addMovementModalLabel">@Localizer["AddMovement"]</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="add-movement-form" class="needs-validation" action="/account/createmovement" method="post" novalidate>
-                                <div class="mb-3">
-                                    <label for="add-movement-amount" class="col-form-label">@Localizer["Amount"]</label>
-                                    <input type="number" class="form-control" id="add-movement-amount" name="amount" value="0.0" step="any">
-                                    <div id="add-movement-amount-invalid-feedback" class="invalid-feedback"></div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="add-movement-concept" class="col-form-label">@Localizer["Concept"]</label>
-                                    <input type="text" class="form-control" id="add-movement-concept" name="concept">
-                                    <div id="add-movement-concept-invalid-feedback" class="invalid-feedback"></div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="add-movement-date" class="col-form-label">@Localizer["Date"]</label>
-                                    <input type="date" class="form-control" id="add-movement-date" name="date">
-                                    <div id="add-movement-date-invalid-feedback" class="invalid-feedback"></div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="add-movement-isincoming" class="col-form-label">@Localizer["IsIncoming"]</label>
-                                    <select class="form-select" id="add-movement-isincoming" name="isIncoming">
-                                        <option value=false>@Localizer["Outcoming"]</option>
-                                        <option value=true>@Localizer["Incoming"]</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="add-movement-tags" class="col-form-label">@Localizer["Tags"]</label>
-                                    <input type="hidden" class="form-control" id="add-movement-tags" name="tags">
-                                    <ul class="list-group">
-                                        @foreach (var tag in (ViewData["AccountInfo"] as AccountResponse)?.Tags ?? new List<TagResponse>()){
-                                            <li class="list-group-item">
-                                                <input class="form-check-input me-1 add-movement-tag-checkbox" type="checkbox" value="@tag.Id">
-                                                <span class="badge" for="firstCheckbox" style="background:@tag.Color">@tag.Name</span>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                                <input type="hidden" class="form-control" id="add-movement-account-id" name="id" value=@((ViewData["AccountInfo"] as AccountResponse)?.Id)>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
-                            <button id="submit-add-movement-form" type="button" class="btn btn-primary">@Localizer["AddMovement"]</button>
-                        </div>
+        <div class="modal fade" id="addMovementModal" tabindex="-1" aria-labelledby="addMovementModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="addMovementModalLabel">@Localizer["AddMovement"]</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-movement-form" class="needs-validation" action="/account/createmovement" method="post" novalidate>
+                            <div class="mb-3">
+                                <label for="add-movement-amount" class="col-form-label">@Localizer["Amount"]</label>
+                                <input type="number" class="form-control" id="add-movement-amount" name="amount" value="0.0" step="any">
+                                <div id="add-movement-amount-invalid-feedback" class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-movement-concept" class="col-form-label">@Localizer["Concept"]</label>
+                                <input type="text" class="form-control" id="add-movement-concept" name="concept">
+                                <div id="add-movement-concept-invalid-feedback" class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-movement-date" class="col-form-label">@Localizer["Date"]</label>
+                                <input type="date" class="form-control" id="add-movement-date" name="date">
+                                <div id="add-movement-date-invalid-feedback" class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-movement-isincoming" class="col-form-label">@Localizer["IsIncoming"]</label>
+                                <select class="form-select" id="add-movement-isincoming" name="isIncoming">
+                                    <option value=false>@Localizer["Outcoming"]</option>
+                                    <option value=true>@Localizer["Incoming"]</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-movement-tags" class="col-form-label">@Localizer["Tags"]</label>
+                                <input type="hidden" class="form-control" id="add-movement-tags" name="tags">
+                                <ul class="list-group">
+                                    @foreach (var tag in (ViewData["AccountInfo"] as AccountResponse)?.Tags ?? new List<TagResponse>()){
+                                        <li class="list-group-item">
+                                            <input class="form-check-input me-1 add-movement-tag-checkbox" type="checkbox" value="@tag.Id">
+                                            <span class="badge" for="firstCheckbox" style="background:@tag.Color">@tag.Name</span>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            <input type="hidden" class="form-control" id="add-movement-account-id" name="id" value=@((ViewData["AccountInfo"] as AccountResponse)?.Id)>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                        <button id="submit-add-movement-form" type="button" class="btn btn-primary">@Localizer["AddMovement"]</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="list-group mt-4">
+            @foreach (var movement in (ViewData["AccountInfo"] as AccountResponse)?.Movements ?? new List<MovementResponse>())
+            {
+                <a href="/account/index?accountId=@movement.Id" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h3 class="mb-1">@movement.Amount</h3>
+                        <div class="dropdown">
+                            <i class="bi-gear btn" data-bs-toggle="dropdown"></i>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><span onclick="showModalModifyMovement('@movement.Id', '@movement.Amount', '@movement.Concept')" class="dropdown-item">@Localizer["ModifyMovement"]</span></li>
+                                <li><span onclick="showModalDeleteMovement('@movement.Id')" class="dropdown-item">@Localizer["DeleteMovement"]</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-7 mb-1">@movement.Concept</p>
+                        <p class="col-4 mb-1">@movement.ExecutionDate</p>
+                    </div>
+                </a>
+
+            }
         </div>
 
+        
     </div>
+
+</div>
 
 <div class="tab-pane fade @(ViewData["tab"] as string == "tag" ? "show active" :"")" id="tags-tab-pane" role="tabpanel" aria-labelledby="tags-tab" tabindex="0">
 

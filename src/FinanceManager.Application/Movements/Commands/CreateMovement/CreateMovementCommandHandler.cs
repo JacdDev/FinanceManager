@@ -45,7 +45,7 @@ namespace FinanceManager.Application.Movements.Commands.CreateMovement
             }
 
             var accountId = AccountId.Create(request.AccountId);
-            var account = _accountRepository.Get(request.OwnerId).FirstOrDefault(account => account.Id == accountId);
+            var account = _accountRepository.GetFromUser(request.OwnerId).FirstOrDefault(account => account.Id == accountId);
             if (account is null)
             {
                 return AccountErrors.PermisionDenied;
@@ -67,7 +67,19 @@ namespace FinanceManager.Application.Movements.Commands.CreateMovement
 
             _movementRepository.Add(movement);
 
-            return new MovementResult();
+            return new MovementResult(
+                movement.Id?.Value.ToString() ?? "",
+                movement.Concept, 
+                movement.Amount, 
+                movement.IsIncoming,
+                movement.ExecutionDate,
+                movement.Tags.Select(tag=>new TagResult(
+                    tag.Id?.Value.ToString() ?? "",
+                    tag.Name,
+                    tag.Color,
+                    tag.Account?.Id.Value.ToString() ?? ""
+                    )),
+                movement.Account?.Id.Value.ToString() ?? "");
         }
     }
 }

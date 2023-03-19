@@ -31,7 +31,7 @@ namespace FinanceManager.Application.Tags.Commands.CreateTag
             }
 
             var accountId = AccountId.Create(request.AccountId);
-            var account = _accountRepository.Get(request.OwnerId).FirstOrDefault(account => account.Id == accountId);
+            var account = _accountRepository.GetFromUser(request.OwnerId).FirstOrDefault(account => account.Id == accountId);
             if (account is null)
             {
                 return AccountErrors.PermisionDenied;
