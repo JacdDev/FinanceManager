@@ -138,6 +138,21 @@
   <data name="Date" xml:space="preserve">
     <value>Date</value>
   </data>
+  <data name="DeleteMovement" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteMovementConfirmationAffirmative" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="DeleteMovementConfirmationMessage" xml:space="preserve">
+    <value>This action cannot be undone and will delete the movement permanently, the movement amount will be reverted from the account total amount.</value>
+  </data>
+  <data name="DeleteMovementConfirmationNegative" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="DeleteMovementConfirmationTitle" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
   <data name="DeleteTag" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -161,6 +176,9 @@
   </data>
   <data name="MainTagMessage" xml:space="preserve">
     <value>Select a tag to edit it or add a new one</value>
+  </data>
+  <data name="ModifyMovement" xml:space="preserve">
+    <value>Modify</value>
   </data>
   <data name="ModifyTag" xml:space="preserve">
     <value>Modify</value>

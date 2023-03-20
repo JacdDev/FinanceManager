@@ -1,10 +1,4 @@
-﻿using FinanceManager.Application.Tags.Commands.UpdateTag;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
 namespace FinanceManager.Application.Tags.Commands.DeleteTag
 {

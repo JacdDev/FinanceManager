@@ -1,8 +1,4 @@
-﻿using FinanceManager.Application.Accounts.Commands.CreateAccount;
-using FinanceManager.Application.Accounts.Commands.ShareAccount;
-using FinanceManager.Application.Accounts.Commands.UpdateAccount;
-using FinanceManager.Application.Accounts.Queries.GetAccounts;
-using FinanceManager.Application.Movements.Commands.CreateMovement;
+﻿using FinanceManager.Application.Movements.Commands.CreateMovement;
 using FinanceManager.UI.Models;
 using MapsterMapper;
 using MediatR;

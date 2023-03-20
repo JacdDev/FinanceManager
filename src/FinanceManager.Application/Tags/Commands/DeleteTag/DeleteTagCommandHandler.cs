@@ -1,19 +1,11 @@
 ﻿using ErrorOr;
-using FinanceManager.Application.Accounts.Common;
 using FinanceManager.Application.Common.Interfaces;
-using FinanceManager.Application.Movements.Common;
 using FinanceManager.Application.Persistence;
 using FinanceManager.Application.Tags.Common;
-using FinanceManager.Domain.AccountAggregate.ValueObjects;
 using FinanceManager.Domain.Errors;
 using FinanceManager.Domain.TagAggregate.ValueObjects;
 using FinanceManager.Domain.UserAggregate.ValueObjects;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.Application.Tags.Commands.DeleteTag
 {

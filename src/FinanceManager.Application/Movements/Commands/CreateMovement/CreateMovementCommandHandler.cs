@@ -1,23 +1,13 @@
 ﻿using ErrorOr;
-using FinanceManager.Application.Accounts.Commands.CreateAccount;
-using FinanceManager.Application.Accounts.Common;
 using FinanceManager.Application.Common.Interfaces;
 using FinanceManager.Application.Movements.Common;
 using FinanceManager.Application.Persistence;
 using FinanceManager.Application.Tags.Common;
-using FinanceManager.Domain.AccountAggregate;
 using FinanceManager.Domain.AccountAggregate.ValueObjects;
 using FinanceManager.Domain.Errors;
 using FinanceManager.Domain.MovementAggregate;
-using FinanceManager.Domain.TagAggregate;
 using FinanceManager.Domain.TagAggregate.ValueObjects;
-using FinanceManager.Domain.UserAggregate.ValueObjects;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.Application.Movements.Commands.CreateMovement
 {
@@ -54,10 +44,10 @@ namespace FinanceManager.Application.Movements.Commands.CreateMovement
             var movement = Movement.Create(request.Concept, request.Amount, request.IsIncoming, request.ExecutionDate);
             movement.SetAccount(account);
 
-            foreach(var tagId in request.Tags)
+            foreach (var tagId in request.Tags)
             {
                 var tag = _tagRepository.Get(TagId.Create(tagId));
-                if(tag is null)
+                if (tag is null)
                 {
                     return TagErrors.TagNotFound;
                 }
@@ -69,11 +59,11 @@ namespace FinanceManager.Application.Movements.Commands.CreateMovement
 
             return new MovementResult(
                 movement.Id?.Value.ToString() ?? "",
-                movement.Concept, 
-                movement.Amount, 
+                movement.Concept,
+                movement.Amount,
                 movement.IsIncoming,
                 movement.ExecutionDate,
-                movement.Tags.Select(tag=>new TagResult(
+                movement.Tags.Select(tag => new TagResult(
                     tag.Id?.Value.ToString() ?? "",
                     tag.Name,
                     tag.Color,

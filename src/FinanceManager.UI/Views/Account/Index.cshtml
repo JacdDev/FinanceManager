@@ -99,25 +99,107 @@
             {
                 <a href="/account/index?accountId=@movement.Id" class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between">
-                        <h3 class="mb-1">@movement.Amount</h3>
+                        <h3 class="mb-1" style="color: @(movement.IsIncoming?"green":"red");">@movement.Amount</h3>
+                        <div>
+                            @foreach (var tag in movement.Tags)
+                            {
+                               <span class="badge" style="background:@tag.Color">@tag.Name</span>
+                            }
+                        </div>
                         <div class="dropdown">
                             <i class="bi-gear btn" data-bs-toggle="dropdown"></i>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><span onclick="showModalModifyMovement('@movement.Id', '@movement.Amount', '@movement.Concept')" class="dropdown-item">@Localizer["ModifyMovement"]</span></li>
+                                <li><span onclick="showModalModifyMovement('@movement.Id', '@movement.Amount', '@movement.Concept', '@movement.ExecutionDate.ToString("yyyy-MM-dd")', '@movement.IsIncoming', '@String.Join(",",movement.Tags.Select(t=>t.Id))')" class="dropdown-item">@Localizer["ModifyMovement"]</span></li>
                                 <li><span onclick="showModalDeleteMovement('@movement.Id')" class="dropdown-item">@Localizer["DeleteMovement"]</span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="row">
                         <p class="col-7 mb-1">@movement.Concept</p>
-                        <p class="col-4 mb-1">@movement.ExecutionDate</p>
+                        <p class="col-4 mb-1">@movement.ExecutionDate.ToString("yyyy-MM-dd")</p>
                     </div>
                 </a>
 
             }
         </div>
 
-        
+        <div class="modal fade" id="modifyMovementModal" tabindex="-1" aria-labelledby="modifyMovementModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modifyMovementModalLabel">@Localizer["ModifyMovement"]</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="modify-movement-form" class="needs-validation" action="/account/createmovement" method="post" novalidate>
+                            <div class="mb-3">
+                                <label for="modify-movement-amount" class="col-form-label">@Localizer["Amount"]</label>
+                                <input type="number" class="form-control" id="modify-movement-amount" name="amount" value="0.0" step="any">
+                                <div id="modify-movement-amount-invalid-feedback" class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="modify-movement-concept" class="col-form-label">@Localizer["Concept"]</label>
+                                <input type="text" class="form-control" id="modify-movement-concept" name="concept">
+                                <div id="modify-movement-concept-invalid-feedback" class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="modify-movement-date" class="col-form-label">@Localizer["Date"]</label>
+                                <input type="date" class="form-control" id="modify-movement-date" name="date">
+                                <div id="modify-movement-date-invalid-feedback" class="invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="modify-movement-isincoming" class="col-form-label">@Localizer["IsIncoming"]</label>
+                                <select class="form-select" id="modify-movement-isincoming" name="isIncoming">
+                                    <option value=false>@Localizer["Outcoming"]</option>
+                                    <option value=true>@Localizer["Incoming"]</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="modify-movement-tags" class="col-form-label">@Localizer["Tags"]</label>
+                                <input type="hidden" class="form-control" id="modify-movement-tags" name="tags">
+                                <ul class="list-group">
+                                    @foreach (var tag in (ViewData["AccountInfo"] as AccountResponse)?.Tags ?? new List<TagResponse>())
+                                    {
+                                        <li class="list-group-item">
+                                            <input id="modify-movement-tag-checkbox-@tag.Id" class="form-check-input me-1 modify-movement-tag-checkbox" type="checkbox" value="@tag.Id">
+                                            <span class="badge" for="firstCheckbox" style="background:@tag.Color">@tag.Name</span>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            <input type="hidden" class="form-control" id="modify-movement-id" name="movementId">
+                            <input type="hidden" class="form-control" id="modify-movement-account-id" name="id" value=@((ViewData["AccountInfo"] as AccountResponse)?.Id)>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                        <button id="submit-modify-movement-form" type="button" class="btn btn-primary">@Localizer["ModifyMovement"]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteMovementModal" tabindex="-1" aria-labelledby="deleteMovementModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteMovementModalLabel">@Localizer["DeleteMovementConfirmationTitle"]</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @Localizer["DeleteMovementConfirmationMessage"]
+                        <form id="delete-movement-form" class="needs-validation" action="/account/deletemovement" method="post" novalidate>
+                            <input type="hidden" class="form-control" id="delete-movement-id" name="movementId">
+                            <input type="hidden" class="form-control" id="delete-movement-account-id" name="accountId" value=@((ViewData["AccountInfo"] as AccountResponse)?.Id)>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["DeleteMovementConfirmationNegative"]</button>
+                        <button id="submit-delete-movement-form" type="button" class="btn btn-danger">@Localizer["DeleteMovementConfirmationAffirmative"]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -175,7 +257,6 @@
     <div class="d-flex justify-content-evenly mt-3">
         @foreach (var tag in (ViewData["AccountInfo"] as AccountResponse)?.Tags ?? new List<TagResponse>()){
             <div class="dropdown">
-                @*<span class="badge" style="background:@tag.Color">@tag.Name</span>*@
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background:@tag.Color">
                     @tag.Name
                 </button>
@@ -246,6 +327,10 @@
         //form
         var add_movement_form = document.getElementById("add-movement-form");
         var add_movement_button = document.getElementById("submit-add-movement-form");
+        var modify_movement_form = document.getElementById("modify-movement-form");
+        var modify_movement_button = document.getElementById("submit-modify-movement-form");
+        var delete_movement_form = document.getElementById("delete-movement-form");
+        var delete_movement_button = document.getElementById("submit-delete-movement-form");
         var add_tag_form = document.getElementById("add-tag-form");
         var add_tag_button = document.getElementById("submit-add-tag-form");
         var modify_tag_form = document.getElementById("modify-tag-form");
@@ -259,6 +344,14 @@
         var add_movement_isincoming = document.getElementById("add-movement-isincoming");
         var add_movement_tags = document.getElementById("add-movement-tags");
         var add_movement_account_id = document.getElementById("add-movement-account-id");
+        var modify_movement_amount = document.getElementById("modify-movement-amount");
+        var modify_movement_concept = document.getElementById("modify-movement-concept");
+        var modify_movement_date = document.getElementById("modify-movement-date");
+        var modify_movement_isincoming = document.getElementById("modify-movement-isincoming");
+        var modify_movement_tags = document.getElementById("modify-movement-tags");
+        var modify_movement_id = document.getElementById("modify-movement-id");
+        var modify_movement_account_id = document.getElementById("modify-movement-account-id");
+        var delete_movement_id = document.getElementById("delete-movement-id");
         var add_tag_name = document.getElementById("add-tag-name");
         var add_tag_color = document.getElementById("add-tag-color");
         var add_tag_account_id = document.getElementById("add-tag-account-id");
@@ -270,6 +363,9 @@
         var add_movement_amount_invalid_feedback = document.getElementById("add-movement-amount-invalid-feedback");
         var add_movement_concept_invalid_feedback = document.getElementById("add-movement-concept-invalid-feedback");
         var add_movement_date_invalid_feedback = document.getElementById("add-movement-date-invalid-feedback");
+        var modify_movement_amount_invalid_feedback = document.getElementById("modify-movement-amount-invalid-feedback");
+        var modify_movement_concept_invalid_feedback = document.getElementById("modify-movement-concept-invalid-feedback");
+        var modify_movement_date_invalid_feedback = document.getElementById("modify-movement-date-invalid-feedback");
         var add_tag_name_invalid_feedback = document.getElementById("add-tag-name-invalid-feedback");
         var add_tag_color_invalid_feedback = document.getElementById("add-tag-color-invalid-feedback");
         var modify_tag_name_invalid_feedback = document.getElementById("modify-tag-name-invalid-feedback");
@@ -306,6 +402,40 @@
             add_movement_amount_invalid_feedback.innerText = add_movement_amount.validationMessage;
             add_movement_concept_invalid_feedback.innerText = add_movement_concept.validationMessage;
             add_movement_date_invalid_feedback.innerText = add_movement_date.validationMessage;
+
+            return valid;
+        }
+
+        function validateModifyMovementForm() {
+            var valid = true;
+
+            modify_movement_amount.setCustomValidity("");
+            if (modify_movement_amount.value == "") {
+                modify_movement_amount.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            } else if (modify_movement_amount.value <= 0 ) {
+                modify_movement_amount.setCustomValidity("@Localizer["MustBePositive"]");
+                valid = false;
+            }
+
+            modify_movement_concept.setCustomValidity("");
+            if (modify_movement_concept.value == "") {
+                modify_movement_concept.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
+            modify_movement_date.setCustomValidity("");
+            if (modify_movement_date.value == "") {
+                modify_movement_date.setCustomValidity("@Localizer["RequiredField"]");
+                valid = false;
+            }
+
+            modify_movement_amount.parentNode.classList.add('was-validated');
+            modify_movement_concept.parentNode.classList.add('was-validated');
+            modify_movement_date.parentNode.classList.add('was-validated');
+            modify_movement_amount_invalid_feedback.innerText = modify_movement_amount.validationMessage;
+            modify_movement_concept_invalid_feedback.innerText = modify_movement_concept.validationMessage;
+            modify_movement_date_invalid_feedback.innerText = modify_movement_date.validationMessage;
 
             return valid;
         }
@@ -404,6 +534,57 @@
             validateAddMovementForm();
         }, false);
 
+        modify_movement_button.addEventListener('click', event => {
+            if (!validateModifyMovementForm()) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+
+                var selectedTags = [];
+                document.querySelectorAll(".modify-movement-tag-checkbox").forEach(function (checkbox) {
+                    if(checkbox.checked){
+                        selectedTags.push(checkbox.value);
+                    }
+                });
+
+                $("#modify-movement-tags").val(selectedTags.join(','));
+
+                modify_movement_form.submit();
+            }
+        }, false);
+
+        modify_movement_amount.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateModifyMovementForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
+        }, false);
+
+        modify_movement_concept.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateModifyMovementForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
+        }, false);
+
+        modify_movement_date.addEventListener('keypress', event => {
+            var keyPressed = event.keyCode || event.which;
+            if (!validateModifyMovementForm() && keyPressed === 13) {
+                event.preventDefault();
+                return false;
+            }
+        }, false);
+
+        modify_movement_date.addEventListener('change', event => {
+            validateModifyMovementForm();
+        }, false);
+
+        delete_movement_button.addEventListener('click', event => {
+            delete_movement_form.submit();
+        }, false);
+
         add_tag_button.addEventListener('click', event => {
             if (!validateAddTagForm()) {
                 event.preventDefault();
@@ -449,6 +630,29 @@
         delete_tag_button.addEventListener('click', event => {
             delete_tag_form.submit();
         }, false);
+
+        function showModalModifyMovement(movementId, movementAmount, movementConcept, movementDate, movementIsIncoming, movementTags) {
+            modify_movement_id.value = movementId;
+            modify_movement_amount.value = parseFloat(movementAmount.replace(",", "."));
+            modify_movement_concept.value = movementConcept;
+            modify_movement_date.value = movementDate;
+            modify_movement_isincoming.value = movementIsIncoming.toLowerCase();
+
+            movementTags.split(",").forEach(function (tagId) {
+                if(tagId != ''){
+                    document.querySelector("#modify-movement-tag-checkbox-"+tagId).checked = true;
+                }
+            });
+
+            $('#modifyMovementModal').modal('show');
+            event.preventDefault();
+        }
+
+        function showModalDeleteMovement(movementId) {
+            delete_movement_id.value = movementId;
+            $('#deleteMovementModal').modal('show');
+            event.preventDefault();
+        }
 
         function showModalModifyTag(tagId, tagName, tagColor) {
             modify_tag_id.value = tagId;

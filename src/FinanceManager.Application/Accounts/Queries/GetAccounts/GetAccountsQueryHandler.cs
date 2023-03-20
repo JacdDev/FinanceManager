@@ -4,7 +4,6 @@ using FinanceManager.Application.Common.Interfaces;
 using FinanceManager.Application.Movements.Common;
 using FinanceManager.Application.Persistence;
 using FinanceManager.Application.Tags.Common;
-using FinanceManager.Domain.AccountAggregate;
 using MediatR;
 
 namespace FinanceManager.Application.Accounts.Queries.GetAccounts

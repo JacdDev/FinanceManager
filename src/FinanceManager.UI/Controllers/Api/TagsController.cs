@@ -1,6 +1,4 @@
-﻿using FinanceManager.Application.Accounts.Commands.ShareAccount;
-using FinanceManager.Application.Accounts.Commands.UpdateAccount;
-using FinanceManager.Application.Tags.Commands.CreateTag;
+﻿using FinanceManager.Application.Tags.Commands.CreateTag;
 using FinanceManager.Application.Tags.Commands.DeleteTag;
 using FinanceManager.Application.Tags.Commands.UpdateTag;
 using FinanceManager.UI.Models;

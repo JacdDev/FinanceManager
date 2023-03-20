@@ -1,11 +1,4 @@
 ﻿using FinanceManager.Application.Persistence;
-using FinanceManager.Domain.TagAggregate.ValueObjects;
-using FinanceManager.Domain.TagAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FinanceManager.Domain.MovementAggregate;
 using FinanceManager.Domain.MovementAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;

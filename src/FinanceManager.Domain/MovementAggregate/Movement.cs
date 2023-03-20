@@ -2,7 +2,6 @@
 using FinanceManager.Domain.Models;
 using FinanceManager.Domain.MovementAggregate.ValueObjects;
 using FinanceManager.Domain.TagAggregate;
-using System.Xml.Linq;
 
 namespace FinanceManager.Domain.MovementAggregate
 {
@@ -50,7 +49,18 @@ namespace FinanceManager.Domain.MovementAggregate
 
         public void AddTag(Tag tag)
         {
-            _tags.Add(tag);
+            if (!_tags.Contains(tag))
+            {
+                _tags.Add(tag);
+            }
+        }
+
+        public void RemoveTag(Tag tag)
+        {
+            if (_tags.Contains(tag))
+            {
+                _tags.Remove(tag);
+            }
         }
     }
 }

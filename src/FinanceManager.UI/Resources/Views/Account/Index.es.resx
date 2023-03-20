@@ -138,6 +138,21 @@
   <data name="Date" xml:space="preserve">
     <value>Fecha</value>
   </data>
+  <data name="DeleteMovement" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="DeleteMovementConfirmationAffirmative" xml:space="preserve">
+    <value>Si</value>
+  </data>
+  <data name="DeleteMovementConfirmationMessage" xml:space="preserve">
+    <value>Esta acción no se puede deshacer y borrará el movimiento permanentemente, la cantidad del movimiento se revertirá en la cantidad total de la cuenta.</value>
+  </data>
+  <data name="DeleteMovementConfirmationNegative" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="DeleteMovementConfirmationTitle" xml:space="preserve">
+    <value>¿Estás seguro?</value>
+  </data>
   <data name="DeleteTag" xml:space="preserve">
     <value>Eliminar</value>
   </data>
@@ -161,6 +176,9 @@
   </data>
   <data name="MainTagMessage" xml:space="preserve">
     <value>Selecciona una etiqueta para editarla o añade una nueva</value>
+  </data>
+  <data name="ModifyMovement" xml:space="preserve">
+    <value>Modificar</value>
   </data>
   <data name="ModifyTag" xml:space="preserve">
     <value>Modificar</value>
