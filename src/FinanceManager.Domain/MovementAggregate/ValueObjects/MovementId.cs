@@ -16,6 +16,11 @@ namespace FinanceManager.Domain.MovementAggregate.ValueObjects
             return new MovementId(Guid.NewGuid());
         }
 
+        public static MovementId Create(string value)
+        {
+            return new MovementId(Guid.Parse(value));
+        }
+
         public static MovementId Create(Guid value)
         {
             return new MovementId(value);

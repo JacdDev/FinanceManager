@@ -8,10 +8,10 @@ namespace FinanceManager.Domain.MovementAggregate
     public class Movement : AggregateRoot<MovementId>
     {
         public Account? Account { get; private set; }
-        public string Concept { get; }
-        public double Amount { get; }
-        public bool IsIncoming { get; }
-        public DateTime ExecutionDate { get; }
+        public string Concept { get; private set; }
+        public double Amount { get; private set; }
+        public bool IsIncoming { get; private set; }
+        public DateTime ExecutionDate { get; private set; }
         private readonly List<Tag> _tags = new();
         public IReadOnlyList<Tag> Tags => _tags.AsReadOnly();
 
@@ -47,6 +47,26 @@ namespace FinanceManager.Domain.MovementAggregate
             Account = account;
         }
 
+        public void SetAmount(double amount)
+        {
+            Amount = amount;
+        }
+
+        public void SetConcept(string concept)
+        {
+            Concept = concept;
+        }
+
+        public void SetIsIncoming(bool isIncoming)
+        {
+            IsIncoming = isIncoming;
+        }
+
+        public void SetExecutionDate(DateTime executionDate)
+        {
+            ExecutionDate = executionDate;
+        }
+
         public void AddTag(Tag tag)
         {
             if (!_tags.Contains(tag))
@@ -61,6 +81,11 @@ namespace FinanceManager.Domain.MovementAggregate
             {
                 _tags.Remove(tag);
             }
+        }
+
+        public void ClearTags()
+        {
+            _tags.Clear();
         }
     }
 }

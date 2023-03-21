@@ -26,9 +26,15 @@ namespace FinanceManager.Infrastructure.Persistence.Repositories
             _dbContext.SaveChanges();
         }
 
+        public void DeleteMany(IEnumerable<Movement> movements)
+        {
+            _dbContext.RemoveRange(movements);
+            _dbContext.SaveChanges();
+        }
+
         public Movement? Get(MovementId movementId)
         {
-            return _dbContext.Movements.Include("Account").FirstOrDefault(movement => movement.Id == movementId);
+            return _dbContext.Movements.Include("Account.Tags").Include("Tags").FirstOrDefault(movement => movement.Id == movementId);
         }
 
         public void Update(Movement movement)

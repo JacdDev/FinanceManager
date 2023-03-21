@@ -9,5 +9,6 @@ namespace FinanceManager.Application.Persistence
         Movement? Get(MovementId movementId);
         void Update(Movement movement);
         void Delete(Movement movement);
+        void DeleteMany(IEnumerable<Movement> movements);
     }
 }

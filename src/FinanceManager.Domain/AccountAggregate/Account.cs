@@ -56,6 +56,11 @@ namespace FinanceManager.Domain.AccountAggregate
             }
         }
 
+        public void SetAmount(double amount)
+        {
+            Amount = amount;
+        }
+
         public void SetName(string name)
         {
             Name = name;

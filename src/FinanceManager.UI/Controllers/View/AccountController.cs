@@ -80,6 +80,53 @@ namespace FinanceManager.UI.Controllers.View
         }
 
         [HttpPost]
+        public async Task<IActionResult> UpdateMovement(string movementId, string amount, string concept, DateTime date, bool isIncoming, string? tags, string accountId)
+        {
+            var request = new UpdateMovementRequest(
+                User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "",
+                movementId,
+                Convert.ToDouble(amount.Replace(",", "."), CultureInfo.InvariantCulture),
+                concept,
+                isIncoming,
+                date,
+                tags?.Split(',') ?? new string[0]);
+
+            var response = await _movementsService.UpdateMovement(request);
+
+            if (response is OkObjectResult)
+            {
+                TempData.Add("SuccessMovementOperation", "ChangesApplied");
+                return RedirectToAction("Index", new { accountId = accountId, tab = "movement" });
+            }
+
+            var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
+            TempData.Add("ErrorMovementOperation", errorType ?? "UnknownError");
+
+            return RedirectToAction("Index", new { accountId = accountId, tab = "movement" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteMovement(string movementId, string accountId)
+        {
+            var request = new DeleteMovementRequest(
+                User?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? "",
+                movementId);
+
+            var response = await _movementsService.DeleteMovement(request);
+
+            if (response is OkObjectResult)
+            {
+                TempData.Add("SuccessMovementOperation", "ChangesApplied");
+                return RedirectToAction("Index", new { accountId = accountId, tab = "movement" });
+            }
+
+            var errorType = (((response as ObjectResult)?.Value as ProblemDetails)?.Extensions["errors"] as Dictionary<string, List<string>>)?.FirstOrDefault().Key;
+            TempData.Add("ErrorMovementOperation", errorType ?? "UnknownError");
+
+            return RedirectToAction("Index", new { accountId = accountId, tab = "movement" });
+        }
+
+        [HttpPost]
         public async Task<IActionResult> CreateTag(string name, string color, string id)
         {
             var request = new CreateTagRequest(

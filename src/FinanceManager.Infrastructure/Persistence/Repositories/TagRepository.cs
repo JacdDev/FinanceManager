@@ -25,6 +25,11 @@ namespace FinanceManager.Infrastructure.Persistence.Repositories
             _dbContext.Remove(tag);
             _dbContext.SaveChanges();
         }
+        public void DeleteMany(IEnumerable<Tag> tags)
+        {
+            _dbContext.RemoveRange(tags);
+            _dbContext.SaveChanges();
+        }
 
         public Tag? Get(TagId tagId)
         {

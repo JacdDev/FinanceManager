@@ -131,7 +131,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="modify-movement-form" class="needs-validation" action="/account/createmovement" method="post" novalidate>
+                        <form id="modify-movement-form" class="needs-validation" action="/account/updatemovement" method="post" novalidate>
                             <div class="mb-3">
                                 <label for="modify-movement-amount" class="col-form-label">@Localizer["Amount"]</label>
                                 <input type="number" class="form-control" id="modify-movement-amount" name="amount" value="0.0" step="any">
@@ -168,7 +168,7 @@
                                 </ul>
                             </div>
                             <input type="hidden" class="form-control" id="modify-movement-id" name="movementId">
-                            <input type="hidden" class="form-control" id="modify-movement-account-id" name="id" value=@((ViewData["AccountInfo"] as AccountResponse)?.Id)>
+                            <input type="hidden" class="form-control" id="modify-movement-account-id" name="accountId" value=@((ViewData["AccountInfo"] as AccountResponse)?.Id)>
                         </form>
                     </div>
                     <div class="modal-footer">

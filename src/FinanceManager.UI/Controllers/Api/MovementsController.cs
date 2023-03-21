@@ -1,4 +1,6 @@
 ﻿using FinanceManager.Application.Movements.Commands.CreateMovement;
+using FinanceManager.Application.Movements.Commands.DeleteMovement;
+using FinanceManager.Application.Movements.Commands.UpdateMovement;
 using FinanceManager.UI.Models;
 using MapsterMapper;
 using MediatR;
@@ -24,10 +26,38 @@ namespace FinanceManager.UI.Controllers.Api
         {
             var command = _mapper.Map<CreateMovementCommand>(request);
 
-            var createAccountResult = await _mediator.Send(command);
+            var createMovementResult = await _mediator.Send(command);
 
-            return createAccountResult.Match(
-                account => Ok(_mapper.Map<MovementResponse>(account)),
+            return createMovementResult.Match(
+                movement => Ok(_mapper.Map<MovementResponse>(movement)),
+                errors => Problem(errors)
+                );
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateMovement(
+            UpdateMovementRequest request)
+        {
+            var command = _mapper.Map<UpdateMovementCommand>(request);
+
+            var updateMovementResult = await _mediator.Send(command);
+
+            return updateMovementResult.Match(
+                movement => Ok(_mapper.Map<MovementResponse>(movement)),
+                errors => Problem(errors)
+                );
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteMovement(
+            DeleteMovementRequest request)
+        {
+            var command = _mapper.Map<DeleteMovementCommand>(request);
+
+            var deleteMovementResult = await _mediator.Send(command);
+
+            return deleteMovementResult.Match(
+                movement => Ok(_mapper.Map<MovementResponse>(movement)),
                 errors => Problem(errors)
                 );
         }

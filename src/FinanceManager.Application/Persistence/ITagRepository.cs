@@ -9,5 +9,6 @@ namespace FinanceManager.Application.Persistence
         Tag? Get(TagId tagId);
         void Update(Tag tag);
         void Delete(Tag tag);
+        void DeleteMany(IEnumerable<Tag> tags);
     }
 }

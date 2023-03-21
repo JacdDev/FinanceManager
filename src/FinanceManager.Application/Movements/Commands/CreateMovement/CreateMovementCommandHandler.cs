@@ -42,12 +42,22 @@ namespace FinanceManager.Application.Movements.Commands.CreateMovement
             }
 
             var movement = Movement.Create(request.Concept, request.Amount, request.IsIncoming, request.ExecutionDate);
+
+            if (movement.IsIncoming)
+            {
+                account.SetAmount(account.Amount + movement.Amount);
+            }
+            else
+            {
+                account.SetAmount(account.Amount - movement.Amount);
+            }
+
             movement.SetAccount(account);
 
             foreach (var tagId in request.Tags)
             {
                 var tag = _tagRepository.Get(TagId.Create(tagId));
-                if (tag is null)
+                if (tag is null || !account.Tags.Contains(tag))
                 {
                     return TagErrors.TagNotFound;
                 }
