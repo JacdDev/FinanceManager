@@ -9,3 +9,7 @@
 .alert {
     margin-top: 1em;
 }
+
+.active > .page-link, .page-link.active {
+    z-index: 0;
+}

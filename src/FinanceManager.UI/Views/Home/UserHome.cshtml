@@ -7,6 +7,7 @@
 @{
     ViewData["Title"] = Localizer["Title"];
     Layout = "_Layout";
+    const int AccountsPageSize = 20;
 }
 
 <h1>@Localizer["Welcome"]</h1>
@@ -64,29 +65,58 @@
     </div>
 </div>
 
-<div class="list-group mt-4">
-    @foreach (var account in (ViewData["Accounts"] as IEnumerable<AccountResponse>) ?? new List<AccountResponse>())
+@{
+    var accountList = (ViewData["Accounts"] as IEnumerable<AccountResponse>)?.OrderBy(a=>a.Name).ToList() ?? new List<AccountResponse>();
+    var accountTotalPages = (int)Math.Ceiling((double)accountList.Count / AccountsPageSize);
+    for (var currentPage = 1; currentPage <= accountTotalPages; ++currentPage)
     {
-        <a href="/account/index?accountId=@account.Id" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h3 class="mb-1">@account.Name</h3>
-                <div class="dropdown">
-                    <i class="bi-gear btn" data-bs-toggle="dropdown"></i>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><span onclick="showModalModifyAccount('@account.Id', '@account.Name', '@account.Description')" class="dropdown-item">@Localizer["ModifyAccount"]</span></li>
-                        <li><span onclick="showModalDeleteAccount('@account.Id')" class="dropdown-item">@Localizer["DeleteAccount"]</span></li>
-                        <li><span onclick="showModalShareAccount('@account.Id')" class="dropdown-item">@Localizer["ShareAccount"]</span></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <p class="col-7 mb-1">@account.Description</p>
-                <p class="col-4 mb-1">@account.Amount</p>
-            </div>
-        </a>
-
+        <div class="list-group mt-4 account-page @(currentPage > 1 ? "d-none" : "")" page="@currentPage">
+        @for (var currentItem = 0; currentItem < AccountsPageSize; ++currentItem)
+        {
+            var position = ((currentPage - 1) * AccountsPageSize) + currentItem;
+            if (accountList.Count > position)
+            {
+                var account = accountList[position];
+                <a href="/account/index?accountId=@account.Id" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h3 class="mb-1">@account.Name</h3>
+                        <div class="dropdown">
+                            <i class="bi-gear btn" data-bs-toggle="dropdown"></i>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><span onclick="showModalModifyAccount('@account.Id', '@account.Name', '@account.Description')" class="dropdown-item">@Localizer["ModifyAccount"]</span></li>
+                                <li><span onclick="showModalDeleteAccount('@account.Id')" class="dropdown-item">@Localizer["DeleteAccount"]</span></li>
+                                <li><span onclick="showModalShareAccount('@account.Id')" class="dropdown-item">@Localizer["ShareAccount"]</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-7 mb-1">@account.Description</p>
+                        <p class="col-4 mb-1">@account.Amount</p>
+                    </div>
+                </a>
+            }
+        }
+        </div>
     }
-</div>
+    <nav aria-label="Accounts page navigation">
+    <ul id="accounts-page-navigation" class="pagination justify-content-end mt-1">
+        <li class="page-item" onclick="moveToPage('account-page','accounts-page-navigation',1)"><a class="page-link" href="#">&laquo;</a></li>
+        <li class="page-item d-none"><a class="page-link" href="#">...</a></li>
+        @for (var currentPage = 1; currentPage <= accountTotalPages; ++currentPage)
+        {
+                <li class="page-item page-number @(currentPage == 1 ? "active" : "") @(currentPage > 2 ? "d-none" : "")" onclick="moveToPage('account-page','accounts-page-navigation',@currentPage)" page="@currentPage">
+                <a class="page-link" href="#">@currentPage</a>
+
+            </li>
+        }
+        <li class="page-item @(accountTotalPages <= 2 ? "d-none" : "")"><a class="page-link" href="#">...</a></li>
+            <li class="page-item" onclick="moveToPage('account-page','accounts-page-navigation',@accountTotalPages)"><a class="page-link" href="#">&raquo;</a></li>
+    </ul>
+</nav>
+
+}
+
+
 
 <div class="modal fade" id="modifyAccountModal" tabindex="-1" aria-labelledby="modifyAccountModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -366,6 +396,41 @@
             share_account_id.value = accountId;
             $('#shareAccountModal').modal('show');
             event.preventDefault();
+        }
+
+        function moveToPage(itemListClass, pagesListId, page) {
+            $('#' + pagesListId + ' > .page-number').each(function () {
+                if ($(this).attr("page") < (page - 1) || $(this).attr("page") > (page + 1)) {
+                    $(this).addClass("d-none");
+                } else {
+                    $(this).removeClass("d-none");
+                    if ($(this).attr("page") == page) {
+                        $(this).addClass("active");
+                    } else {
+                        $(this).removeClass("active");
+                    }
+                }
+            });
+
+            if (page > 2) {
+                $($('#' + pagesListId).children()[1]).removeClass("d-none");
+            } else {
+                $($('#' + pagesListId).children()[1]).addClass("d-none");
+            }
+
+            if (page < $('#' + pagesListId + ' > .page-number').length - 1) {
+                $($('#' + pagesListId).children()[$('#' + pagesListId).children().length - 2]).removeClass("d-none");
+            } else {
+                $($('#' + pagesListId).children()[$('#' + pagesListId).children().length - 2]).addClass("d-none");
+            }
+
+            $('.' + itemListClass).each(function () {
+                if ($(this).attr("page") == page) {
+                    $(this).removeClass("d-none");
+                } else {
+                    $(this).addClass("d-none");
+                }
+            });
         }
     </script>
 }
