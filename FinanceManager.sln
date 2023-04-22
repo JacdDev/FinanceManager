@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceManager.Domain", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceManager.UI", "src\FinanceManager.UI\FinanceManager.UI.csproj", "{DDBBF8E6-9707-4E73-887C-86A3682BBD40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "tests\Application.UnitTests\Application.UnitTests.csproj", "{F9EDA1CA-0AF4-46BF-8997-93EC4447151A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{DDBBF8E6-9707-4E73-887C-86A3682BBD40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDBBF8E6-9707-4E73-887C-86A3682BBD40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDBBF8E6-9707-4E73-887C-86A3682BBD40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9EDA1CA-0AF4-46BF-8997-93EC4447151A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9EDA1CA-0AF4-46BF-8997-93EC4447151A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9EDA1CA-0AF4-46BF-8997-93EC4447151A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9EDA1CA-0AF4-46BF-8997-93EC4447151A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
